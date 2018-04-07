@@ -99,7 +99,6 @@ namespace UnityStandardAssets.CrossPlatformInput
 			UpdateVirtualAxes(m_StartPos);
 		}
 
-
 		public void OnPointerDown(PointerEventData data) { }
 
 		void OnDisable()
