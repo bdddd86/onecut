@@ -72,4 +72,9 @@ public class UtillFunc : Singleton<UtillFunc> {
 	{
 		return level;
 	}
+	public int monsterLife(int level)
+	{
+		//return UtillFunc.Instance.fact2 (level);
+		return (3 * level) + 1;
+	}
 }

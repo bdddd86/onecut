@@ -9,8 +9,9 @@ public class GameManager : MonoSingleton<GameManager> {
 
     public GameObject objChacater;
     public GameObject blackScreen;
+	public Text gameInfoText;
 
-	public Character character;
+	[HideInInspector] public Character character;
 
 	[HideInInspector] public int m_nLevel;	// 레벨
 
@@ -44,6 +45,7 @@ public class GameManager : MonoSingleton<GameManager> {
 		if (character == null)
         	character = Instantiate(objChacater, spawnPoint.position, Quaternion.identity).GetComponent<Character>();
 		SettingCharacterInfo (1);
+		SettingGameInfoText ();
 		m_nExp = 0;
 
 		// 몬스터 초기화.
@@ -73,6 +75,12 @@ public class GameManager : MonoSingleton<GameManager> {
 		m_fCritical = UtillFunc.Instance.critical (m_nInc);
 		m_nLife = m_nMaxLife;
 		//m_fExp = 0;
+	}
+
+	public void SettingGameInfoText()
+	{
+		gameInfoText.text = string.Format ("Level:{0}\nPow:{1}\nDex:{2}\nInc:{3}\nMonsterLife:{4}", 
+			m_nLevel, m_nPow, m_nDex, m_nInc, UtillFunc.Instance.monsterLife(m_nLevel));
 	}
 
     // Use this for initialization

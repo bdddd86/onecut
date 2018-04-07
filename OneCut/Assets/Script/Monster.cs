@@ -47,12 +47,12 @@ public class Monster : MonoBehaviour {
 		}
 	}
 
-	void OnCollisionEnter2D(Collision2D coll) 
+	void OnTriggerEnter2D(Collider2D coll) 
 	{
-		if (coll.gameObject.tag == "wall") {
-			Debug.Log ("monster collision wall");
-			m_bDirection = !m_bDirection;
-		}
+		//if (coll.gameObject.tag == "wall") {
+		//	Debug.Log ("monster collision wall");
+		//	m_bDirection = !m_bDirection;
+		//}
 
 		if (coll.gameObject.tag == "weapon") {
 			Debug.Log ("monster collision weapon");
@@ -71,7 +71,7 @@ public class Monster : MonoBehaviour {
 			return;
 
 		m_nLevel = level;
-		m_nLife = GetMaxLife ();
+		m_nLife = UtillFunc.Instance.monsterLife(m_nLevel);
 
 		// 몬스터레벨: 캐릭터 레벨 ~ +5 랜덤.
 		int nColor = m_nLevel % 10;	// 색은 10종류.
@@ -113,10 +113,5 @@ public class Monster : MonoBehaviour {
 		} else if (nColor == 9) {
 			this.GetComponent<SpriteRenderer> ().color = new Color (0.8f, 0.8f, 0.8f);
 		}
-	}
-
-	private int GetMaxLife()
-	{
-		return UtillFunc.Instance.fact2 (m_nLevel);
 	}
 }

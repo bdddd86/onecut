@@ -17,6 +17,8 @@ public class Character : MonoBehaviour
     {
 		if (attackCollider == null)
 			attackCollider = Instantiate (attackBox);
+
+		attackCollider.SetActive (false);
     }
 
     // Update is called once per frame
@@ -121,8 +123,8 @@ public class Character : MonoBehaviour
 			return;
 		
         Debug.Log("Attack");
-		attackCollider.transform.localPosition = new Vector3(this.transform.localPosition.x + 2f, this.transform.localPosition.y, 0);
-		attackCollider.GetComponent<BoxCollider2D> ().size = new Vector2 (2f, 0.5f);
+		attackCollider.transform.localPosition = new Vector3(this.transform.localPosition.x, this.transform.localPosition.y, 0);
+		attackCollider.GetComponent<BoxCollider2D> ().size = new Vector2 (2f, 2f);
 		attackCollider.SetActive (true);
     }
 
@@ -136,6 +138,8 @@ public class Character : MonoBehaviour
 		if (GameManager.instance.m_nExp >= 5) {
 			GameManager.instance.m_nExp = 0;
 			GameManager.instance.m_nLevel += 1;
+			GameManager.instance.SettingCharacterInfo (GameManager.instance.m_nLevel);
+			GameManager.instance.SettingGameInfoText ();
 		}
 	}
 }
