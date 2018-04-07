@@ -16,27 +16,28 @@ public class Character : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-#if UNITY_EDITOR
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Jump();
-        }
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            Attack();
-        }
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-
-        }
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-
-        }
-#endif
         // 유저 입력.
         float fHorizontal = CrossPlatformInputManager.GetAxis("Horizontal");
         float fVertical = CrossPlatformInputManager.GetAxis("Vertical");
+
+#if UNITY_EDITOR
+		if (Input.GetKeyDown(KeyCode.W))
+		{
+			Jump();
+		}
+		if (Input.GetKeyDown(KeyCode.Space))
+		{
+			Attack();
+		}
+		if (Input.GetKey(KeyCode.A))
+		{
+			fHorizontal = -1;
+		}
+		if (Input.GetKey(KeyCode.D))
+		{
+			fHorizontal = 1;
+		}
+#endif
 
         if (CrossPlatformInputManager.GetButtonDown("Jump"))
         {
