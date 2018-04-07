@@ -66,4 +66,10 @@ public class UtillFunc : Singleton<UtillFunc> {
 	{
 		return inc * 1.5f;
 	}
+
+	// 몬스터 계산기
+	public int monsterExp(int level)
+	{
+		return level;
+	}
 }

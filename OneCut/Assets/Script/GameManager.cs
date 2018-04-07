@@ -10,7 +10,7 @@ public class GameManager : MonoSingleton<GameManager> {
     public GameObject objChacater;
     public GameObject blackScreen;
 
-	Character character;
+	public Character character;
 
 	[HideInInspector] public int m_nLevel;	// 레벨
 
@@ -28,7 +28,7 @@ public class GameManager : MonoSingleton<GameManager> {
 	[HideInInspector] public float m_fAttackSpeed;	// 공격속도(기본1)
 	[HideInInspector] public float m_fMoveSpeed;	// 이동속도(기본1)
 	[HideInInspector] public float m_fSplashArea;	// 공격 범위
-	[HideInInspector] public float m_fExp;	// 현재 경험치
+	[HideInInspector] public float m_nExp;	// 현재 경험치
 	[HideInInspector] public float m_fAddExp;	// 추가 경험치
 	[HideInInspector] public float m_fCritical;	// 크리티컬 확률
 
@@ -44,7 +44,7 @@ public class GameManager : MonoSingleton<GameManager> {
 		if (character == null)
         	character = Instantiate(objChacater, spawnPoint.position, Quaternion.identity).GetComponent<Character>();
 		SettingCharacterInfo (1);
-		m_fExp = 0;
+		m_nExp = 0;
 
 		// 몬스터 초기화.
 		MonsterSummons.instance.InitMonsters();

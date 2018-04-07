@@ -6,11 +6,17 @@ using UnityStandardAssets.CrossPlatformInput;
 public class Character : MonoBehaviour
 {
     public Rigidbody2D rigidBody;
+	public GameObject attackBox;
+
+	private GameObject attackCollider;
+	private float m_fAttackDelay = 0f;
+	private float m_fAttackBoxDelay = 0f;
 
     // Use this for initialization
     void Start()
     {
-
+		if (attackCollider == null)
+			attackCollider = Instantiate (attackBox);
     }
 
     // Update is called once per frame
@@ -20,6 +26,17 @@ public class Character : MonoBehaviour
         float fHorizontal = CrossPlatformInputManager.GetAxis("Horizontal");
         float fVertical = CrossPlatformInputManager.GetAxis("Vertical");
 
+		if (attackCollider != null && attackCollider.activeInHierarchy == true) {
+			m_fAttackBoxDelay += (Time.deltaTime * GameManager.instance.m_fAttackSpeed);
+			m_fAttackDelay = 0;
+			if (m_fAttackBoxDelay >= 0.05f) {
+				m_fAttackBoxDelay = 0;
+				attackCollider.SetActive (false);
+			}
+		} else {
+			m_fAttackDelay += (Time.deltaTime * GameManager.instance.m_fAttackSpeed);
+		}
+
 #if UNITY_EDITOR
 		if (Input.GetKeyDown(KeyCode.W))
 		{
@@ -27,7 +44,11 @@ public class Character : MonoBehaviour
 		}
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
-			Attack();
+			Debug.Log("Attack Delay: "+m_fAttackDelay.ToString());
+			if (m_fAttackDelay >= 0.25f) {
+				m_fAttackDelay = 0;
+				Attack();
+			}
 		}
 		if (Input.GetKey(KeyCode.A))
 		{
@@ -46,7 +67,10 @@ public class Character : MonoBehaviour
 
         if (CrossPlatformInputManager.GetButtonDown("Attack"))
         {
-            Attack();
+			if (m_fAttackDelay >= 0.25f) {
+				m_fAttackDelay = 0;
+				Attack();
+			}
         }
 
         if (CrossPlatformInputManager.GetButtonDown("Summons"))
@@ -93,7 +117,25 @@ public class Character : MonoBehaviour
     }
     void Attack()
     {
+		if (attackCollider == null)
+			return;
+		
         Debug.Log("Attack");
+		attackCollider.transform.localPosition = new Vector3(this.transform.localPosition.x + 2f, this.transform.localPosition.y, 0);
+		attackCollider.GetComponent<BoxCollider2D> ().size = new Vector2 (2f, 0.5f);
+		attackCollider.SetActive (true);
     }
 
+	public void Exp(object level)
+	{
+		int getExp = UtillFunc.Instance.monsterExp ((int)level);
+		Debug.Log ("Get Exp: "+getExp.ToString());
+		GameManager.instance.m_nExp += getExp;
+
+		// 테스트 코드
+		if (GameManager.instance.m_nExp >= 5) {
+			GameManager.instance.m_nExp = 0;
+			GameManager.instance.m_nLevel += 1;
+		}
+	}
 }

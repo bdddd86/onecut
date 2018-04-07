@@ -47,18 +47,20 @@ public class Monster : MonoBehaviour {
 		}
 	}
 
-	void OnTriggerEnter2D(Collider2D other)
-	{
-		if (other.gameObject.tag == "wall") {
-			m_bDirection = !m_bDirection;
-		}
-	}
-
 	void OnCollisionEnter2D(Collision2D coll) 
 	{
-		if (coll.gameObject.tag == "Weapon") 
-		{
-			coll.gameObject.SendMessage ("ApplyDamage", 10);
+		if (coll.gameObject.tag == "wall") {
+			Debug.Log ("monster collision wall");
+			m_bDirection = !m_bDirection;
+		}
+
+		if (coll.gameObject.tag == "weapon") {
+			Debug.Log ("monster collision weapon");
+			m_nLife -= System.Convert.ToInt32(GameManager.instance.m_fDamage);
+			if (m_nLife <= 0) {
+				GameManager.instance.character.SendMessage ("Exp", m_nLevel);
+				this.gameObject.SetActive (false);
+			}
 		}
 	}
 
