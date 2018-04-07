@@ -3,24 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 
-public class CharacterData
-{
-    public int m_nLevel;    // 레벨
-    public int m_nPow;      // 힘
-    public int m_nInc;      // 지능
-    public int m_nDex;      // 민첩
-
-    public float m_fMinAttack;
-    public float m_fMaxAttack;
-    public float m_fDefence;
-    public int m_nLife;
-    public float m_fCritical;
-    public float m_fBamp;
-}
-
 public class Character : MonoBehaviour
 {
-
     public Rigidbody2D rigidBody;
 
     // Use this for initialization

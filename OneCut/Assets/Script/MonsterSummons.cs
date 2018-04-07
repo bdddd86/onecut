@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class MonsterSummons : MonoSingleton<MonsterSummons> {
 
-	public int m_nDungeonLevel = 1;
 	[HideInInspector] public List<Monster> m_listMonsters = new List<Monster> ();
 
-	void Start()
+	void Awake()
 	{
 		m_listMonsters.Clear ();
 
@@ -16,11 +15,19 @@ public class MonsterSummons : MonoSingleton<MonsterSummons> {
 		}
 	}
 
+	public void InitMonsters()
+	{
+		for (int i = 0; i < m_listMonsters.Count; i++) {
+			m_listMonsters [i].gameObject.SetActive (false);
+		}
+	}
+
 	public void SummonsMonster()
 	{
 		int activeCnt = 0;
 		for (int i = 0; i < m_listMonsters.Count; i++) {
 			if (m_listMonsters [i].gameObject.activeInHierarchy == false) {
+				m_listMonsters [i].SettingGraphic (GameManager.instance.m_nLevel);
 				m_listMonsters [i].gameObject.SetActive (true);
 				activeCnt += 1;
 			}

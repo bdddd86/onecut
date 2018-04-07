@@ -4,21 +4,24 @@ using UnityEngine;
 
 public class Monster : MonoBehaviour {
 
-	//public Rigidbody2D rigidBody;
+	public int m_nLevel = 0;
+	public int m_nLife = 1;
 
 	private float m_fSpeedRandomTime;
 	private float m_fDirectionRandomTime;
 	private bool m_bDirection = true;
 	private float m_fSpeed = 1f;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-
 	void OnEnable()
 	{
 		m_bDirection = Random.Range (0, 100) % 2 == 0;
+	}
+
+	void OnDisable()
+	{
+		// 죽음. 데이터 초기화.
+		m_nLevel = 0;
+		m_nLife = 0;
 	}
 	
 	// Update is called once per frame
@@ -59,4 +62,59 @@ public class Monster : MonoBehaviour {
 		}
 	}
 
+	// 몬스터 외형설정. 몬스터가 탄생할때 최초 한번만 불려야함.
+	public void SettingGraphic(int level)
+	{
+		if (m_nLevel == level)
+			return;
+
+		m_nLevel = level;
+		m_nLife = GetMaxLife ();
+
+		// 몬스터레벨: 캐릭터 레벨 ~ +5 랜덤.
+		int nColor = m_nLevel % 10;	// 색은 10종류.
+		int nSprite = m_nLevel/20;	// 이미지는 6종류.
+
+		if (nSprite == 0) {
+			// 1-19레벨
+			//this.GetComponent<SpriteRenderer> ().sprite = null;	// 이미지 변경.
+		} else if (nSprite == 1) {
+			// 20-39레벨
+		} else if (nSprite == 2) {
+			// 40-59레벨
+		} else if (nSprite == 3) {
+			// 60-79레벨
+		} else if (nSprite == 4) {
+			// 80-99레벨
+		} else {
+			// 100레벨 이상
+		}
+
+		if (nColor == 0) {
+			this.GetComponent<SpriteRenderer> ().color = Color.white;
+		} else if (nColor == 1) {
+			this.GetComponent<SpriteRenderer> ().color = new Color (0f, 0.5f, 0f);
+		} else if (nColor == 2) {
+			this.GetComponent<SpriteRenderer> ().color = new Color (0f, 0.8f, 0f);
+		} else if (nColor == 3) {
+			this.GetComponent<SpriteRenderer> ().color = new Color (0f, 0.5f, 0.5f);
+		} else if (nColor == 4) {
+			this.GetComponent<SpriteRenderer> ().color = new Color (0f, 0.8f, 0.8f);
+		} else if (nColor == 5) {
+			this.GetComponent<SpriteRenderer> ().color = new Color (0f, 0f, 0.5f);
+		} else if (nColor == 6) {
+			this.GetComponent<SpriteRenderer> ().color = new Color (0f, 0f, 0.8f);
+		} else if (nColor == 7) {
+			this.GetComponent<SpriteRenderer> ().color = new Color (0.5f, 0f, 0f);
+		} else if (nColor == 8) {
+			this.GetComponent<SpriteRenderer> ().color = new Color (0.8f, 0f, 0f);
+		} else if (nColor == 9) {
+			this.GetComponent<SpriteRenderer> ().color = new Color (0.8f, 0.8f, 0.8f);
+		}
+	}
+
+	private int GetMaxLife()
+	{
+		return UtillFunc.Instance.fact2 (m_nLevel);
+	}
 }
