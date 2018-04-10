@@ -8732,7 +8732,7 @@ MonoBehaviour:
   easeType: 21
   ignoreTimescale: 1
   valueFrom: {x: 0, y: -0.347, z: 0}
-  valueTo: {x: 1, y: 1, z: 1}
+  valueTo: {x: 0, y: 1, z: 0}
   onStart:
     m_PersistentCalls:
       m_Calls: []
