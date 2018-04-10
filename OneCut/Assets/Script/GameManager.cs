@@ -121,7 +121,7 @@ public class GameManager : MonoSingleton<GameManager> {
 
     void UpdateInventoryInfo()
     {
-        
+
         for (int i = 0; i < inventoryDisplay.Count; ++i)
         {
             if(i >= inventory.Count)
