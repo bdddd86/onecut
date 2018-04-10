@@ -8,6 +8,9 @@ public class Character : MonoBehaviour
     public Rigidbody2D rigidBody;
 	public GameObject attackBox;
 
+    public System.Action<string> useItemAction;
+    public Dictionary<string, int> inventory;   
+
 	private GameObject attackCollider;
 	private float m_fAttackDelay = 0f;
 	private float m_fAttackBoxDelay = 0f;
@@ -142,4 +145,15 @@ public class Character : MonoBehaviour
 			GameManager.instance.SettingGameInfoText ();
 		}
 	}
+
+    public void AquireItem()
+    {
+        
+    }
+
+    public void UseItem()
+    {
+        
+    }
+
 }

@@ -9,7 +9,11 @@ public class GameManager : MonoSingleton<GameManager> {
 
     public GameObject objChacater;
     public GameObject blackScreen;
-	public Text gameInfoText;
+    public Text gameInfoText;
+
+    public List<ItemUIObject> inventoryDisplay; 
+
+    List<string> inventory; 
 
 	[HideInInspector] public Character character;
 
@@ -51,6 +55,11 @@ public class GameManager : MonoSingleton<GameManager> {
 		// 몬스터 초기화.
 		MonsterSummons.instance.InitMonsters();
 		MonsterSummons.instance.SummonsMonster ();
+
+        if(inventory == null)
+            inventory = new List<string>();
+
+        inventory.Clear(); 
     }
 
     public void RestartGame()
@@ -92,4 +101,38 @@ public class GameManager : MonoSingleton<GameManager> {
 	void Update () {
 		
 	}
+
+    public void AquireItem(string item)
+    {
+        inventory.Add(item);
+        UpdateInventoryInfo();
+    }
+
+    public bool UseItem(string item)
+    {
+        int findIndex = inventory.FindIndex(e => e == item);
+        if (findIndex >= 0)
+        {
+            inventory.RemoveAt(findIndex);
+            UpdateInventoryInfo();
+        }
+        return (findIndex >= 0);
+    }
+
+    void UpdateInventoryInfo()
+    {
+        
+        for (int i = 0; i < inventoryDisplay.Count; ++i)
+        {
+            if(i >= inventory.Count)
+            {
+                inventoryDisplay[i].gameObject.SetActive(false);
+            }
+            else
+            {
+                inventoryDisplay[i].gameObject.SetActive(true);
+                inventoryDisplay[i].Set(inventory[i]); 
+            }
+        }
+    }
 }
