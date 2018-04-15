@@ -7,7 +7,8 @@ public class GameManager : MonoSingleton<GameManager> {
 
     public Transform spawnPoint;
 
-    public GameObject objChacater;
+    //public GameObject objChacater;
+	public Character character;
     public GameObject blackScreen;
     public Text gameInfoText;
 
@@ -15,7 +16,7 @@ public class GameManager : MonoSingleton<GameManager> {
 
     List<string> inventory; 
 
-	[HideInInspector] public Character character;
+	//[HideInInspector] public Character character;
 
 	[HideInInspector] public int m_nLevel;	// 레벨
 
@@ -46,8 +47,8 @@ public class GameManager : MonoSingleton<GameManager> {
     void InitGame()
     {
 		// 캐릭터 초기화.
-		if (character == null)
-        	character = Instantiate(objChacater, spawnPoint.position, Quaternion.identity).GetComponent<Character>();
+		//if (character == null)
+        //	character = Instantiate(objChacater, spawnPoint.position, Quaternion.identity).GetComponent<Character>();
 		SettingCharacterInfo (1);
 		SettingGameInfoText ();
 		m_nExp = 0;

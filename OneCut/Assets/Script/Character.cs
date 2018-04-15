@@ -6,22 +6,15 @@ using UnityStandardAssets.CrossPlatformInput;
 public class Character : MonoBehaviour
 {
     public Rigidbody2D rigidBody;
-	public GameObject attackBox;
+	public Animator animator;
+	public SpriteRenderer spriteRenderer;
 
     public System.Action<string> useItemAction;
     public Dictionary<string, int> inventory;   
 
-	private GameObject attackCollider;
-	private float m_fAttackDelay = 0f;
-	private float m_fAttackBoxDelay = 0f;
-
-    // Use this for initialization
     void Start()
     {
-		if (attackCollider == null)
-			attackCollider = Instantiate (attackBox);
-
-		attackCollider.SetActive (false);
+		animator.SetFloat ("velocity", 0);
     }
 
     // Update is called once per frame
@@ -31,16 +24,16 @@ public class Character : MonoBehaviour
         float fHorizontal = CrossPlatformInputManager.GetAxis("Horizontal");
         float fVertical = CrossPlatformInputManager.GetAxis("Vertical");
 
-		if (attackCollider != null && attackCollider.activeInHierarchy == true) {
-			m_fAttackBoxDelay += (Time.deltaTime * GameManager.instance.m_fAttackSpeed);
-			m_fAttackDelay = 0;
-			if (m_fAttackBoxDelay >= 0.05f) {
-				m_fAttackBoxDelay = 0;
-				attackCollider.SetActive (false);
-			}
-		} else {
-			m_fAttackDelay += (Time.deltaTime * GameManager.instance.m_fAttackSpeed);
-		}
+		//if (attackCollider != null && attackCollider.activeInHierarchy == true) {
+		//	m_fAttackBoxDelay += (Time.deltaTime * GameManager.instance.m_fAttackSpeed);
+		//	m_fAttackDelay = 0;
+		//	if (m_fAttackBoxDelay >= 0.05f) {
+		//		m_fAttackBoxDelay = 0;
+		//		attackCollider.SetActive (false);
+		//	}
+		//} else {
+		//	m_fAttackDelay += (Time.deltaTime * GameManager.instance.m_fAttackSpeed);
+		//}
 
 #if UNITY_EDITOR
 		if (Input.GetKeyDown(KeyCode.W))
@@ -49,11 +42,11 @@ public class Character : MonoBehaviour
 		}
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
-			Debug.Log("Attack Delay: "+m_fAttackDelay.ToString());
-			if (m_fAttackDelay >= 0.25f) {
-				m_fAttackDelay = 0;
+			//Debug.Log("Attack Delay: "+m_fAttackDelay.ToString());
+			//if (m_fAttackDelay >= 0.25f) {
+			//	m_fAttackDelay = 0;
 				Attack();
-			}
+			//}
 		}
 		if (Input.GetKey(KeyCode.A))
 		{
@@ -72,10 +65,10 @@ public class Character : MonoBehaviour
 
         if (CrossPlatformInputManager.GetButtonDown("Attack"))
         {
-			if (m_fAttackDelay >= 0.25f) {
-				m_fAttackDelay = 0;
+			//if (m_fAttackDelay >= 0.25f) {
+			//	m_fAttackDelay = 0;
 				Attack();
-			}
+			//}
         }
 
         if (CrossPlatformInputManager.GetButtonDown("Summons"))
@@ -106,6 +99,12 @@ public class Character : MonoBehaviour
             }
         }
 
+		// 속도 체크
+		animator.SetFloat ("velocity", Mathf.Abs (rigidBody.velocity.x));
+
+		// 방향 체크
+		spriteRenderer.flipX = rigidBody.velocity.x < 0;
+
         // 카메라 따라가기.
         if (transform.localPosition.x != Camera.main.transform.localPosition.x)
         {
@@ -119,16 +118,20 @@ public class Character : MonoBehaviour
         //Debug.Log (string.Format ("A: {0}",rigidBody.angularVelocity));
         if (rigidBody.velocity.y == 0)
             rigidBody.AddForce(new Vector2(0f, 500f));
+
+		animator.SetTrigger ("jump");
     }
     void Attack()
     {
-		if (attackCollider == null)
-			return;
+		//if (attackCollider == null)
+		//	return;
 		
         Debug.Log("Attack");
-		attackCollider.transform.localPosition = new Vector3(this.transform.localPosition.x, this.transform.localPosition.y, 0);
-		attackCollider.GetComponent<BoxCollider2D> ().size = new Vector2 (2f, 2f);
-		attackCollider.SetActive (true);
+		//attackCollider.transform.localPosition = new Vector3(this.transform.localPosition.x, this.transform.localPosition.y, 0);
+		//attackCollider.GetComponent<BoxCollider2D> ().size = new Vector2 (2f, 2f);
+		//attackCollider.SetActive (true);
+
+		animator.SetTrigger ("attack");
     }
 
 	public void Exp(object level)
