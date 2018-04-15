@@ -8,6 +8,8 @@ public class Character : MonoBehaviour
     public Rigidbody2D rigidBody;
 	public Animator animator;
 	public SpriteRenderer spriteRenderer;
+	public List<GameObject> listBullet;
+	public Animator fx;
 
     public System.Action<string> useItemAction;
     public Dictionary<string, int> inventory;   
@@ -103,7 +105,19 @@ public class Character : MonoBehaviour
 		animator.SetFloat ("velocity", Mathf.Abs (rigidBody.velocity.x));
 
 		// 방향 체크
-		spriteRenderer.flipX = rigidBody.velocity.x < 0;
+		if (rigidBody.velocity.x < 0 && spriteRenderer.flipX == false) {
+			spriteRenderer.flipX = true;
+			// 먼지 이팩트
+			fx.transform.localPosition = new Vector3 (0.7f, 0.2f, 0);
+			fx.GetComponent<SpriteRenderer> ().flipX = true;
+			fx.SetTrigger ("dust");
+		} else if (rigidBody.velocity.x > 0 && spriteRenderer.flipX == true) {
+			spriteRenderer.flipX = false;
+			// 먼지 이팩트
+			fx.transform.localPosition = new Vector3 (-0.7f, 0.2f, 0);
+			fx.GetComponent<SpriteRenderer> ().flipX = false;
+			fx.SetTrigger ("dust");
+		}
 
         // 카메라 따라가기.
         if (transform.localPosition.x != Camera.main.transform.localPosition.x)
@@ -121,18 +135,40 @@ public class Character : MonoBehaviour
 
 		animator.SetTrigger ("jump");
     }
+
     void Attack()
     {
-		//if (attackCollider == null)
-		//	return;
-		
         Debug.Log("Attack");
-		//attackCollider.transform.localPosition = new Vector3(this.transform.localPosition.x, this.transform.localPosition.y, 0);
-		//attackCollider.GetComponent<BoxCollider2D> ().size = new Vector2 (2f, 2f);
-		//attackCollider.SetActive (true);
-
 		animator.SetTrigger ("attack");
     }
+
+	public void Shot()
+	{
+		GameObject bullet = null;
+		for (int i = 0; i < listBullet.Count; i++) {
+			if (listBullet [i].activeInHierarchy == false) {
+				bullet = listBullet [i];
+				break;
+			}
+		}
+
+		if (bullet == null) {
+			Debug.Log ("총알없음");
+			return;
+		}
+
+		if (spriteRenderer.flipX == true) {
+			// 좌측
+			bullet.GetComponent<Bullet>().direction = Vector3.left;
+			bullet.transform.localPosition = this.transform.localPosition + Vector3.left;
+		} 
+		else {
+			// 우측
+			bullet.GetComponent<Bullet>().direction = Vector3.right;
+			bullet.transform.localPosition = this.transform.localPosition + Vector3.right;
+		}
+		bullet.SetActive (true);
+	}
 
 	public void Exp(object level)
 	{
