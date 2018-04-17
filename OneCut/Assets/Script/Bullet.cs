@@ -8,22 +8,37 @@ public class Bullet : MonoBehaviour
 	public float speed;
 	public float lifeTime;
 	public float startTime;
+	public Animator sparkle;
 	
-	void OnCollisionEnter2D(Collision2D coll)
+	//void OnCollisionEnter2D(Collision2D coll)
+	//{
+	//	Debug.Log ("Hit: " + coll.gameObject.name);
+	//	this.gameObject.SetActive (false);
+	//}
+	void OnTriggerEnter2D(Collider2D coll)
 	{
 		Debug.Log ("Hit: " + coll.gameObject.name);
 		this.gameObject.SetActive (false);
 
-		// 이팩트, 사운드 추가.
+		sparkle.transform.localPosition = this.transform.localPosition;
+		//sparkle.gameObject.SetActive (true);
+		sparkle.SetTrigger ("sparkle");
 	}
 
 	void OnEnable()
 	{
 		startTime = Time.time;
 		//transform.localPosition = new Vector3 (1f, 0, 0);
-		iTween.Stop (this.gameObject);
-		transform.localScale = Vector3.one * 0.8f;
-		iTween.ScaleTo (this.gameObject, iTween.Hash ("scale", Vector3.one, "time", 0.1f, "islocal", true));
+		//iTween.Stop (this.gameObject);
+		//transform.localScale = Vector3.one * 0.8f;
+		//iTween.ScaleTo (this.gameObject, iTween.Hash ("scale", Vector3.one, "time", 0.1f, "islocal", true));
+
+		if (direction == Vector3.left) {
+			this.GetComponent<SpriteRenderer> ().flipX = true;
+		} 
+		else {
+			this.GetComponent<SpriteRenderer> ().flipX = false;
+		}
 	}
 
 	void Update()
@@ -31,7 +46,6 @@ public class Bullet : MonoBehaviour
 		if (gameObject.activeInHierarchy == true) 
 		{
 			transform.Translate (direction * Time.deltaTime * speed);
-
 
 			if (Time.time - startTime >= lifeTime) {
 				Debug.Log (string.Format("Distance Over: {0} - {1} >= {2}",Time.time,startTime,lifeTime));
