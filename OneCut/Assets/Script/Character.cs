@@ -174,15 +174,13 @@ public class Character : MonoBehaviour
 	{
 		int getExp = UtillFunc.Instance.monsterExp ((int)level);
 		Debug.Log ("Get Exp: "+getExp.ToString());
-		GameManager.instance.m_nExp += getExp;
+		GameManager.instance.totalEXP += getExp;
 
 		// 테스트 코드
-		if (GameManager.instance.m_nExp >= 5) {
-			GameManager.instance.m_nExp = 0;
-			GameManager.instance.m_nLevel += 1;
-			GameManager.instance.SettingCharacterInfo (GameManager.instance.m_nLevel);
-			GameManager.instance.SettingGameInfoText ();
-		}
+		//if (GameManager.instance.totalEXP >= 5) {
+		//	GameManager.instance.SettingCharacterInfo (GameManager.instance.m_nLevel);
+		//	GameManager.instance.SettingGameInfoText ();
+		//}
 	}
 
     public void AquireItem()

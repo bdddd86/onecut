@@ -27,7 +27,7 @@ public class MonsterSummons : MonoSingleton<MonsterSummons> {
 		int activeCnt = 0;
 		for (int i = 0; i < m_listMonsters.Count; i++) {
 			if (m_listMonsters [i].gameObject.activeInHierarchy == false) {
-				m_listMonsters [i].SettingGraphic (GameManager.instance.m_nLevel);
+				m_listMonsters [i].SettingGraphic (GameManager.instance.Level);
 				m_listMonsters [i].gameObject.SetActive (true);
 				activeCnt += 1;
 			}

@@ -18,25 +18,12 @@ public class GameManager : MonoSingleton<GameManager> {
 
 	//[HideInInspector] public Character character;
 
-	[HideInInspector] public int m_nLevel;	// 레벨
+	[HideInInspector] public int Level;	// 레벨
 
-	// 스탯값. 레벨에따라 오르고 버프나 장착아이템으로 증가가능.
-	[HideInInspector] public int m_nPow;	// 힘. 체력, 체력재생, 공격력
-	[HideInInspector] public int m_nDex;	// 민첩. 방어력, 공격속도, 이동속도
-	[HideInInspector] public int m_nInc;	// 지능. 스플레쉬 어택, 경험치 획득량, 크리티컬 확률(약점)
-
-	// 2차 스탯 값. 힘,민,지로 계산되는 능력치.
-	[HideInInspector] public int m_nLife;	// 현재 체력
-	[HideInInspector] public int m_nMaxLife;	// 총 체력
-	[HideInInspector] public float m_fRegenLife;	// 체력 재생력
-	[HideInInspector] public float m_fDamage;	// 공격력
-	[HideInInspector] public float m_fDefence;	// 방어력
-	[HideInInspector] public float m_fAttackSpeed;	// 공격속도(기본1)
-	[HideInInspector] public float m_fMoveSpeed;	// 이동속도(기본1)
-	[HideInInspector] public float m_fSplashArea;	// 공격 범위
-	[HideInInspector] public float m_nExp;	// 현재 경험치
-	[HideInInspector] public float m_fAddExp;	// 추가 경험치
-	[HideInInspector] public float m_fCritical;	// 크리티컬 확률
+	// 주인공 능력치.
+	// 워3 블레이드 마스터 참조.
+	[HideInInspector] public int HitPoints;	// 체력
+	[HideInInspector] public int totalEXP;	// 경험치 총량
 
     private void Awake()
     {
@@ -51,7 +38,7 @@ public class GameManager : MonoSingleton<GameManager> {
         //	character = Instantiate(objChacater, spawnPoint.position, Quaternion.identity).GetComponent<Character>();
 		SettingCharacterInfo (1);
 		SettingGameInfoText ();
-		m_nExp = 0;
+		totalEXP = 0;
 
 		// 몬스터 초기화.
 		MonsterSummons.instance.InitMonsters();
@@ -68,29 +55,16 @@ public class GameManager : MonoSingleton<GameManager> {
         character.transform.position = spawnPoint.position;
     }
 
-	public void SettingCharacterInfo(int level)
+	public void SettingCharacterInfo(int lv)
 	{
-		m_nLevel = level;
-		m_nPow = UtillFunc.Instance.pow (m_nLevel);
-		m_nDex = UtillFunc.Instance.dex (m_nLevel);
-		m_nInc = UtillFunc.Instance.inc (m_nLevel);
-		m_nMaxLife = UtillFunc.Instance.maxLife (m_nPow);
-		m_fRegenLife = UtillFunc.Instance.regenLife (m_nPow);
-		m_fDamage = UtillFunc.Instance.attackDamage (m_nPow);
-		m_fDefence = UtillFunc.Instance.defence (m_nDex);
-		m_fAttackSpeed = UtillFunc.Instance.attackSpeed (m_nDex);
-		m_fMoveSpeed = UtillFunc.Instance.moveSpeed (m_nDex);
-		m_fSplashArea = UtillFunc.Instance.splashArea (m_nInc);
-		m_fAddExp = UtillFunc.Instance.addExp (m_nInc);
-		m_fCritical = UtillFunc.Instance.critical (m_nInc);
-		m_nLife = m_nMaxLife;
-		//m_fExp = 0;
+		Level = lv;
+		HitPoints = UtillFunc.Instance.GetHitPoints(lv);
 	}
 
 	public void SettingGameInfoText()
 	{
-		gameInfoText.text = string.Format ("Level:{0}\nPow:{1}\nDex:{2}\nInc:{3}\nMonsterLife:{4}", 
-			m_nLevel, m_nPow, m_nDex, m_nInc, UtillFunc.Instance.monsterLife(m_nLevel));
+		gameInfoText.text = string.Format ("레벨:{0}\n공격력:{1}-{2}\n방어력:{3}\n총경험치:{4}", 
+			Level, UtillFunc.Instance.GetMinAttack(Level), UtillFunc.Instance.GetMaxAttack(Level), UtillFunc.Instance.GetArmor(Level), totalEXP);
 	}
 
     // Use this for initialization

@@ -56,7 +56,7 @@ public class Monster : MonoBehaviour {
 
 		if (coll.gameObject.tag == "weapon") {
 			Debug.Log ("monster collision weapon");
-			m_nLife -= System.Convert.ToInt32(GameManager.instance.m_fDamage);
+			m_nLife -= 100;
 			if (m_nLife <= 0) {
 				GameManager.instance.character.SendMessage ("Exp", m_nLevel);
 				this.gameObject.SetActive (false);
