@@ -166,4 +166,11 @@ public class UtillFunc : Singleton<UtillFunc> {
 			return 12;
 		}
 	}
+	public int GetMonsterDamageReduction(int lv, int damage)
+	{
+		int armor = GetMonsterArmor (lv);
+		float damageReduction = 1f - (((armor) * 0.06f) / (1f + 0.06f * (armor)));
+		float realDamage = damage * damageReduction;
+		return System.Convert.ToInt32 (realDamage);
+	}
 }

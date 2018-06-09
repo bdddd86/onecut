@@ -66,7 +66,7 @@ public class Character : MonoBehaviour
 
         if (fHorizontal != 0)
         {
-            Debug.Log(string.Format("H:{0} V:{1}", fHorizontal, fVertical));
+            //Debug.Log(string.Format("H:{0} V:{1}", fHorizontal, fVertical));
             rigidBody.AddForce(new Vector2(fHorizontal * 50, 0f));
             if (Mathf.Abs(rigidBody.velocity.x) > 10f)
             {
@@ -78,7 +78,7 @@ public class Character : MonoBehaviour
             if (Mathf.Abs(rigidBody.velocity.x) != 0)
             {
                 rigidBody.velocity = new Vector2(rigidBody.velocity.x / 2, rigidBody.velocity.y);
-                Debug.Log(string.Format("V: {0}", rigidBody.velocity));
+                //Debug.Log(string.Format("V: {0}", rigidBody.velocity));
                 if (Mathf.Abs(rigidBody.velocity.x) <= 0.1f)
                 {
                     rigidBody.velocity = new Vector2(0, rigidBody.velocity.y);
@@ -133,7 +133,6 @@ public class Character : MonoBehaviour
 
     void Attack()
     {
-        //Debug.Log("Attack");
 		animator.SetTrigger ("attack");
     }
 

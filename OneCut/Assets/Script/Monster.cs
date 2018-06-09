@@ -44,8 +44,12 @@ public class Monster : MonoBehaviour {
 		
 		transform.Translate ((m_bDirection?m_fSpeed:-m_fSpeed) * Time.deltaTime, 0, 0);
 
-		if (transform.localPosition.x <= 9f) {
+		// 밖으로 못나가게 하기.
+		if (transform.localPosition.x <= 10f) {
 			transform.localPosition = new Vector3 (9f, transform.localPosition.y, 0f);
+		}
+		else if (transform.localPosition.x >= 25f) {
+			transform.localPosition = new Vector3 (25f, transform.localPosition.y, 0f);
 		}
 
 		// UI 업데이트. 2프레임당 1회.
@@ -61,10 +65,18 @@ public class Monster : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D coll) 
 	{
-		if (coll.gameObject.tag == "weapon") {
-			//Debug.Log ("monster collision weapon");
-			m_nLife -= 100;	// 캐릭터 데미지 공식 들어가야함
-			if (m_nLife <= 0) {
+		if (coll.gameObject.tag == "weapon") 
+		{
+			int nLevel = GameManager.instance.Level;
+			int nAttack = Random.Range (UtillFunc.Instance.GetMinAttack (nLevel), UtillFunc.Instance.GetMaxAttack (nLevel) + 1);
+			int nDamage = UtillFunc.Instance.GetMonsterDamageReduction (m_nLevel, nAttack);
+			Debug.Log (string.Format("# 공격:{0} 실제데미지:{1}",nAttack,nDamage));
+			if (nDamage > 0) {
+				m_nLife -= nDamage;
+			}
+
+			if (m_nLife <= 0) 
+			{
 				GameManager.instance.character.SendMessage ("Exp", m_nLevel);
 				this.gameObject.SetActive (false);
 			}
