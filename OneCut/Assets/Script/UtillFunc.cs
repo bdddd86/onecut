@@ -62,28 +62,108 @@ public class UtillFunc : Singleton<UtillFunc> {
 		return System.Convert.ToInt32 (realDamage);
 	}
 
-	// 경험치로 레벨 구하기. => 요기서부터하기.
+	// 경험치로 레벨 구하기.
 	// 1->2: 100+1*100 = 200
 	// 2->3: 100+2*100 = 300 -> 500
 	// 3->4: 100+3*100 = 400 -> 900
-	public int GetLevel(int exp)
+	public int GetTotalExpFromLv(int lv)
 	{
-		// 1: 0 - 199
-		// 2: 200 - 499
-		// 3: 500 - 899
-		//4: 900
-		int level = ((exp - 100) / 100) + 1;
-		return level <= 1 ? 1 : level;
+		int totalExp = 0;
+		for(int i=1; i<lv; i++)
+		{
+			totalExp += 100 + (100*i);
+		}
+		return totalExp;
+	}
+	public int GetNeedExpToNextLv(int lv)
+	{
+		return 100 + (100*lv);
 	}
 
-	// 몬스터 계산기
-	public int monsterExp(int level)
+
+	// 몬스터 계산기(레벨 1부터 35까지)
+	public int GetMonsterExp(int level)
 	{
-		return level;
+		if (level <= 1) {
+			return 25;	// 피젼트
+		} else if (level <= 5) {
+			return 30 + ((level - 2) * 2);	// 밀리샤
+		} else if (level <= 9) {
+			return 40 + ((level - 6) * 2); 	// 풋맨
+		} else if (level <= 13) {
+			return 60 + ((level - 10) * 2);	// 라이플맨
+		} else if (level <= 17) {
+			return 70 + ((level - 14) * 2);	// 스펠브레이커
+		} else if (level <= 21) {
+			return 80 + ((level - 18) * 2);	// 시즈엔진
+		} else if (level <= 25) {
+			return 90 + ((level - 22) * 2);	// 드래곤호크라이더
+		} else if (level <= 26) {
+			return 95;	// 워터엘리멘탈3레벨
+		} else if (level <= 30) {
+			return 100 + ((level - 27) * 2);	// 그리폰라이더
+		} else if (level <= 31) {
+			return 110;	// 피닉스
+		} else if (level <= 35) {
+			return 120 + ((level - 32) * 2);	// 나이트
+		} else {
+			return 120;
+		}
 	}
-	public int monsterLife(int level)
+	public int GetMonsterLife(int level)
 	{
-		//return UtillFunc.Instance.fact2 (level);
-		return (3 * level) + 1;
+		if (level <= 1) {
+			return 220;	// 피젼트
+		} else if (level <= 5) {
+			return 220;	// 밀리샤
+		} else if (level <= 9) {
+			return 420; // 풋맨
+		} else if (level <= 13) {
+			return 535;	// 라이플맨
+		} else if (level <= 17) {
+			return 600;	// 스펠브레이커
+		} else if (level <= 21) {
+			return 700;	// 시즈엔진
+		} else if (level <= 25) {
+			return 725;	// 드래곤호크라이더
+		} else if (level <= 26) {
+			return 900;	// 워터엘리멘탈3레벨
+		} else if (level <= 30) {
+			return 975;	// 그리폰라이더
+		} else if (level <= 31) {
+			return 1200;	// 피닉스
+		} else if (level <= 35) {
+			return 985;	// 나이트
+		} else {
+			return 1200;
+		}
+	}
+	public int GetMonsterArmor(int level)
+	{
+		if (level <= 1) {
+			return 0;	// 피젼트
+		} else if (level <= 5) {
+			return 4 + ((level - 2) * 2);	// 밀리샤
+		} else if (level <= 9) {
+			return 2 + ((level - 6) * 2); 	// 풋맨
+		} else if (level <= 13) {
+			return (level - 10) * 2;	// 라이플맨
+		} else if (level <= 17) {
+			return 3 + ((level - 14) * 2);	// 스펠브레이커
+		} else if (level <= 21) {
+			return 2 + ((level - 18) * 2);	// 시즈엔진
+		} else if (level <= 25) {
+			return 1 + ((level - 22) * 2);	// 드래곤호크라이더
+		} else if (level <= 26) {
+			return 2;	// 워터엘리멘탈3레벨
+		} else if (level <= 30) {
+			return ((level - 27) * 2);	// 그리폰라이더
+		} else if (level <= 31) {
+			return 1;	// 피닉스
+		} else if (level <= 35) {
+			return 5 + ((level - 32) * 2);	// 나이트
+		} else {
+			return 12;
+		}
 	}
 }

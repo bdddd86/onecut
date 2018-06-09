@@ -10,32 +10,24 @@ public class Character : MonoBehaviour
 	public SpriteRenderer spriteRenderer;
 	public List<GameObject> listBullet;
 	public Animator fx;
+	public Transform imgLife;
+	public Transform imgSkillLife;
 
     public System.Action<string> useItemAction;
     public Dictionary<string, int> inventory;   
+
+	private int m_nFrameCnt = 0;
 
     void Start()
     {
 		animator.SetFloat ("velocity", 0);
     }
 
-    // Update is called once per frame
     void Update()
     {
         // 유저 입력.
         float fHorizontal = CrossPlatformInputManager.GetAxis("Horizontal");
         float fVertical = CrossPlatformInputManager.GetAxis("Vertical");
-
-		//if (attackCollider != null && attackCollider.activeInHierarchy == true) {
-		//	m_fAttackBoxDelay += (Time.deltaTime * GameManager.instance.m_fAttackSpeed);
-		//	m_fAttackDelay = 0;
-		//	if (m_fAttackBoxDelay >= 0.05f) {
-		//		m_fAttackBoxDelay = 0;
-		//		attackCollider.SetActive (false);
-		//	}
-		//} else {
-		//	m_fAttackDelay += (Time.deltaTime * GameManager.instance.m_fAttackSpeed);
-		//}
 
 #if UNITY_EDITOR
 		if (Input.GetKeyDown(KeyCode.W))
@@ -44,11 +36,7 @@ public class Character : MonoBehaviour
 		}
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
-			//Debug.Log("Attack Delay: "+m_fAttackDelay.ToString());
-			//if (m_fAttackDelay >= 0.25f) {
-			//	m_fAttackDelay = 0;
-				Attack();
-			//}
+			Attack();
 		}
 		if (Input.GetKey(KeyCode.A))
 		{
@@ -67,10 +55,7 @@ public class Character : MonoBehaviour
 
         if (CrossPlatformInputManager.GetButtonDown("Attack"))
         {
-			//if (m_fAttackDelay >= 0.25f) {
-			//	m_fAttackDelay = 0;
-				Attack();
-			//}
+			Attack();
         }
 
         if (CrossPlatformInputManager.GetButtonDown("Summons"))
@@ -124,6 +109,16 @@ public class Character : MonoBehaviour
         {
             Camera.main.transform.localPosition = new Vector3(transform.localPosition.x, 0f, -8f);
         }
+
+		// UI 업데이트. 2프레임당 1회.
+		if (m_nFrameCnt != Time.frameCount) 
+		{
+			m_nFrameCnt = Time.frameCount;
+			if (m_nFrameCnt % 2 == 0) 
+			{
+				UpdateUI ();
+			}
+		}
     }
 
     void Jump()
@@ -138,7 +133,7 @@ public class Character : MonoBehaviour
 
     void Attack()
     {
-        Debug.Log("Attack");
+        //Debug.Log("Attack");
 		animator.SetTrigger ("attack");
     }
 
@@ -172,7 +167,7 @@ public class Character : MonoBehaviour
 
 	public void Exp(object level)
 	{
-		int getExp = UtillFunc.Instance.monsterExp ((int)level);
+		int getExp = UtillFunc.Instance.GetMonsterExp ((int)level);
 		Debug.Log ("Get Exp: "+getExp.ToString());
 		GameManager.instance.totalEXP += getExp;
 
@@ -183,14 +178,12 @@ public class Character : MonoBehaviour
 		//}
 	}
 
-    public void AquireItem()
-    {
-        
-    }
-
-    public void UseItem()
-    {
-        
-    }
+	public void UpdateUI()
+	{
+		// 생명력 업데이트
+		int maxHitpoint = UtillFunc.Instance.GetHitPoints(GameManager.instance.Level);
+		float rateHitpoint = (GameManager.instance.HitPoints*1f) / (maxHitpoint*1f);
+		imgLife.localScale = new Vector3 (rateHitpoint * 8f, 1f, 1f);
+	}
 
 }

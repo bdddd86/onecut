@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class Monster : MonoBehaviour {
 
-	public int m_nLevel = 0;
-	public int m_nLife = 1;
+	[HideInInspector] public int m_nLevel = 0;
+	[HideInInspector] public int m_nLife = 1;
+	public Transform imgLife;
 
 	private float m_fSpeedRandomTime;
 	private float m_fDirectionRandomTime;
 	private bool m_bDirection = true;
 	private float m_fSpeed = 1f;
+	private int m_nFrameCnt = 0;
 
 	void OnEnable()
 	{
@@ -45,23 +47,36 @@ public class Monster : MonoBehaviour {
 		if (transform.localPosition.x <= 9f) {
 			transform.localPosition = new Vector3 (9f, transform.localPosition.y, 0f);
 		}
+
+		// UI 업데이트. 2프레임당 1회.
+		if (m_nFrameCnt != Time.frameCount) 
+		{
+			m_nFrameCnt = Time.frameCount;
+			if (m_nFrameCnt % 2 == 0) 
+			{
+				UpdateUI ();
+			}
+		}
 	}
 
 	void OnTriggerEnter2D(Collider2D coll) 
 	{
-		//if (coll.gameObject.tag == "wall") {
-		//	Debug.Log ("monster collision wall");
-		//	m_bDirection = !m_bDirection;
-		//}
-
 		if (coll.gameObject.tag == "weapon") {
-			Debug.Log ("monster collision weapon");
-			m_nLife -= 100;
+			//Debug.Log ("monster collision weapon");
+			m_nLife -= 100;	// 캐릭터 데미지 공식 들어가야함
 			if (m_nLife <= 0) {
 				GameManager.instance.character.SendMessage ("Exp", m_nLevel);
 				this.gameObject.SetActive (false);
 			}
 		}
+	}
+
+	public void UpdateUI()
+	{
+		// 생명력 업데이트
+		int maxHitpoint = UtillFunc.Instance.GetMonsterLife(m_nLevel);
+		float rateHitpoint = (m_nLife*1f) / (maxHitpoint*1f);
+		imgLife.localScale = new Vector3 (rateHitpoint * 8f, 1f, 1f);
 	}
 
 	// 몬스터 외형설정. 몬스터가 탄생할때 최초 한번만 불려야함.
@@ -71,7 +86,7 @@ public class Monster : MonoBehaviour {
 			return;
 
 		m_nLevel = level;
-		m_nLife = UtillFunc.Instance.monsterLife(m_nLevel);
+		m_nLife = UtillFunc.Instance.GetMonsterLife(m_nLevel);
 
 		// 몬스터레벨: 캐릭터 레벨 ~ +5 랜덤.
 		int nColor = m_nLevel % 10;	// 색은 10종류.
