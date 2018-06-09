@@ -170,11 +170,12 @@ public class Character : MonoBehaviour
 		Debug.Log ("Get Exp: "+getExp.ToString());
 		GameManager.instance.totalEXP += getExp;
 
-		// 테스트 코드
-		//if (GameManager.instance.totalEXP >= 5) {
-		//	GameManager.instance.SettingCharacterInfo (GameManager.instance.m_nLevel);
-		//	GameManager.instance.SettingGameInfoText ();
-		//}
+		// 경험치로 레벨업 계산하기.
+		int nNextLevelExp = UtillFunc.Instance.GetTotalExpFromLv(GameManager.instance.Level + 1);
+		if (GameManager.instance.totalEXP >= nNextLevelExp) {
+			GameManager.instance.SettingCharacterInfo (GameManager.instance.Level + 1);
+			GameManager.instance.SettingGameInfoText ();
+		}
 	}
 
 	public void UpdateUI()
