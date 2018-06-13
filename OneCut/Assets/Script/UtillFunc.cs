@@ -173,4 +173,15 @@ public class UtillFunc : Singleton<UtillFunc> {
 		float realDamage = damage * damageReduction;
 		return System.Convert.ToInt32 (realDamage);
 	}
+     
+    public string GetLocalizedText(string text)
+    {
+        return text; 
+    }
+
+    public string GetPriceText(int price)
+    {
+        // 단위 ,을 찍는다던가 화폐 단위를 추가한다. 
+        return price.ToString();
+    }
 }

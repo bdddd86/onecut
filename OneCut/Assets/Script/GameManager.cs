@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class GameManager : MonoSingleton<GameManager> {
 
+    public ShopManager shopManager;
     public Transform spawnPoint;
 
     //public GameObject objChacater;
@@ -48,6 +49,8 @@ public class GameManager : MonoSingleton<GameManager> {
             inventory = new List<string>();
 
         inventory.Clear(); 
+
+        CloseShop();
     }
 
     public void RestartGame()
@@ -110,4 +113,15 @@ public class GameManager : MonoSingleton<GameManager> {
             }
         }
     }
+
+    public void OpenShop()
+    {
+        shopManager.gameObject.SetActive(true);
+    }
+
+    public void CloseShop()
+    {
+        shopManager.gameObject.SetActive(false);
+    }
+
 }
