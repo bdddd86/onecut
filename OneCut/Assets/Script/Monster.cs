@@ -74,18 +74,35 @@ public class Monster : MonoBehaviour {
 		{
 			int nLevel = GameManager.instance.Level;
 			int nAttack = Random.Range (UtillFunc.Instance.GetMinAttack (nLevel), UtillFunc.Instance.GetMaxAttack (nLevel) + 1);
-			int nDamage = UtillFunc.Instance.GetMonsterDamageReduction (m_nLevel, nAttack);
-			Debug.Log (string.Format("# 공격:{0} 실제데미지:{1}",nAttack,nDamage));
-			if (nDamage > 0) {
-				m_nLife -= nDamage;
-			}
-
-			if (m_nLife <= 0) 
-			{
-				GameManager.instance.character.SendMessage ("Exp", m_nLevel);
-				this.gameObject.SetActive (false);
-			}
+			//int nDamage = UtillFunc.Instance.GetMonsterDamageReduction (m_nLevel, nAttack);
+			Damage (nAttack);
 		}
+	}
+
+	public void Damage(int damage)
+	{
+		if (damage > 0) {
+			// 데미지 감소율 계산. 방어력.
+			int nDamage = UtillFunc.Instance.GetMonsterDamageReduction (m_nLevel, damage);
+			Debug.Log (string.Format("# 공격:{0} 실제데미지:{1}",damage,nDamage));
+			m_nLife -= nDamage;
+		}
+
+		if (m_nLife <= 0) {
+			m_nLife = 0;
+			Die ();
+		} 
+		else {
+			// 몬스터 피해 연출.
+		}
+	}
+
+	public void Die()
+	{
+		GameManager.instance.character.SendMessage ("Exp", m_nLevel);
+		this.gameObject.SetActive (false);
+
+		// 몬스터 죽음 연출.
 	}
 
 	public void UpdateUI()

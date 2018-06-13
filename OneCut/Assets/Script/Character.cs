@@ -9,6 +9,7 @@ public class Character : MonoBehaviour
 	public Animator animator;
 	public SpriteRenderer spriteRenderer;
 	public List<GameObject> listBullet;
+	public Bomb bomb;
 	public Animator fx;
 	public Transform imgLife;
 	public Transform imgSkillLife;
@@ -162,6 +163,15 @@ public class Character : MonoBehaviour
 			bullet.transform.localPosition = this.transform.localPosition + Vector3.right;
 		}
 		bullet.SetActive (true);
+
+		GameManager.instance.attackCount += 1;
+		if (GameManager.instance.attackCount > 10) {
+			GameManager.instance.attackCount = 0;
+			// 폭탄공격
+			bomb.Shot (this.transform.localPosition, 
+				this.transform.localPosition + (Vector3.up * 5f) + (Vector3.right * 1.2f),
+				this.transform.localPosition + (Vector3.down * 0.5f) + (Vector3.right * 3f));
+		}
 	}
 
 	public void Exp(object level)
@@ -184,6 +194,10 @@ public class Character : MonoBehaviour
 		int maxHitpoint = UtillFunc.Instance.GetHitPoints(GameManager.instance.Level);
 		float rateHitpoint = (GameManager.instance.HitPoints*1f) / (maxHitpoint*1f);
 		imgLife.localScale = new Vector3 (rateHitpoint * 8f, 1f, 1f);
+
+		// 총알카운트(꽉차면 폭탄공격 한번씩 함)
+		float rateAttackCnt = (GameManager.instance.attackCount*1f) / 10f;
+		imgSkillLife.localScale = new Vector3 (rateAttackCnt * 8f, 0.5f, 1f);
 	}
 
 }

@@ -25,6 +25,8 @@ public class GameManager : MonoSingleton<GameManager> {
 	// 워3 블레이드 마스터 참조.
 	[HideInInspector] public int HitPoints;	// 체력
 	[HideInInspector] public int totalEXP;	// 경험치 총량
+	[HideInInspector] public int attackCount;	// 총알발사 카운트
+	[HideInInspector] public int ultiGauge;	// 궁극기 게이지
 
     private void Awake()
     {
