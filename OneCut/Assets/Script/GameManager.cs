@@ -101,7 +101,6 @@ public class GameManager : MonoSingleton<GameManager> {
 
     void UpdateInventoryInfo()
     {
-
         for (int i = 0; i < inventoryDisplay.Count; ++i)
         {
             if(i >= inventory.Count)
@@ -126,4 +125,10 @@ public class GameManager : MonoSingleton<GameManager> {
         shopManager.gameObject.SetActive(false);
     }
 
+    public void BuyItem(string key, int price)
+    {
+        AquireItem(key);
+        // price
+        shopManager.BuyItem(key);
+    }
 }

@@ -14636,7 +14636,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 5.4322686, y: -0.51455593, z: 0.00002971834}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 2111674147}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -14716,21 +14717,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   btnClose: {fileID: 948645841}
   shopItemDatas:
-  - name: "\uC900\uBC94\uC774\uBC14\uBCF4"
-    icon: {fileID: 21300000, guid: b009258bdae415c43833779cf58aa6f1, type: 3}
+  - key: "\uC724\uC8151"
     price: 5000
-  - name: "\uC724\uC815\uC774\uCC9C\uC7AC"
-    icon: {fileID: 21300000, guid: ccf6f216e6dc3b441ad9c91c486e67de, type: 3}
+  - key: "\uC724\uC8152"
     price: 100000
-  - name: "\uB9DD\uACE0\uBC14\uB098\uB098\uBE14\uB80C\uB514\uB4DC"
-    icon: {fileID: 21300000, guid: 1985d4ace9cfeb742a2e86ecc3359ba6, type: 3}
+  - key: "\uC724\uC8153"
     price: 6300
-  - name: "\uC544\uBA54\uB9AC\uCE74\uB178"
-    icon: {fileID: 21300000, guid: 52cb605f95d97f7459fcba2ede67686e, type: 3}
+  - key: "\uC724\uC8154"
     price: 50000000
-  - name: "\uC0BC\uC131\uB178\uD2B8\uBD81"
-    icon: {fileID: 21300000, guid: 1dad7fdab0d72ca46bf63f721f7f9ac4, type: 3}
+  - key: "\uC724\uC8155"
+    price: 1000
+  - key: "\uC724\uC8156"
+    price: 3000
+  - key: "\uC724\uC8157"
+    price: 400000
+  - key: "\uC724\uC8158"
     price: 1200000
+  - key: "\uC724\uC8159"
+    price: 1200000
+  - key: "\uC724\uC81510"
+    price: 1000000000
   shopScroll: {fileID: 47067569}
   shopObjPrefab: {fileID: 1860363096019740, guid: 6f99447c2eede45b183d735823765168,
     type: 2}
@@ -22409,6 +22415,77 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!1 &2111674146
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 2111674147}
+  - component: {fileID: 2111674148}
+  m_Layer: 0
+  m_Name: ItemManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2111674147
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2111674146}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1037984659}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2111674148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2111674146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 607f9bcdf32e8494e9897ae3958b3258, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemDatas:
+  - key: "\uC724\uC8151"
+    name: "\uC724\uC815\uC774\uC544\uC774\uD15C"
+    icon: {fileID: 21300000, guid: ccf6f216e6dc3b441ad9c91c486e67de, type: 3}
+  - key: "\uC724\uC8152"
+    name: "\uC724\uC815\uC774\uAEBC"
+    icon: {fileID: 21300000, guid: 1410fe0f04735954f93f7dd7cde6dc23, type: 3}
+  - key: "\uC724\uC8153"
+    name: "\uC724\uC815\uC544\uC774\uD15C\uC9F1\uC9F1"
+    icon: {fileID: 21300000, guid: 620b3b0ae40fef64cb8b1e9bf4633c5c, type: 3}
+  - key: "\uC724\uC8154"
+    name: "\uC724\uC815\uC544\uC774\uD15C\uC9F1\uC870\uC544"
+    icon: {fileID: 21300000, guid: 90468187a9d253748a43afe9c16849c4, type: 3}
+  - key: "\uC724\uC8155"
+    name: "\uC724\uC815\uC544\uC774\uD15C\uC804\uC124"
+    icon: {fileID: 21300000, guid: 8b299883f46db2b478e32d4e8b0ba0a0, type: 3}
+  - key: "\uC724\uC8156"
+    name: "\uC724\uC815\uC544\uC774\uD15C\uC77C\uAE4C"
+    icon: {fileID: 21300000, guid: 3bcb87855ac1fcf4b8f878dd752534e8, type: 3}
+  - key: "\uC724\uC8157"
+    name: "\uC724\uC815\uC544\uC774\uD15C\uC9C4\uC9DC"
+    icon: {fileID: 21300000, guid: 0b1b111a64d6aa141bfe35ba682012ad, type: 3}
+  - key: "\uC724\uC8158"
+    name: "\uC724\uC815\uC544\uC774\uD15C\uC9DD\uD241"
+    icon: {fileID: 21300000, guid: ac9286f305288854890015c77a930cc7, type: 3}
+  - key: "\uC724\uC8159"
+    name: "\uC724\uC815\uC544\uC774\uD15C\uBA85\uD488"
+    icon: {fileID: 21300000, guid: 4b4770e81a1d0144dac0aeddb0db4898, type: 3}
+  - key: "\uC724\uC81510"
+    name: "\uC724\uC815\uC544\uC774\uD15C\uC778\uB370"
+    icon: {fileID: 21300000, guid: abde66d60fb937a4e847effe07980da8, type: 3}
 --- !u!1 &2117515910
 GameObject:
   m_ObjectHideFlags: 0

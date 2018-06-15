@@ -10,7 +10,8 @@ public class ShopObject : MonoBehaviour
     public Text lblName;
     public Text lblPrice;
 
-    ShopItem shopItem;
+    [HideInInspector]
+    public ShopItem shopItem;
 
     private void Start()
     {
@@ -20,14 +21,14 @@ public class ShopObject : MonoBehaviour
     public void Set(ShopItem item)
     {
         this.shopItem = item;
-        imgItem.sprite = shopItem.icon;
-        lblName.text = UtillFunc.Instance.GetLocalizedText(shopItem.name);
+        imgItem.sprite = shopItem.itemData.icon;
+        lblName.text = UtillFunc.Instance.GetLocalizedText(shopItem.itemData.key);
         lblPrice.text = UtillFunc.Instance.GetPriceText(shopItem.price);
     }
 
     void Buy()
     {
-        //item buy
+        GameManager.instance.BuyItem(shopItem.key, shopItem.price);  
     }
 }    
 

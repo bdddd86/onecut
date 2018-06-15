@@ -8,6 +8,10 @@ public class ItemUIObject : MonoBehaviour {
 
     public void Set(string item)
     {
-        
+        ItemData itemData = ItemManager.instance.Find(item);
+        if(itemData != null)
+        {
+            img.sprite = itemData.icon; 
+        }
     }
 }

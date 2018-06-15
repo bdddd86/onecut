@@ -1,14 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI; 
+using UnityEngine.UI;
 
 [System.Serializable]
-public struct ShopItem
+public class ShopItem
 {
-    public string name;
-    public Sprite icon; 
+    public string key;
     public int price;
+    private ItemData _itemData = null;
+    public ItemData itemData
+    {
+        get
+        {
+            if(_itemData == null)
+            {
+                _itemData = ItemManager.instance.Find(key);
+            }
+            return _itemData; 
+        }
+    }
 }    
 
 public class ShopManager : MonoBehaviour {
@@ -42,5 +53,15 @@ public class ShopManager : MonoBehaviour {
     void Close()
     {
         GameManager.instance.CloseShop();
+    }
+
+    public void BuyItem(string key)
+    {
+        int findIndex = shopObjectList.FindIndex(e => e.shopItem.key == key);
+        if (findIndex >= 0)
+        {
+            DestroyObject(shopObjectList[findIndex].gameObject);
+            shopObjectList.RemoveAt(findIndex);
+        }
     }
 }
