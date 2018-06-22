@@ -22,6 +22,10 @@ public class Monster : MonoBehaviour {
 	void OnEnable()
 	{
 		m_bDirection = Random.Range (0, 100) % 2 == 0;
+		this.GetComponent<Animator> ().ResetTrigger ("die");
+		this.GetComponent<Animator> ().ResetTrigger ("damage");
+		this.GetComponent<Animator> ().ResetTrigger ("idle");
+		this.GetComponent<Animator> ().SetTrigger ("idle");
 	}
 
 	void OnDisable()
@@ -94,15 +98,24 @@ public class Monster : MonoBehaviour {
 		} 
 		else {
 			// 몬스터 피해 연출.
+			this.GetComponent<Animator>().ResetTrigger("damage");
+			this.GetComponent<Animator>().SetTrigger("damage");
 		}
 	}
 
 	public void Die()
 	{
 		GameManager.instance.character.SendMessage ("Exp", m_nLevel);
-		this.gameObject.SetActive (false);
+		//this.gameObject.SetActive (false);
 
 		// 몬스터 죽음 연출.
+		this.GetComponent<Animator>().ResetTrigger("die");
+		this.GetComponent<Animator>().SetTrigger("die");
+	}
+
+	public void Hide()
+	{
+		this.gameObject.SetActive (false);
 	}
 
 	public void UpdateUI()
