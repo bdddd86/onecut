@@ -184,4 +184,10 @@ public class UtillFunc : Singleton<UtillFunc> {
         // 단위 ,을 찍는다던가 화폐 단위를 추가한다. 
         return price.ToString();
     }
+
+    public Vector3 ConvertToUIPosition(Vector3 position)
+    {
+        Vector2 resultPos = RectTransformUtility.WorldToScreenPoint(Camera.main, position);
+        return resultPos; 
+    }
 }

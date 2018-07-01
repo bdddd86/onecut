@@ -8,6 +8,13 @@ public class Monster : MonoBehaviour {
 	[HideInInspector] public int m_nLife = 1;
 	public Transform imgLife;
 
+    public Vector3 headUpPosition
+    {
+        get{
+            return this.transform.position + new Vector3(0, 1.0f, 0);
+        }
+    }
+
 	private float m_fSpeedRandomTime;
 	private float m_fDirectionRandomTime;
 	private bool m_bDirection = true;
@@ -101,7 +108,7 @@ public class Monster : MonoBehaviour {
 		} 
 		else {
 			// 몬스터 피해 연출.
-			GameManager.instance.SetDamageText(this.transform.position, nDamage.ToString());
+            GameManager.instance.SetDamageText(headUpPosition, nDamage.ToString());
 			this.GetComponent<Animator>().ResetTrigger("damage");
 			this.GetComponent<Animator>().SetTrigger("damage");
 		}

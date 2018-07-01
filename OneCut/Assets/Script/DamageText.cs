@@ -23,7 +23,7 @@ public class DamageText : MonoBehaviour {
 	public void SetText(Vector3 pos, string text)
 	{
 		this.GetComponent<Text> ().text = text;
-		this.transform.position = pos;
+        this.transform.position = UtillFunc.Instance.ConvertToUIPosition(pos);
 		m_fTime = 0f;
 		this.gameObject.SetActive (true);
 	}
