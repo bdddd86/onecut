@@ -15,6 +15,10 @@ public class GameManager : MonoSingleton<GameManager> {
 
     public List<ItemUIObject> inventoryDisplay; 
 
+	[Header("[몬스터 데미지]")]
+	public List<DamageText> listDamageText;
+	private int lastDamageText = 0;
+
     List<string> inventory; 
 
 	//[HideInInspector] public Character character;
@@ -131,4 +135,24 @@ public class GameManager : MonoSingleton<GameManager> {
         // price
         shopManager.BuyItem(key);
     }
+
+	public void SetDamageText(Vector3 pos, string text)
+	{
+		bool isSet = false;
+		for (int i = 0; i < listDamageText.Count; i++) {
+			if (listDamageText [i].gameObject.activeSelf == false) {
+				listDamageText [i].SetText (pos, text);
+				lastDamageText = i;
+				isSet = true;
+				break;
+			}
+		}
+		if (!isSet) {
+			lastDamageText += 1;
+			if (listDamageText.Count <= lastDamageText) {
+				lastDamageText = 0;
+			}
+			listDamageText [lastDamageText].SetText (pos, text);
+		}
+	}
 }

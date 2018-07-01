@@ -170,7 +170,7 @@ public class Character : MonoBehaviour
 			// 폭탄공격
 			bomb.Shot (this.transform.localPosition, 
 				this.transform.localPosition + (Vector3.up * 5f) + (Vector3.right * 1.2f),
-				this.transform.localPosition + (Vector3.down * 0.5f) + (Vector3.right * 3f));
+				this.transform.localPosition + (Vector3.up * 0.55f) + (Vector3.right * 3f));
 		}
 	}
 

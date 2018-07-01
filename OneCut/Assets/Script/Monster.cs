@@ -26,6 +26,8 @@ public class Monster : MonoBehaviour {
 		this.GetComponent<Animator> ().ResetTrigger ("damage");
 		this.GetComponent<Animator> ().ResetTrigger ("idle");
 		this.GetComponent<Animator> ().SetTrigger ("idle");
+
+		this.GetComponent<BoxCollider2D>().enabled = true;
 	}
 
 	void OnDisable()
@@ -85,9 +87,10 @@ public class Monster : MonoBehaviour {
 
 	public void Damage(int damage)
 	{
+		int nDamage = 0;
 		if (damage > 0) {
 			// 데미지 감소율 계산. 방어력.
-			int nDamage = UtillFunc.Instance.GetMonsterDamageReduction (m_nLevel, damage);
+			nDamage = UtillFunc.Instance.GetMonsterDamageReduction (m_nLevel, damage);
 			Debug.Log (string.Format("# 공격:{0} 실제데미지:{1}",damage,nDamage));
 			m_nLife -= nDamage;
 		}
@@ -98,6 +101,7 @@ public class Monster : MonoBehaviour {
 		} 
 		else {
 			// 몬스터 피해 연출.
+			GameManager.instance.SetDamageText(this.transform.position, nDamage.ToString());
 			this.GetComponent<Animator>().ResetTrigger("damage");
 			this.GetComponent<Animator>().SetTrigger("damage");
 		}
@@ -109,6 +113,7 @@ public class Monster : MonoBehaviour {
 		//this.gameObject.SetActive (false);
 
 		// 몬스터 죽음 연출.
+		this.GetComponent<BoxCollider2D>().enabled = false;
 		this.GetComponent<Animator>().ResetTrigger("die");
 		this.GetComponent<Animator>().SetTrigger("die");
 	}
