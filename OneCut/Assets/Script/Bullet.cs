@@ -20,7 +20,7 @@ public class Bullet : MonoBehaviour
 		Debug.Log ("Hit: " + coll.gameObject.name);
 		this.gameObject.SetActive (false);
 
-		sparkle.transform.localPosition = this.transform.localPosition;
+		sparkle.transform.position = this.transform.position;
 		//sparkle.gameObject.SetActive (true);
 		sparkle.SetTrigger ("sparkle");
 	}

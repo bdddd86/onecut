@@ -136,12 +136,12 @@ public class GameManager : MonoSingleton<GameManager> {
         shopManager.BuyItem(key);
     }
 
-	public void SetDamageText(Vector3 pos, string text)
+	public void SetDamageText(Vector3 pos, string text, Color color)
 	{
 		bool isSet = false;
 		for (int i = 0; i < listDamageText.Count; i++) {
 			if (listDamageText [i].gameObject.activeSelf == false) {
-				listDamageText [i].SetText (pos, text);
+				listDamageText [i].SetText (pos, text, color);
 				lastDamageText = i;
 				isSet = true;
 				break;
@@ -152,7 +152,7 @@ public class GameManager : MonoSingleton<GameManager> {
 			if (listDamageText.Count <= lastDamageText) {
 				lastDamageText = 0;
 			}
-			listDamageText [lastDamageText].SetText (pos, text);
+			listDamageText [lastDamageText].SetText (pos, text, color);
 		}
 	}
 }

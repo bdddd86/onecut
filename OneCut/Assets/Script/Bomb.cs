@@ -50,7 +50,7 @@ public class Bomb : MonoBehaviour {
 				int nLevel = GameManager.instance.Level;
 				int nAttack = Random.Range (UtillFunc.Instance.GetMinAttack (nLevel), UtillFunc.Instance.GetMaxAttack (nLevel) + 1);
 
-				MonsterSummons.instance.OnRecvAreaAttack (this.transform.localPosition, 3f, nAttack * 2);
+				MonsterSummons.instance.OnRecvAreaAttack (this.transform.localPosition, 3f, nAttack * 5);
 			}
 		}
 	}

@@ -188,6 +188,6 @@ public class UtillFunc : Singleton<UtillFunc> {
     public Vector3 ConvertToUIPosition(Vector3 position)
     {
         Vector2 resultPos = RectTransformUtility.WorldToScreenPoint(Camera.main, position);
-        return resultPos; 
+        return resultPos;
     }
 }

@@ -169,8 +169,8 @@ public class Character : MonoBehaviour
 			GameManager.instance.attackCount = 0;
 			// 폭탄공격
 			bomb.Shot (this.transform.localPosition, 
-				this.transform.localPosition + (Vector3.up * 5f) + (Vector3.right * 1.2f),
-				this.transform.localPosition + (Vector3.up * 0.55f) + (Vector3.right * 3f));
+				this.transform.localPosition + (Vector3.up * 5f) + (spriteRenderer.flipX?(Vector3.left * 1.2f):(Vector3.right * 1.2f)),
+				this.transform.localPosition + (Vector3.up * 0.55f) + (spriteRenderer.flipX?(Vector3.left * 3f):(Vector3.right * 3f)));
 		}
 	}
 

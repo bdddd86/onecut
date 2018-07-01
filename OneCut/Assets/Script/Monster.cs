@@ -102,13 +102,22 @@ public class Monster : MonoBehaviour {
 			m_nLife -= nDamage;
 		}
 
+		int minDamage = UtillFunc.Instance.GetMinAttack (GameManager.instance.Level);
+		Color color = Color.white;
+		if (minDamage * 2 <= nDamage) {
+			color = Color.yellow;
+		} else if (minDamage * 5 <= nDamage) {
+			color = Color.red;
+		}
+
+		GameManager.instance.SetDamageText(headUpPosition, nDamage.ToString(), color);
+
 		if (m_nLife <= 0) {
 			m_nLife = 0;
 			Die ();
 		} 
 		else {
 			// 몬스터 피해 연출.
-            GameManager.instance.SetDamageText(headUpPosition, nDamage.ToString());
 			this.GetComponent<Animator>().ResetTrigger("damage");
 			this.GetComponent<Animator>().SetTrigger("damage");
 		}
