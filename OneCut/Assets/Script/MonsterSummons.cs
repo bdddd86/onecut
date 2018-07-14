@@ -51,4 +51,14 @@ public class MonsterSummons : MonoSingleton<MonsterSummons> {
 			}
 		}
 	}
+
+	// 전체피해. (데미지)
+	public void OnRecvGlobalAttack(int damage)
+	{
+		for (int i = 0; i < m_listMonsters.Count; i++) {
+			if (m_listMonsters [i].gameObject.activeInHierarchy == true) {
+				m_listMonsters [i].Damage (damage);
+			}
+		}
+	}
 }
