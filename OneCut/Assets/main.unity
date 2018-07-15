@@ -10979,8 +10979,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c884d050196475a43a59ae887491a472, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imgLazer: {fileID: 748246215}
-  m_fSpeed: 1
+  m_listSprite:
+  - {fileID: 212525533}
+  - {fileID: 748246215}
 --- !u!95 &676394001
 Animator:
   serializedVersion: 3

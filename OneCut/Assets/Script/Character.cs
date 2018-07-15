@@ -137,6 +137,11 @@ public class Character : MonoBehaviour
 		animator.SetTrigger ("attack");
     }
 
+	public bool IsRight()
+	{
+		return spriteRenderer.flipX == false;
+	}
+
 	public void Shot()
 	{
 		GameObject bullet = null;

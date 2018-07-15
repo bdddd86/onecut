@@ -5,6 +5,7 @@ using UnityEngine;
 public class Lazer : MonoBehaviour {
 
 	private Animator m_anim;
+	public List<SpriteRenderer> m_listSprite; 
 
 	//public SpriteRenderer imgLazer;
 	//public float m_fSpeed = 1f;
@@ -15,9 +16,12 @@ public class Lazer : MonoBehaviour {
 		m_anim = GetComponent<Animator> ();
 	}
 
-	public void PlayShot()
+	public void PlayShot(bool bRight = true)
 	{
-		this.transform.position = GameManager.instance.character.transform.position;
+		this.transform.position = GameManager.instance.character.transform.position + (bRight?Vector3.right:Vector3.left);
+		for (int i = 0; i < m_listSprite.Count; i++) {
+			m_listSprite [i].flipX = !bRight;
+		}
 		m_anim.ResetTrigger ("shot");
 		m_anim.SetTrigger ("shot");
 	}
@@ -38,7 +42,7 @@ public class Lazer : MonoBehaviour {
 	void OnGUI()
 	{
 		if (GUI.Button (new Rect (10, 10, 50, 50), "Lazer")) {
-			PlayShot ();
+			PlayShot (GameManager.instance.character.IsRight());
 		}
 	}
 	#endif
