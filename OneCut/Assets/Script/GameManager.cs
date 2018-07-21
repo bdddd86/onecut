@@ -23,11 +23,23 @@ public class GameManager : MonoSingleton<GameManager> {
 
 	//[HideInInspector] public Character character;
 
-	[HideInInspector] public int Level;	// 레벨
+	[HideInInspector] public int Level; // 레벨
 
-	// 주인공 능력치.
-	// 워3 블레이드 마스터 참조.
-	[HideInInspector] public int HitPoints;	// 체력
+    // 주인공 능력치.
+    // 워3 블레이드 마스터 참조.
+    public int HitPoints
+    {
+        get
+        {
+            return hitPoints;
+        }
+        set
+        {
+            hitPoints = Mathf.Clamp(value, 0, UtillFunc.Instance.GetHitPoints(Level));
+        }
+    }
+    private int hitPoints; 
+
 	[HideInInspector] public int totalEXP;	// 경험치 총량
 	[HideInInspector] public int attackCount;	// 총알발사 카운트
 	[HideInInspector] public int ultiGauge;	// 궁극기 게이지
@@ -40,10 +52,11 @@ public class GameManager : MonoSingleton<GameManager> {
 
     void InitGame()
     {
-		// 캐릭터 초기화.
-		//if (character == null)
+        // 캐릭터 초기화.
+        //if (character == null)
         //	character = Instantiate(objChacater, spawnPoint.position, Quaternion.identity).GetComponent<Character>();
-		SettingCharacterInfo (1);
+        InitializeAbilityInfo();
+
 		SettingGameInfoText ();
 		totalEXP = 0;
 
@@ -59,6 +72,11 @@ public class GameManager : MonoSingleton<GameManager> {
         CloseShop();
     }
 
+    void InitializeAbilityInfo()
+    {
+        SettingCharacterInfo(1);
+    }
+
     public void RestartGame()
     {
         character.transform.position = spawnPoint.position;
@@ -69,6 +87,11 @@ public class GameManager : MonoSingleton<GameManager> {
 		Level = lv;
 		HitPoints = UtillFunc.Instance.GetHitPoints(lv);
 	}
+
+    public void FullPoints()
+    {
+        HitPoints = UtillFunc.Instance.GetHitPoints(Level); 
+    }
 
 	public void SettingGameInfoText()
 	{
@@ -83,7 +106,10 @@ public class GameManager : MonoSingleton<GameManager> {
 	
 	// Update is called once per frame
 	void Update () {
-		
+        if(Input.GetKeyDown(KeyCode.U))
+        {
+            HitPoints -= 100;
+        }
 	}
 
     public void AquireItem(string item)
