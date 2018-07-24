@@ -17,7 +17,10 @@ public class Character : MonoBehaviour
     public System.Action<string> useItemAction;
     public Dictionary<string, int> inventory;   
 
+	public Lazer lazer;
+
 	private int m_nFrameCnt = 0;
+	private bool m_bEvasion = false;
 
     void Start()
     {
@@ -38,6 +41,10 @@ public class Character : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
 			Attack();
+		}
+		if (Input.GetKeyDown(KeyCode.F))
+		{
+			Evasion();
 		}
 		if (Input.GetKey(KeyCode.A))
 		{
@@ -134,8 +141,70 @@ public class Character : MonoBehaviour
 
     void Attack()
     {
-		animator.SetTrigger ("attack");
+		GameManager.instance.attackCount += 1;
+		if (GameManager.instance.attackCount > 10) {
+			animator.SetTrigger ("bomb");
+		} 
+		else {
+			animator.SetTrigger ("attack");
+		}
+		// 애니메이션 중 Shot 호출.
     }
+
+	public void LazerAttack()
+	{
+		animator.SetTrigger ("sp_attack");
+		// 애니메이션에서 트리거로 GoLazerAttack 호출.
+	}
+	public void GoLazerAttack()
+	{
+		lazer.PlayShot (IsRight());
+	}
+
+	// 회피
+	void Evasion()
+	{
+		m_bEvasion = true;
+
+		// HP 감춘다. 어차피 무적판정중.
+		imgLife.gameObject.SetActive(false);
+		imgSkillLife.gameObject.SetActive (false);
+
+		fx.GetComponent<SpriteRenderer> ().color = new Color (1f, 1f, 1f, 0f); 
+
+		if (rigidBody.velocity.x == 0)
+			rigidBody.AddForce(new Vector2(IsRight()?500f:-500f, 100f));
+		
+		animator.SetTrigger (IsRight()?"evasion":"evasion_left");
+		// 애니메이션에서 EndEvasion 호출함.
+	}
+	public void EndEvasion()
+	{
+		m_bEvasion = false;
+
+		// HP 등장. 무적끝.
+		imgLife.gameObject.SetActive(true);
+		imgSkillLife.gameObject.SetActive (true);
+
+		fx.GetComponent<SpriteRenderer> ().color = new Color (1f, 1f, 1f, 1f);
+	}
+
+	// 피해
+	public void Damage(int damage)
+	{
+		GameManager.instance.HitPoints -= damage;
+		if (GameManager.instance.HitPoints <= 0) {
+			Die ();
+		} 
+		else {
+			animator.SetTrigger ("damage");
+		}
+	}
+
+	// 죽음
+	public void Die()
+	{
+	}
 
 	public bool IsRight()
 	{
@@ -144,38 +213,39 @@ public class Character : MonoBehaviour
 
 	public void Shot()
 	{
-		GameObject bullet = null;
-		for (int i = 0; i < listBullet.Count; i++) {
-			if (listBullet [i].activeInHierarchy == false) {
-				bullet = listBullet [i];
-				break;
-			}
-		}
-
-		if (bullet == null) {
-			Debug.Log ("총알없음");
-			return;
-		}
-
-		if (spriteRenderer.flipX == true) {
-			// 좌측
-			bullet.GetComponent<Bullet>().direction = Vector3.left;
-			bullet.transform.localPosition = this.transform.localPosition + Vector3.left;
-		} 
-		else {
-			// 우측
-			bullet.GetComponent<Bullet>().direction = Vector3.right;
-			bullet.transform.localPosition = this.transform.localPosition + Vector3.right;
-		}
-		bullet.SetActive (true);
-
-		GameManager.instance.attackCount += 1;
 		if (GameManager.instance.attackCount > 10) {
 			GameManager.instance.attackCount = 0;
 			// 폭탄공격
 			bomb.Shot (this.transform.localPosition, 
-				this.transform.localPosition + (Vector3.up * 5f) + (spriteRenderer.flipX?(Vector3.left * 1.2f):(Vector3.right * 1.2f)),
-				this.transform.localPosition + (Vector3.up * 0.55f) + (spriteRenderer.flipX?(Vector3.left * 3f):(Vector3.right * 3f)));
+				this.transform.localPosition + (Vector3.up * 5f) + (spriteRenderer.flipX ? (Vector3.left * 1.2f) : (Vector3.right * 1.2f)),
+				this.transform.localPosition + (Vector3.up * 0.55f) + (spriteRenderer.flipX ? (Vector3.left * 3f) : (Vector3.right * 3f)));
+		} 
+		else {
+			// 총알쏘기
+			GameObject bullet = null;
+			for (int i = 0; i < listBullet.Count; i++) {
+				if (listBullet [i].activeInHierarchy == false) {
+					bullet = listBullet [i];
+					break;
+				}
+			}
+
+			if (bullet == null) {
+				Debug.Log ("총알없음");
+				return;
+			}
+
+			if (spriteRenderer.flipX == true) {
+				// 좌측
+				bullet.GetComponent<Bullet>().direction = Vector3.left;
+				bullet.transform.localPosition = this.transform.localPosition + Vector3.left;
+			} 
+			else {
+				// 우측
+				bullet.GetComponent<Bullet>().direction = Vector3.right;
+				bullet.transform.localPosition = this.transform.localPosition + Vector3.right;
+			}
+			bullet.SetActive (true);
 		}
 	}
 

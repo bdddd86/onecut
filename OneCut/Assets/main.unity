@@ -17584,6 +17584,11 @@ Prefab:
       propertyPath: bomb
       value: 
       objectReference: {fileID: 1405705310}
+    - target: {fileID: 114620362199531438, guid: 857fa9e8e4bd740ff96b39a4f2724ffa,
+        type: 2}
+      propertyPath: lazer
+      value: 
+      objectReference: {fileID: 676394000}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 857fa9e8e4bd740ff96b39a4f2724ffa, type: 2}
   m_IsPrefabParent: 0

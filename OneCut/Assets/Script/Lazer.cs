@@ -18,8 +18,9 @@ public class Lazer : MonoBehaviour {
 
 	public void PlayShot(bool bRight = true)
 	{
-		this.transform.position = GameManager.instance.character.transform.position + (bRight?Vector3.right:Vector3.left);
-		for (int i = 0; i < m_listSprite.Count; i++) {
+		this.transform.position = GameManager.instance.character.transform.position + ((bRight?Vector3.right:Vector3.left) * 1.5f);
+		for (int i = 0; i < m_listSprite.Count; i++) 
+		{
 			m_listSprite [i].flipX = !bRight;
 		}
 		m_anim.ResetTrigger ("shot");
@@ -42,7 +43,11 @@ public class Lazer : MonoBehaviour {
 	void OnGUI()
 	{
 		if (GUI.Button (new Rect (10, 10, 50, 50), "Lazer")) {
-			PlayShot (GameManager.instance.character.IsRight());
+			//PlayShot (GameManager.instance.character.IsRight());
+			GameManager.instance.character.LazerAttack();
+		}
+		if (GUI.Button (new Rect (10, 60, 50, 50), "Damage")) {
+			GameManager.instance.character.Damage(30);
 		}
 	}
 	#endif
