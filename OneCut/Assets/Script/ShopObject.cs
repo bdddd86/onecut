@@ -5,30 +5,43 @@ using UnityEngine.UI;
 
 public class ShopObject : MonoBehaviour 
 {
+    public RectTransform pnlDisabled;
     public Button btnBuy;
     public Image imgItem;
+    public Text lblLevelText;
     public Text lblName;
     public Text lblPrice;
+    public Text lblDescription;
 
     [HideInInspector]
-    public ShopItem shopItem;
+    public ItemData itemData;
 
     private void Start()
     {
         btnBuy.onClick.AddListener(Buy);
     }
 
-    public void Set(ShopItem item)
+    public void Set(ItemData itemData)
     {
-        this.shopItem = item;
-        imgItem.sprite = shopItem.itemData.icon;
-        lblName.text = UtillFunc.Instance.GetLocalizedText(shopItem.itemData.key);
-        lblPrice.text = UtillFunc.Instance.GetPriceText(shopItem.price);
+        pnlDisabled.gameObject.SetActive(itemData.levelLimit > GameManager.instance.Level);
+        lblLevelText.text = UtillFunc.Instance.GetLocalizedText("레벨 {0}에 구매 가능", itemData.levelLimit); 
+
+        this.itemData = itemData;
+        imgItem.sprite = itemData.icon;
+        lblName.text = UtillFunc.Instance.GetLocalizedText(itemData.name);
+        lblDescription.text = itemData.description; 
+
+        lblPrice.text = UtillFunc.Instance.GetPriceText(itemData.price);
+        bool enoughGold = GameManager.instance.hasGold >= itemData.price;
+        lblPrice.color = UtillFunc.Instance.ConvertShortageValueColor(enoughGold);
+
+        btnBuy.interactable = enoughGold;
+
     }
 
     void Buy()
     {
-        GameManager.instance.BuyItem(shopItem.key, shopItem.price);  
+        GameManager.instance.BuyItem(itemData);  
     }
 }    
 

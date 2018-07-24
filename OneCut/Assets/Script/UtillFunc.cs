@@ -174,8 +174,11 @@ public class UtillFunc : Singleton<UtillFunc> {
 		return System.Convert.ToInt32 (realDamage);
 	}
      
-    public string GetLocalizedText(string text)
+    public string GetLocalizedText(string text, object obj = null)
     {
+        if (obj != null)
+            return string.Format(text, obj);
+        
         return text; 
     }
 
@@ -189,5 +192,35 @@ public class UtillFunc : Singleton<UtillFunc> {
     {
         Vector2 resultPos = RectTransformUtility.WorldToScreenPoint(Camera.main, position);
         return resultPos;
+    }
+
+    public Color ConvertShortageValueColor(int origin, int compare, bool bEnoughColor = false)
+    {
+        Color color = Color.white;
+        if(origin >= compare)
+        {
+            if (bEnoughColor)
+                color = Color.green;
+        }
+        else
+        {
+            color = Color.red;
+        }
+        return color; 
+    }
+
+    public Color ConvertShortageValueColor(bool bEnough, bool bEnoughColor = false)
+    {
+        Color color = Color.white;
+        if(bEnough)
+        {
+            if (bEnoughColor)
+                color = Color.green;
+        }
+        else
+        {
+            color = Color.red;
+        }
+        return color; 
     }
 }

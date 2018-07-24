@@ -25,8 +25,6 @@ public class ShopItem
 public class ShopManager : MonoBehaviour {
 
     public Button btnClose;
-    public List<ShopItem> shopItemDatas;
-
     public ScrollRect shopScroll;
     public GameObject shopObjPrefab;
 
@@ -36,11 +34,11 @@ public class ShopManager : MonoBehaviour {
         btnClose.onClick.AddListener(Close);
 
         shopObjectList.Clear();
-        for (int i = 0; i < shopItemDatas.Count; ++i)
+        for (int i = 0; i < ItemManager.instance.itemDatas.Count; ++i)
         {
             ShopObject obj = Instantiate(shopObjPrefab, Vector3.zero, Quaternion.identity).GetComponent<ShopObject>();
             obj.transform.parent = shopScroll.content;
-            obj.Set(shopItemDatas[i]);
+            obj.Set(ItemManager.instance.itemDatas[i]);
             shopObjectList.Add(obj);
         }
 	}
@@ -55,9 +53,9 @@ public class ShopManager : MonoBehaviour {
         GameManager.instance.CloseShop();
     }
 
-    public void BuyItem(string key)
+    public void BuyItem(ItemData itemData)
     {
-        int findIndex = shopObjectList.FindIndex(e => e.shopItem.key == key);
+        int findIndex = shopObjectList.FindIndex(e => e.itemData.id ==  itemData.id);
         if (findIndex >= 0)
         {
             DestroyObject(shopObjectList[findIndex].gameObject);

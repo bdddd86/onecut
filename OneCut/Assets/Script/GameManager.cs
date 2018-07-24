@@ -19,7 +19,7 @@ public class GameManager : MonoSingleton<GameManager> {
 	public List<DamageText> listDamageText;
 	private int lastDamageText = 0;
 
-    List<string> inventory; 
+    List<ItemData> inventory; 
 
 	//[HideInInspector] public Character character;
 
@@ -38,8 +38,9 @@ public class GameManager : MonoSingleton<GameManager> {
             hitPoints = Mathf.Clamp(value, 0, UtillFunc.Instance.GetHitPoints(Level));
         }
     }
-    private int hitPoints; 
+    private int hitPoints;
 
+    [HideInInspector] public int hasGold; 
 	[HideInInspector] public int totalEXP;	// 경험치 총량
 	[HideInInspector] public int attackCount;	// 총알발사 카운트
 	[HideInInspector] public int ultiGauge;	// 궁극기 게이지
@@ -65,7 +66,7 @@ public class GameManager : MonoSingleton<GameManager> {
 		MonsterSummons.instance.SummonsMonster ();
 
         if(inventory == null)
-            inventory = new List<string>();
+            inventory = new List<ItemData>();
 
         inventory.Clear(); 
 
@@ -112,21 +113,22 @@ public class GameManager : MonoSingleton<GameManager> {
         }
 	}
 
-    public void AquireItem(string item)
+    public void AquireItem(ItemData itemData)
     {
-        inventory.Add(item);
+        inventory.Add(itemData);
         UpdateInventoryInfo();
     }
 
     public bool UseItem(string item)
     {
-        int findIndex = inventory.FindIndex(e => e == item);
-        if (findIndex >= 0)
-        {
-            inventory.RemoveAt(findIndex);
-            UpdateInventoryInfo();
-        }
-        return (findIndex >= 0);
+        return false;
+        //int findIndex = inventory.FindIndex(e => e == item);
+        //if (findIndex >= 0)
+        //{
+        //    inventory.RemoveAt(findIndex);
+        //    UpdateInventoryInfo();
+        //}
+        //return (findIndex >= 0);
     }
 
     void UpdateInventoryInfo()
@@ -155,11 +157,11 @@ public class GameManager : MonoSingleton<GameManager> {
         shopManager.gameObject.SetActive(false);
     }
 
-    public void BuyItem(string key, int price)
+    public void BuyItem(ItemData itemData)
     {
-        AquireItem(key);
-        // price
-        shopManager.BuyItem(key);
+        hasGold -= itemData.price; 
+        AquireItem(itemData);
+        shopManager.BuyItem(itemData);
     }
 
 	public void SetDamageText(Vector3 pos, string text, Color color)

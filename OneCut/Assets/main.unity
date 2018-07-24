@@ -356,6 +356,11 @@ Prefab:
       propertyPath: m_Name
       value: Bullets(4)
       objectReference: {fileID: 0}
+    - target: {fileID: 61852063383266764, guid: 744f31ecc4f488f4b83b8ebda7ef783c,
+        type: 2}
+      propertyPath: m_UsedByComposite
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 744f31ecc4f488f4b83b8ebda7ef783c, type: 2}
   m_IsPrefabParent: 0
@@ -7200,6 +7205,68 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!1 &229084394
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 229084395}
+  - component: {fileID: 229084396}
+  m_Layer: 0
+  m_Name: DataManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &229084395
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 229084394}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1037984659}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &229084396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 229084394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e03be3a37482146b6a03c5dc55770352, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  abilityTypeData:
+  - id: 1
+    abilityType: 0
+    calcurateType: 0
+  - id: 2
+    abilityType: 1
+    calcurateType: 0
+  - id: 3
+    abilityType: 2
+    calcurateType: 1
+  - id: 4
+    abilityType: 3
+    calcurateType: 2
+  - id: 5
+    abilityType: 4
+    calcurateType: 0
+  - id: 6
+    abilityType: 5
+    calcurateType: 1
+  - id: 7
+    abilityType: 6
+    calcurateType: 1
 --- !u!1 &243256520
 GameObject:
   m_ObjectHideFlags: 0
@@ -8087,7 +8154,7 @@ GameObject:
   - component: {fileID: 359723618}
   m_Layer: 0
   m_Name: mercy
-  m_TagString: monster
+  m_TagString: npc
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15421,6 +15488,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2111674147}
+  - {fileID: 229084395}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -15453,6 +15521,7 @@ MonoBehaviour:
   - {fileID: 1040467849}
   - {fileID: 978067876}
   Level: 0
+  hasGold: 0
   totalEXP: 0
   attackCount: 0
   ultiGauge: 0
@@ -15605,27 +15674,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   btnClose: {fileID: 948645841}
-  shopItemDatas:
-  - key: "\uC724\uC8151"
-    price: 5000
-  - key: "\uC724\uC8152"
-    price: 100000
-  - key: "\uC724\uC8153"
-    price: 6300
-  - key: "\uC724\uC8154"
-    price: 50000000
-  - key: "\uC724\uC8155"
-    price: 1000
-  - key: "\uC724\uC8156"
-    price: 3000
-  - key: "\uC724\uC8157"
-    price: 400000
-  - key: "\uC724\uC8158"
-    price: 1200000
-  - key: "\uC724\uC8159"
-    price: 1200000
-  - key: "\uC724\uC81510"
-    price: 1000000000
   shopScroll: {fileID: 47067569}
   shopObjPrefab: {fileID: 1860363096019740, guid: 6f99447c2eede45b183d735823765168,
     type: 2}
@@ -16761,7 +16809,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 99, y: -25}
+  m_AnchoredPosition: {x: 354, y: -25}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1177989992
@@ -18166,7 +18214,7 @@ GameObject:
   - component: {fileID: 1366178270}
   m_Layer: 0
   m_Name: shopEmployee
-  m_TagString: monster
+  m_TagString: npc
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -20574,7 +20622,7 @@ MonoBehaviour:
   m_ChildAlignment: 1
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 320, y: 80}
+  m_CellSize: {x: 320, y: 120}
   m_Spacing: {x: 10, y: 10}
   m_Constraint: 1
   m_ConstraintCount: 2
@@ -23689,56 +23737,262 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemDatas:
-  - key: "\uC724\uC8151"
-    name: "\uC724\uC815\uC774\uC544\uC774\uD15C"
+  - id: 1001
+    name: "\uD798\uC758 \uAC74\uD2C0\uB9BF"
+    price: 100
+    levelLimit: 0
+    abilityDataId: 1
+    param: 3
     icon: {fileID: 21300000, guid: ccf6f216e6dc3b441ad9c91c486e67de, type: 3}
-    option: 
-    displayOption: 
-  - key: "\uC724\uC8152"
-    name: "\uC724\uC815\uC774\uAEBC"
+    key: 
+  - id: 1002
+    name: "\uBBFC\uCCA9\uC758\uC2E0\uBC1C"
+    price: 100
+    levelLimit: 0
+    abilityDataId: 2
+    param: 1
     icon: {fileID: 21300000, guid: 1410fe0f04735954f93f7dd7cde6dc23, type: 3}
-    option: 
-    displayOption: 
-  - key: "\uC724\uC8153"
-    name: "\uC724\uC815\uC544\uC774\uD15C\uC9F1\uC9F1"
+    key: "\uC724\uC8152"
+  - id: 1003
+    name: "\uC9C0\uB2A5\uC758 \uC5B4\uAE68\uB367\uC637"
+    price: 100
+    levelLimit: 0
+    abilityDataId: 3
+    param: 1
     icon: {fileID: 21300000, guid: 620b3b0ae40fef64cb8b1e9bf4633c5c, type: 3}
-    option: 
-    displayOption: 
-  - key: "\uC724\uC8154"
-    name: "\uC724\uC815\uC544\uC774\uD15C\uC9F1\uC870\uC544"
+    key: "\uC724\uC8153"
+  - id: 1004
+    name: "\uACF5\uACA9\uC758 \uBC1C\uD1B1+6"
+    price: 500
+    levelLimit: 5
+    abilityDataId: 1
+    param: 9
     icon: {fileID: 21300000, guid: 90468187a9d253748a43afe9c16849c4, type: 3}
-    option: 
-    displayOption: 
-  - key: "\uC724\uC8155"
-    name: "\uC724\uC815\uC544\uC774\uD15C\uC804\uC124"
+    key: "\uC724\uC8154"
+  - id: 1005
+    name: "\uBCF4\uD638\uC758 \uBC18\uC9C0+2"
+    price: 500
+    levelLimit: 5
+    abilityDataId: 2
+    param: 3
     icon: {fileID: 21300000, guid: 8b299883f46db2b478e32d4e8b0ba0a0, type: 3}
-    option: 
-    displayOption: 
-  - key: "\uC724\uC8156"
-    name: "\uC724\uC815\uC544\uC774\uD15C\uC77C\uAE4C"
+    key: "\uC724\uC8155"
+  - id: 1006
+    name: "\uACE0\uADC0\uD568\uC758 \uBA38\uB9AC\uC7A5\uC2DD"
+    price: 500
+    levelLimit: 5
+    abilityDataId: 2
+    param: 3
     icon: {fileID: 21300000, guid: 3bcb87855ac1fcf4b8f878dd752534e8, type: 3}
-    option: 
-    displayOption: 
-  - key: "\uC724\uC8157"
-    name: "\uC724\uC815\uC544\uC774\uD15C\uC9C4\uC9DC"
+    key: "\uC724\uC8156"
+  - id: 1007
+    name: "\uAC00\uC18D\uC758 \uC7A5\uAC11"
+    price: 1000
+    levelLimit: 10
+    abilityDataId: 4
+    param: 1
     icon: {fileID: 21300000, guid: 0b1b111a64d6aa141bfe35ba682012ad, type: 3}
-    option: 
-    displayOption: 
-  - key: "\uC724\uC8158"
-    name: "\uC724\uC815\uC544\uC774\uD15C\uC9DD\uD241"
+    key: "\uC724\uC8157"
+  - id: 1008
+    name: "\uACF5\uACA9\uC758 \uBC1C\uD1B1+9"
+    price: 5000
+    levelLimit: 20
+    abilityDataId: 1
+    param: 18
     icon: {fileID: 21300000, guid: ac9286f305288854890015c77a930cc7, type: 3}
-    option: 
-    displayOption: 
-  - key: "\uC724\uC8159"
-    name: "\uC724\uC815\uC544\uC774\uD15C\uBA85\uD488"
+    key: "\uC724\uC8158"
+  - id: 1009
+    name: "\uBCF4\uD638\uC758 \uBC18\uC9C0+3"
+    price: 5000
+    levelLimit: 20
+    abilityDataId: 2
+    param: 6
     icon: {fileID: 21300000, guid: 4b4770e81a1d0144dac0aeddb0db4898, type: 3}
-    option: 
-    displayOption: 
-  - key: "\uC724\uC81510"
-    name: "\uC724\uC815\uC544\uC774\uD15C\uC778\uB370"
+    key: "\uC724\uC8159"
+  - id: 1010
+    name: "\uAE30\uC6B4\uC758 \uBAA9\uAC78\uC774"
+    price: 5000
+    levelLimit: 20
+    abilityDataId: 3
+    param: 10
     icon: {fileID: 21300000, guid: abde66d60fb937a4e847effe07980da8, type: 3}
-    option: 
-    displayOption: 
+    key: "\uC724\uC81510"
+  - id: 1011
+    name: "\uD65C\uB825\uC758 \uBD80\uC801"
+    price: 5000
+    levelLimit: 20
+    abilityDataId: 5
+    param: 150
+    icon: {fileID: 21300000, guid: abde66d60fb937a4e847effe07980da8, type: 3}
+    key: "\uC724\uC81510"
+  - id: 1012
+    name: "\uC18D\uB3C4\uC758 \uC7A5\uD654"
+    price: 10000
+    levelLimit: 30
+    abilityDataId: 4
+    param: 2
+    icon: {fileID: 21300000, guid: abde66d60fb937a4e847effe07980da8, type: 3}
+    key: "\uC724\uC81510"
+  - id: 1013
+    name: "\uB3C4\uC6C0\uC758 \uBFD4\uD53C\uB9AC"
+    price: 20000
+    levelLimit: 30
+    abilityDataId: 7
+    param: 5
+    icon: {fileID: 21300000, guid: abde66d60fb937a4e847effe07980da8, type: 3}
+    key: "\uC724\uC81510"
+  - id: 1014
+    name: "\uACF5\uACA9\uC758 \uBC1C\uD1B1+12"
+    price: 50000
+    levelLimit: 40
+    abilityDataId: 1
+    param: 30
+    icon: {fileID: 21300000, guid: abde66d60fb937a4e847effe07980da8, type: 3}
+    key: "\uC724\uC81510"
+  - id: 1015
+    name: "\uBCF4\uD638\uC758 \uBC18\uC9C0+3"
+    price: 50000
+    levelLimit: 40
+    abilityDataId: 2
+    param: 10
+    icon: {fileID: 21300000, guid: abde66d60fb937a4e847effe07980da8, type: 3}
+    key: "\uC724\uC81510"
+  - id: 1016
+    name: "\uD589\uC6B4\uC758 \uBC18\uC9C0"
+    price: 50000
+    levelLimit: 40
+    abilityDataId: 3
+    param: 22
+    icon: {fileID: 21300000, guid: abde66d60fb937a4e847effe07980da8, type: 3}
+    key: "\uC724\uC81510"
+  - id: 1017
+    name: "\uC6A9\uB9F9\uC758 \uD22C\uAD6C"
+    price: 50000
+    levelLimit: 40
+    abilityDataId: 5
+    param: 450
+    icon: {fileID: 21300000, guid: abde66d60fb937a4e847effe07980da8, type: 3}
+    key: "\uC724\uC81510"
+  - id: 1018
+    name: "\uD68C\uD53C\uC758 \uBD80\uC801"
+    price: 100000
+    levelLimit: 50
+    abilityDataId: 4
+    param: 3
+    icon: {fileID: 21300000, guid: abde66d60fb937a4e847effe07980da8, type: 3}
+    key: "\uC724\uC81510"
+  - id: 1019
+    name: "\uAC70\uB300\uD55C \uD798\uC758 \uD5C8\uB9AC\uB760"
+    price: 200000
+    levelLimit: 50
+    abilityDataId: 4
+    param: 4
+    icon: {fileID: 21300000, guid: abde66d60fb937a4e847effe07980da8, type: 3}
+    key: "\uC724\uC81510"
+  - id: 1020
+    name: "\uBC88\uAC1C\uC758 \uC7A5\uD654"
+    price: 200000
+    levelLimit: 50
+    abilityDataId: 4
+    param: 5
+    icon: {fileID: 21300000, guid: abde66d60fb937a4e847effe07980da8, type: 3}
+    key: "\uC724\uC81510"
+  - id: 1021
+    name: "\uACF5\uACA9\uC758 \uBC1C\uD1B1+15"
+    price: 500000
+    levelLimit: 60
+    abilityDataId: 1
+    param: 45
+    icon: {fileID: 21300000, guid: abde66d60fb937a4e847effe07980da8, type: 3}
+    key: "\uC724\uC81510"
+  - id: 1022
+    name: "\uBCF4\uD638\uC758 \uBC18\uC9C0+5"
+    price: 500000
+    levelLimit: 60
+    abilityDataId: 2
+    param: 15
+    icon: {fileID: 21300000, guid: abde66d60fb937a4e847effe07980da8, type: 3}
+    key: "\uC724\uC81510"
+  - id: 1023
+    name: "\uC801\uC911\uC758 \uB80C\uC988"
+    price: 500000
+    levelLimit: 60
+    abilityDataId: 3
+    param: 40
+    icon: {fileID: 21300000, guid: abde66d60fb937a4e847effe07980da8, type: 3}
+    key: "\uC724\uC81510"
+  - id: 1024
+    name: "\uACE0\uB300 \uB9C8\uBC95\uC0AC\uC758 \uB85C\uBE0C"
+    price: 1000000
+    levelLimit: 60
+    abilityDataId: 6
+    param: 300
+    icon: {fileID: 21300000, guid: abde66d60fb937a4e847effe07980da8, type: 3}
+    key: "\uC724\uC81510"
+  - id: 1025
+    name: "\uC6A9\uAE30\uC758 \uBA54\uB2EC"
+    price: 5000000
+    levelLimit: 70
+    abilityDataId: 4
+    param: 7
+    icon: {fileID: 21300000, guid: abde66d60fb937a4e847effe07980da8, type: 3}
+    key: "\uC724\uC81510"
+  - id: 1026
+    name: "\uAD50\uD65C\uD568\uC758 \uB450\uAC74"
+    price: 10000000
+    levelLimit: 70
+    abilityDataId: 3
+    param: 64
+    icon: {fileID: 21300000, guid: abde66d60fb937a4e847effe07980da8, type: 3}
+    key: "\uC724\uC81510"
+  - id: 1027
+    name: "\uD574\uACE8\uBCD1\uC0AC\uC758 \uBF08 \uAC11\uC637"
+    price: 20000000
+    levelLimit: 70
+    abilityDataId: 4
+    param: 8
+    icon: {fileID: 21300000, guid: abde66d60fb937a4e847effe07980da8, type: 3}
+    key: "\uC724\uC81510"
+  - id: 1028
+    name: "\uB8EC\uC0C8\uAE40 \uD314\uBCF4\uD638\uAD6C"
+    price: 50000000
+    levelLimit: 80
+    abilityDataId: 4
+    param: 9
+    icon: {fileID: 21300000, guid: abde66d60fb937a4e847effe07980da8, type: 3}
+    key: "\uC724\uC81510"
+  - id: 1029
+    name: "\uD654\uC5FC\uC758 \uB9DD\uD1A0"
+    price: 100000000
+    levelLimit: 80
+    abilityDataId: 4
+    param: 10
+    icon: {fileID: 21300000, guid: abde66d60fb937a4e847effe07980da8, type: 3}
+    key: "\uC724\uC81510"
+  - id: 1030
+    name: "\uC554\uD751\uC758 \uBCF4\uC8FC"
+    price: 500000000
+    levelLimit: 90
+    abilityDataId: 3
+    param: 99
+    icon: {fileID: 21300000, guid: abde66d60fb937a4e847effe07980da8, type: 3}
+    key: "\uC724\uC81510"
+  - id: 1031
+    name: "\uC8FD\uC74C\uC758 \uAC00\uBA74"
+    price: 1000000000
+    levelLimit: 90
+    abilityDataId: 7
+    param: 25
+    icon: {fileID: 21300000, guid: abde66d60fb937a4e847effe07980da8, type: 3}
+    key: "\uC724\uC81510"
+  - id: 1032
+    name: "\uBA85\uC655\uC758 \uC655\uAD00"
+    price: 2147483647
+    levelLimit: 100
+    abilityDataId: 6
+    param: 450
+    icon: {fileID: 21300000, guid: abde66d60fb937a4e847effe07980da8, type: 3}
+    key: "\uC724\uC81510"
 --- !u!1 &2117515910
 GameObject:
   m_ObjectHideFlags: 0

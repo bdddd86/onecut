@@ -17,6 +17,9 @@ public class Bullet : MonoBehaviour
 	//}
 	void OnTriggerEnter2D(Collider2D coll)
 	{
+        if (coll.gameObject.tag == "npc")
+            return; 
+        
 		Debug.Log ("Hit: " + coll.gameObject.name);
 		this.gameObject.SetActive (false);
 
