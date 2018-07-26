@@ -26,6 +26,5 @@ public class KeyObject : ItemObject {
         notExist = true;
         spriteRenderer.sprite = notExistSprite; 
         //GameManager.instance.AquireItem(itemName);
-
     }
 }
