@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 212601434524006300}
   - component: {fileID: 95498847987431964}
   m_Layer: 0
-  m_Name: fx
+  m_Name: effect_2d
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -244,6 +244,7 @@ MonoBehaviour:
   imgLife: {fileID: 4834206442012666}
   imgSkillLife: {fileID: 4448696761641898}
   lazer: {fileID: 0}
+  effect3DManager: {fileID: 0}
 --- !u!212 &212064932418586212
 SpriteRenderer:
   m_ObjectHideFlags: 1

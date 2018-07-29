@@ -18,6 +18,7 @@ public class Character : MonoBehaviour
     public Dictionary<string, int> inventory;   
 
 	public Lazer lazer;
+	public Character3DEffectManager effect3DManager;
 
 	private int m_nFrameCnt = 0;
 	private bool m_bEvasion = false;
@@ -258,7 +259,9 @@ public class Character : MonoBehaviour
 		// 경험치로 레벨업 계산하기.
 		int nNextLevelExp = UtillFunc.Instance.GetTotalExpFromLv(GameManager.instance.Level + 1);
 		if (GameManager.instance.totalEXP >= nNextLevelExp) {
+			// 레벨업.
 			GameManager.instance.SettingCharacterInfo (GameManager.instance.Level + 1);
+			effect3DManager.PlayEffect (eEffect.eLevelUp);
 		}
 		GameManager.instance.SettingGameInfoText ();
 	}
