@@ -49,6 +49,9 @@ public class Lazer : MonoBehaviour {
 		if (GUI.Button (new Rect (10, 60, 50, 50), "Damage")) {
 			GameManager.instance.character.Damage(30);
 		}
+		if (GUI.Button (new Rect (10, 110, 50, 50), "Dungeon Attack")) {
+			DungeonManager.instance.Attack ();
+		}
 	}
 	#endif
 }

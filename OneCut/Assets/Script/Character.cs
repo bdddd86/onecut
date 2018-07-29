@@ -202,6 +202,14 @@ public class Character : MonoBehaviour
 		}
 	}
 
+	// 광역피해 전달. (원점, 범위, 데미지)
+	public void OnRecvAreaAttack(Vector3 org, float distance, int damage)
+	{
+		if (distance >= Vector3.Distance (this.transform.localPosition, org)) {
+			Damage (damage);
+		}
+	}
+
 	// 죽음
 	public void Die()
 	{
