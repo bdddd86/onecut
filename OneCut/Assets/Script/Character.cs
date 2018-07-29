@@ -10,7 +10,7 @@ public class Character : MonoBehaviour
 	public SpriteRenderer spriteRenderer;
 	public List<GameObject> listBullet;
 	public Bomb bomb;
-	public Animator fx;
+	public Animator fxDust;
 	public Transform imgLife;
 	public Transform imgSkillLife;
 
@@ -102,15 +102,15 @@ public class Character : MonoBehaviour
 		if (rigidBody.velocity.x < 0 && spriteRenderer.flipX == false) {
 			spriteRenderer.flipX = true;
 			// 먼지 이팩트
-			fx.transform.localPosition = new Vector3 (0.7f, 0.2f, 0);
-			fx.GetComponent<SpriteRenderer> ().flipX = true;
-			fx.SetTrigger ("dust");
+			fxDust.transform.localPosition = new Vector3 (0.7f, 0.2f, 0);
+			fxDust.GetComponent<SpriteRenderer> ().flipX = true;
+			fxDust.SetTrigger ("dust");
 		} else if (rigidBody.velocity.x > 0 && spriteRenderer.flipX == true) {
 			spriteRenderer.flipX = false;
 			// 먼지 이팩트
-			fx.transform.localPosition = new Vector3 (-0.7f, 0.2f, 0);
-			fx.GetComponent<SpriteRenderer> ().flipX = false;
-			fx.SetTrigger ("dust");
+			fxDust.transform.localPosition = new Vector3 (-0.7f, 0.2f, 0);
+			fxDust.GetComponent<SpriteRenderer> ().flipX = false;
+			fxDust.SetTrigger ("dust");
 		}
 
         // 카메라 따라가기.
@@ -171,7 +171,7 @@ public class Character : MonoBehaviour
 		imgLife.gameObject.SetActive(false);
 		imgSkillLife.gameObject.SetActive (false);
 
-		fx.GetComponent<SpriteRenderer> ().color = new Color (1f, 1f, 1f, 0f); 
+		fxDust.GetComponent<SpriteRenderer> ().color = new Color (1f, 1f, 1f, 0f); 
 
 		if (rigidBody.velocity.x == 0)
 			rigidBody.AddForce(new Vector2(IsRight()?500f:-500f, 100f));
@@ -187,7 +187,7 @@ public class Character : MonoBehaviour
 		imgLife.gameObject.SetActive(true);
 		imgSkillLife.gameObject.SetActive (true);
 
-		fx.GetComponent<SpriteRenderer> ().color = new Color (1f, 1f, 1f, 1f);
+		fxDust.GetComponent<SpriteRenderer> ().color = new Color (1f, 1f, 1f, 1f);
 	}
 
 	// 피해
