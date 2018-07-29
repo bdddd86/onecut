@@ -35,6 +35,7 @@ public class GameManager : MonoSingleton<GameManager> {
         }
         set
         {
+            // 아이템값 때문에 Max가 저게 아님 변경필요
             hitPoints = Mathf.Clamp(value, 0, UtillFunc.Instance.GetHitPoints(Level));
         }
     }
@@ -44,6 +45,8 @@ public class GameManager : MonoSingleton<GameManager> {
 	[HideInInspector] public int totalEXP;	// 경험치 총량
 	[HideInInspector] public int attackCount;	// 총알발사 카운트
 	[HideInInspector] public int ultiGauge;	// 궁극기 게이지
+
+    [HideInInspector] public bool hasKey;
 
     private void Awake()
     {
@@ -116,7 +119,36 @@ public class GameManager : MonoSingleton<GameManager> {
     public void AquireItem(ItemData itemData)
     {
         inventory.Add(itemData);
+        // 조회로 할건지 적용으로 할건지 결정 및 그에 따라서 함수이름 변경
+        AdjustItemAbility(itemData.abilityTypeData.abilityType); 
         UpdateInventoryInfo();
+    }
+
+    void AdjustItemAbility(AbilityType abilityType)
+    {
+        if (abilityType == AbilityType.Specific)
+        {
+            // id로 구분 
+        }
+        else
+        {
+            int addValue = 0;
+            int productValue = 0;
+            for (int i = 0; i < inventory.Count; ++i)
+            {
+                if (abilityType == inventory[i].abilityTypeData.abilityType)
+                {
+                    if (inventory[i].abilityTypeData.calcurateType == CalcurateType.Sum)
+                    {
+                        addValue += inventory[i].param;
+                    }
+                    else if (inventory[i].abilityTypeData.calcurateType == CalcurateType.Product)
+                    {
+                        productValue += inventory[i].param;
+                    }
+                }
+            }
+        }
     }
 
     public bool UseItem(string item)
