@@ -205,7 +205,8 @@ public class Character : MonoBehaviour
 	// 광역피해 전달. (원점, 범위, 데미지)
 	public void OnRecvAreaAttack(Vector3 org, float distance, int damage)
 	{
-		if (distance >= Vector3.Distance (this.transform.localPosition, org)) {
+		if (distance >= Vector3.Distance (this.transform.position, org)) {
+			Debug.Log (string.Format("Damage Area: {0} - {1}",this.transform.position.ToString(), org.ToString()));
 			Damage (damage);
 		}
 	}

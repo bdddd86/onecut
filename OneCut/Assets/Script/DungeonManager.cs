@@ -70,6 +70,8 @@ public class AttackData
 
 public class DungeonManager : MonoSingleton<DungeonManager> {
 
+	public GameObject areaWanning;	// 광역공격 지역 표시.
+
 	private ConcurrentQueue<AttackData> queueTempo = new ConcurrentQueue<AttackData>();
 	private AttackData currentData = null;
 
@@ -81,9 +83,9 @@ public class DungeonManager : MonoSingleton<DungeonManager> {
 	public void CreatePattern()
 	{
 		// 공격패턴 1.
-		queueTempo.Enqueue(new AttackData(1.5f, new Vector2(0, 0), 10f, 0));
+		queueTempo.Enqueue(new AttackData(1.5f, new Vector2(0, 0), 5f, 0));
 		queueTempo.Enqueue(new AttackData(3f));	// 3초 쉬고...
-		queueTempo.Enqueue(new AttackData(1.5f, new Vector2(0, 0), 10f, 0));
+		queueTempo.Enqueue(new AttackData(1.5f, new Vector2(0, 0), 2f, 0));
 		queueTempo.Enqueue (new AttackData ());	// 마지막 표시
 	}
 
@@ -109,9 +111,13 @@ public class DungeonManager : MonoSingleton<DungeonManager> {
 	{
 		if (currentData.type == eAttackType.eAreaEx) {
 			// 광역 공격 위치 표시.
+			areaWanning.gameObject.SetActive(true);
+			areaWanning.transform.position = currentData.org;
+			areaWanning.transform.localScale = new Vector3(currentData.distance*2f, 100f, 1f);
 			Debug.Log(string.Format("*광역공격 위치: X:{0}, D:{1}",currentData.org.x, currentData.distance));
 		}
 		yield return new WaitForSeconds (currentData.delay);
+		areaWanning.gameObject.SetActive(false);
 		if (currentData.type == eAttackType.eDelay) {
 			// 딜레이만 줌.
 		}
