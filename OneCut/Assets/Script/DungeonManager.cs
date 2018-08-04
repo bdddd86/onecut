@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using PlaynomicsPlugin;
+using System;
 
 public enum eDungeonState
 {
@@ -28,15 +29,18 @@ public enum eMissileDirection	// 미사일 공격 방향
 	eBottomTop,
 }
 
+[Serializable]
 public class AttackData
 {
 	public eAttackType type;	// 공격종류
 	public float delay;			// 선 딜레이
 	// 광역 폭발
+	[Header("[Area Ex]")]
 	public Vector2 org;			// 폭발원점(던전 공간 기준)
 	public float distance;		// 영향범위(x축)
 	public int effect_type;		// 이팩트 종류
 	// 미사일 공격
+	[Header("[Missile]")]
 	public eMissileDirection dir_type;	// 미사일방향
 	public float speed;			// 미사일 속도
 	public int prefab_type;		// 미사일 프리팹 종류
@@ -68,25 +72,53 @@ public class AttackData
 	}
 }
 
+[Serializable]
+public class AttackPattern
+{
+	public int ID;
+	public List<AttackData> listAttackData;
+
+	public AttackPattern(int id, List<AttackData> list)
+	{
+		ID = id;
+		listAttackData = list;
+	}
+}
+
 public class DungeonManager : MonoSingleton<DungeonManager> {
 
-	public GameObject areaWanning;	// 광역공격 지역 표시.
+	public GameObject m_imgAreaWanning;	// 광역공격 지역 표시.
+	public List<GameObject> m_listMissilePrefabs;
+	[Header("[패턴등록]")]
+	public List<AttackPattern> patternData;
 
+	private Dictionary<int, AttackPattern> m_dicPattern = new Dictionary<int, AttackPattern> ();
 	private ConcurrentQueue<AttackData> queueTempo = new ConcurrentQueue<AttackData>();
 	private AttackData currentData = null;
 
 	void Start()
 	{
-		CreatePattern ();
+		m_dicPattern.Clear ();
+
+		for (int i = 0; i < patternData.Count; i++) {
+			if (m_dicPattern.ContainsKey (patternData [i].ID))
+				continue;
+			m_dicPattern.Add (patternData [i].ID, new AttackPattern(patternData[i].ID, patternData[i].listAttackData));
+		}
+		
+		CreatePattern (101);
 	}
 
-	public void CreatePattern()
+	public void CreatePattern(int id)
 	{
-		// 공격패턴 1.
-		queueTempo.Enqueue(new AttackData(1.5f, new Vector2(0, 0), 5f, 0));
-		queueTempo.Enqueue(new AttackData(3f));	// 3초 쉬고...
-		queueTempo.Enqueue(new AttackData(1.5f, new Vector2(0, 0), 2f, 0));
-		queueTempo.Enqueue (new AttackData ());	// 마지막 표시
+		if (m_dicPattern.ContainsKey (id) == false) {
+			return;
+		}
+
+		for(int i=0; i<m_dicPattern[id].listAttackData.Count; i++)
+		{
+			queueTempo.Enqueue (m_dicPattern [id].listAttackData [i]);
+		}
 	}
 
 	public void Attack()
@@ -109,23 +141,44 @@ public class DungeonManager : MonoSingleton<DungeonManager> {
 
 	IEnumerator OnAttack()
 	{
-		if (currentData.type == eAttackType.eAreaEx) {
-			// 광역 공격 위치 표시.
-			areaWanning.gameObject.SetActive(true);
-			areaWanning.transform.position = currentData.org;
-			areaWanning.transform.localScale = new Vector3(currentData.distance*2f, 100f, 1f);
-			Debug.Log(string.Format("*광역공격 위치: X:{0}, D:{1}",currentData.org.x, currentData.distance));
+		// 공격 시작 동작.
+		switch (currentData.type) {
+		case eAttackType.eAreaEx: 
+			{
+				// 광역 공격 위치 표시.
+				m_imgAreaWanning.gameObject.SetActive (true);
+				m_imgAreaWanning.transform.position = currentData.org;
+				m_imgAreaWanning.transform.localScale = new Vector3 (currentData.distance * 2f, 100f, 1f);
+				Debug.Log (string.Format ("*광역공격 위치: X:{0}, D:{1}", currentData.org.x, currentData.distance));
+			}
+			break;
+		case eAttackType.eMissile:
+			{
+			}
+			break;
 		}
 		yield return new WaitForSeconds (currentData.delay);
-		areaWanning.gameObject.SetActive(false);
-		if (currentData.type == eAttackType.eDelay) {
-			// 딜레이만 줌.
-		}
-		// 광역공격 들어감.
-		else if (currentData.type == eAttackType.eAreaEx){
-			GameManager.instance.character.OnRecvAreaAttack (currentData.org, currentData.distance, 100);
-			// 폭발 이팩트.
-			Debug.Log (string.Format ("*폭발이팩트 애니메이션 하기. {0}", currentData.effect_type));
+		// 공격 딜레이 이후 동작.
+		switch(currentData.type)
+		{
+		case eAttackType.eAreaEx:
+			{
+				m_imgAreaWanning.gameObject.SetActive(false);
+
+				GameManager.instance.character.OnRecvAreaAttack (currentData.org, currentData.distance, 100);
+				// 폭발 이팩트.
+				Debug.Log (string.Format ("*폭발이팩트 애니메이션 하기. {0}", currentData.effect_type));
+			}
+			break;
+		case eAttackType.eDelay:
+			{
+			}
+			break;
+		case eAttackType.eMissile:
+			{
+				// 미사일 발사 시키기.
+			}
+			break;
 		}
 
 		yield return null;

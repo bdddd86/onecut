@@ -19,7 +19,7 @@ public class GameManager : MonoSingleton<GameManager> {
 	public List<DamageText> listDamageText;
 	private int lastDamageText = 0;
 
-    List<ItemData> inventory; 
+    List<ItemData> inventory;
 
 	//[HideInInspector] public Character character;
 
@@ -120,6 +120,19 @@ public class GameManager : MonoSingleton<GameManager> {
         {
             HitPoints -= 100;
         }
+	}
+
+	public int GetItemAddValue(AbilityType type)
+	{
+		if (itemAddAbility.ContainsKey(type))
+			return itemAddAbility[type];
+		return 0;
+	}
+	public int GetItemProductValue(AbilityType type)
+	{
+		if (itemProductAbility.ContainsKey(type))
+			return itemProductAbility[type];
+		return 1;
 	}
 
     public void AquireItem(ItemData itemData)

@@ -13180,7 +13180,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c77713acf229f954b8d1b299e705caaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  areaWanning: {fileID: 1219926748}
+  m_imgAreaWanning: {fileID: 1219926748}
+  m_listMissilePrefabs:
+  - {fileID: 0}
+  patternData:
+  - ID: 101
+    listAttackData:
+    - type: 1
+      delay: 1.5
+      org: {x: 0, y: 0}
+      distance: 5
+      effect_type: 0
+      dir_type: -1
+      speed: 0
+      prefab_type: 0
+    - type: 0
+      delay: 3
+      org: {x: 0, y: 0}
+      distance: 0
+      effect_type: 0
+      dir_type: -1
+      speed: 0
+      prefab_type: 0
+    - type: 1
+      delay: 1.5
+      org: {x: 0, y: 0}
+      distance: 3
+      effect_type: 0
+      dir_type: -1
+      speed: 0
+      prefab_type: 0
+    - type: 3
+      delay: 0
+      org: {x: 0, y: 0}
+      distance: 0
+      effect_type: 0
+      dir_type: -1
+      speed: 0
+      prefab_type: 0
 --- !u!4 &544812529
 Transform:
   m_ObjectHideFlags: 0
@@ -22428,6 +22465,7 @@ MonoBehaviour:
   totalEXP: 0
   attackCount: 0
   ultiGauge: 0
+  hasKey: 0
 --- !u!1 &1040467847
 GameObject:
   m_ObjectHideFlags: 0
