@@ -51,7 +51,7 @@ public class Bomb : MonoBehaviour {
 				int nAttack = Random.Range (UtillFunc.Instance.GetMinAttack (nLevel), UtillFunc.Instance.GetMaxAttack (nLevel) + 1);
 				nAttack += GameManager.instance.GetItemAddValue (AbilityType.Attack);	// 아이템 추가공격력
 				nAttack = System.Convert.ToInt32(nAttack * (GameManager.instance.GetItemProductValue(AbilityType.Attack)/100f));	// 아이템 추가%
-
+				// 폭탄공격은 크리티컬없음
 				MonsterSummons.instance.OnRecvAreaAttack (this.transform.localPosition, 3f, nAttack * 5);
 			}
 		}

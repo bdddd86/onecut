@@ -105,8 +105,8 @@ public class GameManager : MonoSingleton<GameManager> {
 
 	public void SettingGameInfoText()
 	{
-		gameInfoText.text = string.Format ("레벨:{0}\n공격력:{1}-{2}\n방어력:{3}\n총경험치:{4}", 
-			Level, UtillFunc.Instance.GetMinAttack(Level), UtillFunc.Instance.GetMaxAttack(Level), UtillFunc.Instance.GetArmor(Level), totalEXP);
+		gameInfoText.text = string.Format ("레벨:{0}\n공격력:{1}-{2}+{3}\n방어력:{4}\n총경험치:{5}", 
+			Level, UtillFunc.Instance.GetMinAttack(Level), UtillFunc.Instance.GetMaxAttack(Level), GetItemAddValue(AbilityType.Attack), UtillFunc.Instance.GetArmor(Level), totalEXP);
 	}
 
     // Use this for initialization

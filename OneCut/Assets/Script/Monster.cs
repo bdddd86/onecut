@@ -87,7 +87,8 @@ public class Monster : MonoBehaviour {
 		{
 			int nLevel = GameManager.instance.Level;
 			int nAttack = Random.Range (UtillFunc.Instance.GetMinAttack (nLevel), UtillFunc.Instance.GetMaxAttack (nLevel) + 1);
-			//int nDamage = UtillFunc.Instance.GetMonsterDamageReduction (m_nLevel, nAttack);
+			nAttack += GameManager.instance.GetItemAddValue (AbilityType.Attack);
+			nAttack = System.Convert.ToInt32 (nAttack * (GameManager.instance.GetItemProductValue(AbilityType.Attack)/100f));
 			Damage (nAttack);
 		}
 	}
