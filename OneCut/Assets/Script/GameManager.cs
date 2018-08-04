@@ -48,6 +48,10 @@ public class GameManager : MonoSingleton<GameManager> {
 
     [HideInInspector] public bool hasKey;
 
+
+    Dictionary<AbilityType, int> itemAddAbility = new Dictionary<AbilityType, int>();
+    Dictionary<AbilityType, int> itemProductAbility = new Dictionary<AbilityType, int>();
+
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
@@ -78,6 +82,8 @@ public class GameManager : MonoSingleton<GameManager> {
 
     void InitializeAbilityInfo()
     {
+        itemAddAbility.Clear();
+        itemProductAbility.Clear();
         SettingCharacterInfo(1);
     }
 
@@ -128,7 +134,7 @@ public class GameManager : MonoSingleton<GameManager> {
     {
         if (abilityType == AbilityType.Specific)
         {
-            // id로 구분 
+            //id
         }
         else
         {
@@ -148,6 +154,8 @@ public class GameManager : MonoSingleton<GameManager> {
                     }
                 }
             }
+            itemAddAbility.Add(abilityType, addValue);
+            itemProductAbility.Add(abilityType, productValue);
         }
     }
 
