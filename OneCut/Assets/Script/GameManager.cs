@@ -126,8 +126,34 @@ public class GameManager : MonoSingleton<GameManager> {
     {
         inventory.Add(itemData);
         // 조회로 할건지 적용으로 할건지 결정 및 그에 따라서 함수이름 변경
-        AdjustItemAbility(itemData.abilityTypeData.abilityType); 
+        AdjustItemAbility(itemData);
         UpdateInventoryInfo();
+    }
+
+    void AdjustItemAbility(ItemData itemData)
+    {
+        if (itemData.abilityTypeData.calcurateType == CalcurateType.Sum)
+        {
+            if(itemAddAbility.ContainsKey(itemData.abilityTypeData.abilityType))
+            {
+                itemAddAbility[itemData.abilityTypeData.abilityType] += itemData.param; 
+            }
+            else
+            {
+                itemAddAbility.Add(itemData.abilityTypeData.abilityType, itemData.param);
+            }
+        }
+        else if (itemData.abilityTypeData.calcurateType == CalcurateType.Product)
+        {
+            if (itemProductAbility.ContainsKey(itemData.abilityTypeData.abilityType))
+            {
+                itemProductAbility[itemData.abilityTypeData.abilityType] += itemData.param;
+            }
+            else
+            {
+                itemProductAbility.Add(itemData.abilityTypeData.abilityType, itemData.param);
+            }
+        }
     }
 
     void AdjustItemAbility(AbilityType abilityType)
