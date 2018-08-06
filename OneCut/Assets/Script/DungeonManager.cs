@@ -20,15 +20,6 @@ public enum eAttackType
 	eTempoEnd,		// 템포 공격 마지막
 }
 
-public enum eMissileDirection	// 미사일 공격 방향
-{
-	eNull = -1,
-	eLeftRight = 0,
-	eRightLeft,
-	eTopBottom,
-	eBottomTop,
-}
-
 [Serializable]
 public class AttackData
 {
@@ -41,7 +32,8 @@ public class AttackData
 	public int effect_type;		// 이팩트 종류
 	// 미사일 공격
 	[Header("[Missile]")]
-	public eMissileDirection dir_type;	// 미사일방향
+	public Vector3 start_pos;
+	public Vector3 end_pos;
 	public float speed;			// 미사일 속도
 	public int prefab_type;		// 미사일 프리팹 종류
 
@@ -62,11 +54,12 @@ public class AttackData
 		this.distance = distance;
 		this.effect_type = effect_type;
 	}
-	public AttackData(float delay, eMissileDirection dir_type, float speed, int prefab_type)
+	public AttackData(float delay, Vector3 start, Vector3 end, float speed, int prefab_type)
 	{
 		type = eAttackType.eMissile;
 		this.delay = delay;
-		this.dir_type = dir_type;
+		this.start_pos = start;
+		this.end_pos = end;
 		this.speed = speed;
 		this.prefab_type = prefab_type;
 	}
@@ -88,7 +81,7 @@ public class AttackPattern
 public class DungeonManager : MonoSingleton<DungeonManager> {
 
 	public GameObject m_imgAreaWanning;	// 광역공격 지역 표시.
-	public List<GameObject> m_listMissilePrefabs;
+	public List<DungeonMissile> m_listMissile;	// 미사일 리스트
 	[Header("[패턴등록]")]
 	public List<AttackPattern> patternData;
 
@@ -105,7 +98,8 @@ public class DungeonManager : MonoSingleton<DungeonManager> {
 				continue;
 			m_dicPattern.Add (patternData [i].ID, new AttackPattern(patternData[i].ID, patternData[i].listAttackData));
 		}
-		
+
+		CreatePattern (102);
 		CreatePattern (101);
 	}
 
@@ -127,6 +121,7 @@ public class DungeonManager : MonoSingleton<DungeonManager> {
 			currentData = queueTempo.Dequeue ();
 			if (currentData.type == eAttackType.eTempoEnd) {
 				// 공격 종료. 다음 호출대기.
+				currentData = null;
 				Debug.Log("공격 종료. 다음 공격 대기중");
 			} 
 			else {
@@ -142,6 +137,8 @@ public class DungeonManager : MonoSingleton<DungeonManager> {
 	IEnumerator OnAttack()
 	{
 		// 공격 시작 동작.
+		DungeonMissile missile = null;
+
 		switch (currentData.type) {
 		case eAttackType.eAreaEx: 
 			{
@@ -154,6 +151,16 @@ public class DungeonManager : MonoSingleton<DungeonManager> {
 			break;
 		case eAttackType.eMissile:
 			{
+				for (int i = 0; i < m_listMissile.Count; i++) {
+					if (m_listMissile [i].gameObject.activeSelf == false) {
+						missile = m_listMissile [i];
+						break;
+					}
+				}
+				missile.startPos = currentData.start_pos;
+				missile.endPos = currentData.end_pos;
+				missile.speed = currentData.speed;
+				missile.transform.position = missile.startPos;
 			}
 			break;
 		}
@@ -177,6 +184,7 @@ public class DungeonManager : MonoSingleton<DungeonManager> {
 		case eAttackType.eMissile:
 			{
 				// 미사일 발사 시키기.
+				missile.gameObject.SetActive(true);
 			}
 			break;
 		}

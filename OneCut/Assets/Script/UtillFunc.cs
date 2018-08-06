@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class UtillFunc : Singleton<UtillFunc> {
 
+	// 아이템으로 증가되는 능력치 정리. 20180717 준범.
+	public int m_itemArmor = 0;		// 방어력
+	public int m_itemAttack = 0;	// 공격력
+	public int m_itemHitpoint = 0;	// 체력
+
 	public int fact2(int n){
 		int res, i;
 
