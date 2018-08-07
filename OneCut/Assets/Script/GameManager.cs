@@ -5,6 +5,14 @@ using UnityEngine.UI;
 
 public class GameManager : MonoSingleton<GameManager> {
 
+    public enum eGameMode
+    {
+        eAdventure,
+        eLevelup, 
+        eBoss,
+    }
+
+
     public ShopManager shopManager;
     public Transform spawnPoint;
 
@@ -52,6 +60,15 @@ public class GameManager : MonoSingleton<GameManager> {
     Dictionary<AbilityType, int> itemAddAbility = new Dictionary<AbilityType, int>();
     Dictionary<AbilityType, int> itemProductAbility = new Dictionary<AbilityType, int>();
 
+    [HideInInspector] public eGameMode currentGameMode;
+    // mode interface
+    public GameObject btnJump;
+    public GameObject btnAttack;
+    public GameObject btnEvasion; 
+
+    // testCode
+    public TestNPC testNPC; 
+
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
@@ -60,6 +77,7 @@ public class GameManager : MonoSingleton<GameManager> {
 
     void InitGame()
     {
+        ChangeGameMode(eGameMode.eAdventure);
         // 캐릭터 초기화.
         //if (character == null)
         //	character = Instantiate(objChacater, spawnPoint.position, Quaternion.identity).GetComponent<Character>();
@@ -262,4 +280,43 @@ public class GameManager : MonoSingleton<GameManager> {
 			listDamageText [lastDamageText].SetText (pos, text, color);
 		}
 	}
+
+    public void ChangeGameMode(eGameMode gameMode)
+    {
+        currentGameMode = gameMode; 
+        switch(gameMode)
+        {
+            case eGameMode.eLevelup:
+                SetLevelupMode();
+                break; 
+            case eGameMode.eAdventure:
+                SetAdventureMode();
+                break;
+            case eGameMode.eBoss:
+                SetBossMode();
+                break;
+        }
+        testNPC.SetNPCName();
+    }
+
+    void SetLevelupMode()
+    {
+        btnJump.SetActive(false);
+        btnAttack.SetActive(true);
+        btnEvasion.SetActive(true);
+    }
+
+    void SetAdventureMode()
+    {
+        btnJump.SetActive(true);
+        btnAttack.SetActive(false);
+        btnEvasion.SetActive(false);
+    }
+
+    void SetBossMode()
+    {
+        btnJump.SetActive(false);
+        btnAttack.SetActive(true);
+        btnEvasion.SetActive(true);
+    }
 }

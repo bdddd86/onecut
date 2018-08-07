@@ -73,6 +73,11 @@ public class Character : MonoBehaviour
             MonsterSummons.instance.SummonsMonster();
         }
 
+        if (CrossPlatformInputManager.GetButtonDown("Evasion"))
+        {
+            Evasion();    
+        }
+
         if (fHorizontal != 0)
         {
             //Debug.Log(string.Format("H:{0} V:{1}", fHorizontal, fVertical));
