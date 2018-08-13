@@ -25,18 +25,6 @@ public class AttackData
 {
 	public eAttackType type;	// 공격종류
 	public float delay;			// 선 딜레이
-	// 광역 폭발
-	[Header("[Area Ex]")]
-	public Vector2 org;			// 폭발원점(던전 공간 기준)
-	public float distance;		// 영향범위(x축)
-	public int effect_type;		// 이팩트 종류
-	// 미사일 공격
-	[Header("[Missile]")]
-	public Vector3 start_pos;
-	public Vector3 end_pos;
-	public float speed;			// 미사일 속도
-	public int prefab_type;		// 미사일 프리팹 종류
-
 	public AttackData()
 	{
 		type = eAttackType.eTempoEnd;
@@ -46,22 +34,31 @@ public class AttackData
 		type = eAttackType.eDelay;
 		this.delay = delay;
 	}
-	public AttackData(float delay, Vector2 org, float distance, int effect_type)
+}
+[Serializable]
+public class AreaAttackData : AttackData
+{
+	public float distance;		// 영향범위(x축)
+	public AreaAttackData(float delay, float distance)
 	{
 		type = eAttackType.eAreaEx;
 		this.delay = delay;
-		this.org = org;
 		this.distance = distance;
-		this.effect_type = effect_type;
 	}
-	public AttackData(float delay, Vector3 start, Vector3 end, float speed, int prefab_type)
+}
+[Serializable]
+public class MissileAttackData : AttackData
+{
+	public Vector3 start_pos;
+	public Vector3 end_pos;
+	public float speed;			// 미사일 속도
+	public MissileAttackData(float delay, Vector3 start, Vector3 end, float speed)
 	{
 		type = eAttackType.eMissile;
 		this.delay = delay;
 		this.start_pos = start;
 		this.end_pos = end;
 		this.speed = speed;
-		this.prefab_type = prefab_type;
 	}
 }
 
@@ -74,12 +71,13 @@ public class AttackPattern
 	public AttackPattern(int id, List<AttackData> list)
 	{
 		ID = id;
-		listAttackData = list;
+		listAttackData = new List<AttackData> (list);
 	}
 }
 
 public class DungeonManager : MonoSingleton<DungeonManager> {
 
+	public Transform m_orgin;	// 기준점
 	public GameObject m_imgAreaWanning;	// 광역공격 지역 표시.
 	public List<DungeonMissile> m_listMissile;	// 미사일 리스트
 	[Header("[패턴등록]")]
@@ -143,23 +141,25 @@ public class DungeonManager : MonoSingleton<DungeonManager> {
 		case eAttackType.eAreaEx: 
 			{
 				// 광역 공격 위치 표시.
+				AreaAttackData data = currentData as AreaAttackData;
 				m_imgAreaWanning.gameObject.SetActive (true);
-				m_imgAreaWanning.transform.position = currentData.org;
-				m_imgAreaWanning.transform.localScale = new Vector3 (currentData.distance * 2f, 100f, 1f);
-				Debug.Log (string.Format ("*광역공격 위치: X:{0}, D:{1}", currentData.org.x, currentData.distance));
+				m_imgAreaWanning.transform.position = m_orgin.position;
+				m_imgAreaWanning.transform.localScale = new Vector3 (data.distance * 2f, 100f, 1f);
+				Debug.Log (string.Format ("*광역공격 위치: X:{0}, D:{1}", m_orgin.position.x, data.distance));
 			}
 			break;
 		case eAttackType.eMissile:
 			{
+				MissileAttackData data = currentData as MissileAttackData;
 				for (int i = 0; i < m_listMissile.Count; i++) {
 					if (m_listMissile [i].gameObject.activeSelf == false) {
 						missile = m_listMissile [i];
 						break;
 					}
 				}
-				missile.startPos = currentData.start_pos;
-				missile.endPos = currentData.end_pos;
-				missile.speed = currentData.speed;
+				missile.startPos = data.start_pos;
+				missile.endPos = data.end_pos;
+				missile.speed = data.speed;
 				missile.transform.position = missile.startPos;
 			}
 			break;
@@ -170,11 +170,11 @@ public class DungeonManager : MonoSingleton<DungeonManager> {
 		{
 		case eAttackType.eAreaEx:
 			{
+				AreaAttackData data = currentData as AreaAttackData;
 				m_imgAreaWanning.gameObject.SetActive(false);
 
-				GameManager.instance.character.OnRecvAreaAttack (currentData.org, currentData.distance, 100);
+				GameManager.instance.character.OnRecvAreaAttack (m_orgin.position, data.distance, 100);
 				// 폭발 이팩트.
-				Debug.Log (string.Format ("*폭발이팩트 애니메이션 하기. {0}", currentData.effect_type));
 			}
 			break;
 		case eAttackType.eDelay:

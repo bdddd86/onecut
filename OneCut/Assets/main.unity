@@ -13492,6 +13492,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c77713acf229f954b8d1b299e705caaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_orgin: {fileID: 988829512}
   m_imgAreaWanning: {fileID: 1219926748}
   m_listMissile:
   - {fileID: 1137492370}
@@ -13504,65 +13505,7 @@ MonoBehaviour:
   - {fileID: 2080614995}
   - {fileID: 992504135}
   - {fileID: 1060142215}
-  patternData:
-  - ID: 101
-    listAttackData:
-    - type: 1
-      delay: 1.5
-      org: {x: 0, y: 0}
-      distance: 5
-      effect_type: 0
-      start_pos: {x: 0, y: 0, z: 0}
-      end_pos: {x: 0, y: 0, z: 0}
-      speed: 0
-      prefab_type: 0
-    - type: 0
-      delay: 3
-      org: {x: 0, y: 0}
-      distance: 0
-      effect_type: 0
-      start_pos: {x: 0, y: 0, z: 0}
-      end_pos: {x: 0, y: 0, z: 0}
-      speed: 0
-      prefab_type: 0
-    - type: 1
-      delay: 1.5
-      org: {x: 0, y: 0}
-      distance: 3
-      effect_type: 0
-      start_pos: {x: 0, y: 0, z: 0}
-      end_pos: {x: 0, y: 0, z: 0}
-      speed: 0
-      prefab_type: 0
-    - type: 3
-      delay: 0
-      org: {x: 0, y: 0}
-      distance: 0
-      effect_type: 0
-      start_pos: {x: 0, y: 0, z: 0}
-      end_pos: {x: 0, y: 0, z: 0}
-      speed: 0
-      prefab_type: 0
-  - ID: 102
-    listAttackData:
-    - type: 2
-      delay: 0
-      org: {x: 0, y: 0}
-      distance: 5
-      effect_type: 0
-      start_pos: {x: 10, y: 5, z: 0}
-      end_pos: {x: -10, y: 3, z: 0}
-      speed: 1
-      prefab_type: 0
-    - type: 3
-      delay: 0
-      org: {x: 0, y: 0}
-      distance: 0
-      effect_type: 0
-      start_pos: {x: 0, y: 0, z: 0}
-      end_pos: {x: 0, y: 0, z: 0}
-      speed: 0
-      prefab_type: 0
+  patternData: []
 --- !u!4 &544812529
 Transform:
   m_ObjectHideFlags: 0
@@ -21103,6 +21046,34 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
   m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
+--- !u!1 &988829511
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 988829512}
+  m_Layer: 0
+  m_Name: DungeonAttackOrg
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &988829512
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 988829511}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 18, y: -1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 18
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &992504133
 GameObject:
   m_ObjectHideFlags: 0
