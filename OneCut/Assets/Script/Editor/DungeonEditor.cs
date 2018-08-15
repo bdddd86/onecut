@@ -143,10 +143,34 @@ public class DungeonEditor : EditorWindow
 		}
 
 		currentPattern.listAttackData.Clear ();
+
+		SaveListPattern ();
 	}
 
 	void SaveListPattern()
 	{
-		// json string 으로 변환해서 파일로 저장하기.
+		// json string 으로 변환해서 임시저장.
+		foreach (var pattern in dicPattern.Values) {
+			object json = JsonUtility.ToJson (pattern);
+			Debug.Log (json.ToString());
+			// 임시저장
+			PlayerPrefs.SetString (string.Format ("Pattern_{0}", pattern.ID), json.ToString ());
+			string savePatternIDs = PlayerPrefs.GetString ("SavePatternIDs", string.Empty);
+			if (string.IsNullOrEmpty (savePatternIDs) == true) {
+				PlayerPrefs.SetString ("SavePatternIDs", pattern.ID.ToString ());
+			} else {
+				PlayerPrefs.SetString ("SavePatternIDs", string.Format ("{0},{1}", savePatternIDs, pattern.ID));
+			}
+		}
+	}
+
+	void LoadListPattern()
+	{
+		
+	}
+
+	void SaveFile()
+	{
+		// 임시저장된 내용을 파일로 저장.
 	}
 }

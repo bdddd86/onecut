@@ -97,8 +97,12 @@ public class DungeonManager : MonoSingleton<DungeonManager> {
 			m_dicPattern.Add (patternData [i].ID, new AttackPattern(patternData[i].ID, patternData[i].listAttackData));
 		}
 
-		CreatePattern (102);
-		CreatePattern (101);
+		Test_CreatePattern ();
+	}
+
+	void Test_CreatePattern()
+	{
+		queueTempo.Enqueue (new MissileAttackData (0.5f, new Vector3(0f, 2f, 0f), new Vector3 (-5f, 3f, 0f), 0.1f));
 	}
 
 	public void CreatePattern(int id)
