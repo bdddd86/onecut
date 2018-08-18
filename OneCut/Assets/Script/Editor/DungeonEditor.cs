@@ -42,12 +42,12 @@ public class DungeonEditor : EditorWindow
 						i,dicPattern[selectID].listAttackData[i].delay), EditorStyles.boldLabel);
 					break;
 				case eAttackType.eAreaEx:
-					AreaAttackData area = dicPattern[selectID].listAttackData [i] as AreaAttackData;
+					AttackData area = dicPattern[selectID].listAttackData [i];
 					GUILayout.Label(string.Format("[{0}][광역공격]-지연시간:{1}초-범위:{2}",
 						i,area.delay,area.distance), EditorStyles.boldLabel);
 					break;
 				case eAttackType.eMissile:
-					MissileAttackData missile = dicPattern[selectID].listAttackData [i] as MissileAttackData;
+					AttackData missile = dicPattern[selectID].listAttackData [i];
 					GUILayout.Label(string.Format("[{0}][미사일]-지연시간:{1}초-시작:{2}-끝:{3}-속도:{4}배",
 						i,missile.delay,missile.start_pos,missile.end_pos,missile.speed), EditorStyles.boldLabel);
 					break;
@@ -66,12 +66,12 @@ public class DungeonEditor : EditorWindow
 						i,currentPattern.listAttackData[i].delay), EditorStyles.boldLabel);
 					break;
 				case eAttackType.eAreaEx:
-					AreaAttackData area = currentPattern.listAttackData [i] as AreaAttackData;
+					AttackData area = currentPattern.listAttackData [i];
 					GUILayout.Label(string.Format("[{0}][광역공격]-지연시간:{1}초-범위:{2}",
 						i,area.delay,area.distance), EditorStyles.boldLabel);
 					break;
 				case eAttackType.eMissile:
-					MissileAttackData missile = currentPattern.listAttackData [i] as MissileAttackData;
+					AttackData missile = currentPattern.listAttackData [i];
 					GUILayout.Label(string.Format("[{0}][미사일]-지연시간:{1}초-시작:{2}-끝:{3}-속도:{4}배",
 						i,missile.delay,missile.start_pos,missile.end_pos,missile.speed), EditorStyles.boldLabel);
 					break;
@@ -95,6 +95,7 @@ public class DungeonEditor : EditorWindow
 				}
 			}
 			GUILayout.Box(GUIContent.none, GUILayout.Width(Screen.width), GUILayout.Height(2f));
+
 			selectType = EditorGUILayout.Popup("공격타입", selectType, types);
 			if (selectType == 0) {	// 시간지연
 				delay = EditorGUILayout.Slider ("지연시간(초)", delay, 0, 10);
@@ -103,8 +104,8 @@ public class DungeonEditor : EditorWindow
 				distance = EditorGUILayout.Slider ("공격범위", distance, 1, 16);
 			} else if (selectType == 2) {	// 미사일공격
 				delay = EditorGUILayout.Slider ("지연시간(초)", delay, 0, 10);
-				start_pos = EditorGUILayout.Vector3Field ("시작점", start_pos);
-				end_pos = EditorGUILayout.Vector3Field ("도착점", end_pos);
+				start_pos = EditorGUILayout.Vector2Field ("시작점", start_pos);
+				end_pos = EditorGUILayout.Vector2Field ("도착점", end_pos);
 				speed = EditorGUILayout.Slider ("속도(배율)", speed, 0.1f, 10f);
 			} else {
 				GUILayout.Label("오류 상황. 창을 닫았다가 열어주세요.", EditorStyles.boldLabel);
@@ -114,9 +115,9 @@ public class DungeonEditor : EditorWindow
 					if (selectType == 0) {
 						currentPattern.listAttackData.Add (new AttackData (delay));
 					} else if (selectType == 1) {
-						currentPattern.listAttackData.Add (new AreaAttackData (delay, distance));
+						currentPattern.listAttackData.Add (new AttackData (delay, distance));
 					} else if (selectType == 2) {
-						currentPattern.listAttackData.Add (new MissileAttackData (delay, start_pos, end_pos, speed));
+						currentPattern.listAttackData.Add (new AttackData (delay, start_pos, end_pos, speed));
 					}
 				}
 			}
@@ -132,6 +133,15 @@ public class DungeonEditor : EditorWindow
 			GUILayout.Label("속도(배율)? 미사일 공격의 속도", EditorStyles.boldLabel);
 		}
 		EditorGUILayout.EndToggleGroup();
+
+		GUILayout.BeginHorizontal ();
+		if (GUILayout.Button ("파일 로드")) {
+			LoadFile ();
+		}
+		if (GUILayout.Button ("파일 세이브")) {
+			SaveFile ();
+		}
+		GUILayout.EndHorizontal ();
 	}
 
 	void SavePattern()
@@ -150,6 +160,7 @@ public class DungeonEditor : EditorWindow
 	void SaveListPattern()
 	{
 		// json string 으로 변환해서 임시저장.
+		PlayerPrefs.SetString ("SavePatternIDs", string.Empty);
 		foreach (var pattern in dicPattern.Values) {
 			object json = JsonUtility.ToJson (pattern);
 			Debug.Log (json.ToString());
@@ -166,11 +177,81 @@ public class DungeonEditor : EditorWindow
 
 	void LoadListPattern()
 	{
-		
+		dicPattern.Clear ();
+		string savePatternIDs = PlayerPrefs.GetString ("SavePatternIDs", string.Empty);
+		Debug.Log ("SavePatternIDs: " + savePatternIDs);
+		if (string.IsNullOrEmpty (savePatternIDs) == false) {
+			string[] split = savePatternIDs.Split (',');
+			for (int i = 0; i < split.Length; i++) {
+				string strJson = PlayerPrefs.GetString (string.Format ("Pattern_{0}", split[i]), string.Empty);
+				Debug.Log (i.ToString() + ": " + strJson);
+				AttackPattern attackPattern = JsonUtility.FromJson<AttackPattern> (strJson);
+				if (attackPattern == null) {
+					Debug.Log ("error null");
+					continue;
+				}
+				if (dicPattern.ContainsKey (attackPattern.ID) == false) {
+					dicPattern.Add (attackPattern.ID, attackPattern);
+				}
+			}
+		}
 	}
 
 	void SaveFile()
 	{
 		// 임시저장된 내용을 파일로 저장.
+		string folderPath = string.Format("{0}/{1}",Application.dataPath,"JsonData");
+		Debug.Log (folderPath);
+		if (System.IO.Directory.Exists (folderPath) == false) {
+			System.IO.Directory.CreateDirectory (folderPath);
+		}
+
+		// 아이디 저장
+		string savePatternIDs = PlayerPrefs.GetString ("SavePatternIDs", string.Empty);
+		string IDsFilePath = string.Format("{0}/AttackPattern_IDs.json",folderPath);
+		System.IO.File.WriteAllText (IDsFilePath, savePatternIDs, System.Text.Encoding.Default);
+
+		// 패턴정보 저장
+		if (string.IsNullOrEmpty (savePatternIDs) == false) {
+			string[] split = savePatternIDs.Split (',');
+			for (int i = 0; i < split.Length; i++) {
+				string strJson = PlayerPrefs.GetString (string.Format ("Pattern_{0}", split[i]), string.Empty);
+				Debug.Log (i.ToString() + ": " + strJson);
+				if (string.IsNullOrEmpty (strJson) == false) {
+					string filePath = string.Format("{0}/Pattern_{1}.json",folderPath,split[i]);
+					System.IO.File.WriteAllText (filePath, strJson, System.Text.Encoding.Default);
+				}
+			}
+		}
+	}
+
+	void LoadFile()
+	{
+		string folderPath = string.Format("{0}/{1}",Application.dataPath,"JsonData");
+		Debug.Log (folderPath);
+		if (System.IO.Directory.Exists (folderPath) == false) {
+			Debug.LogError ("저장 경로 오류");
+			return;
+		}
+
+		// 아이디 파일 읽음
+		string IDsFilePath = string.Format("{0}/AttackPattern_IDs.json",folderPath);
+		string savePatternIDs = System.IO.File.ReadAllText (IDsFilePath);
+		PlayerPrefs.SetString ("SavePatternIDs", savePatternIDs);
+
+		// 패턴 데이터 파일 읽음
+		if (string.IsNullOrEmpty (savePatternIDs) == false) {
+			string[] split = savePatternIDs.Split (',');
+			for (int i = 0; i < split.Length; i++) {
+				string filePath = string.Format("{0}/Pattern_{1}.json",folderPath,split[i]);
+				string strJson = System.IO.File.ReadAllText (filePath);
+				Debug.Log (split[i] + ": " + strJson);
+				if (string.IsNullOrEmpty (strJson) == false) {
+					PlayerPrefs.SetString (string.Format ("Pattern_{0}", split[i]), strJson);
+				}
+			}
+		}
+
+		LoadListPattern ();
 	}
 }

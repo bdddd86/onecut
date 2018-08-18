@@ -25,6 +25,13 @@ public class AttackData
 {
 	public eAttackType type;	// 공격종류
 	public float delay;			// 선 딜레이
+
+	public float distance;		// 영향범위(x축)
+
+	public Vector3 start_pos;
+	public Vector3 end_pos;
+	public float speed;			// 미사일 속도
+
 	public AttackData()
 	{
 		type = eAttackType.eTempoEnd;
@@ -34,7 +41,24 @@ public class AttackData
 		type = eAttackType.eDelay;
 		this.delay = delay;
 	}
+
+	public AttackData(float delay, float distance)
+	{
+		type = eAttackType.eAreaEx;
+		this.delay = delay;
+		this.distance = distance;
+	}
+
+	public AttackData(float delay, Vector3 start, Vector3 end, float speed)
+	{
+		type = eAttackType.eMissile;
+		this.delay = delay;
+		this.start_pos = start;
+		this.end_pos = end;
+		this.speed = speed;
+	}
 }
+/*
 [Serializable]
 public class AreaAttackData : AttackData
 {
@@ -61,6 +85,7 @@ public class MissileAttackData : AttackData
 		this.speed = speed;
 	}
 }
+*/
 
 [Serializable]
 public class AttackPattern
@@ -102,7 +127,7 @@ public class DungeonManager : MonoSingleton<DungeonManager> {
 
 	void Test_CreatePattern()
 	{
-		queueTempo.Enqueue (new MissileAttackData (0.5f, new Vector3(0f, 2f, 0f), new Vector3 (-5f, 3f, 0f), 0.1f));
+		queueTempo.Enqueue (new AttackData (0.5f, new Vector3(0f, 2f, 0f), new Vector3 (-5f, 3f, 0f), 0.1f));
 	}
 
 	public void CreatePattern(int id)
@@ -145,7 +170,7 @@ public class DungeonManager : MonoSingleton<DungeonManager> {
 		case eAttackType.eAreaEx: 
 			{
 				// 광역 공격 위치 표시.
-				AreaAttackData data = currentData as AreaAttackData;
+				AttackData data = currentData;
 				m_imgAreaWanning.gameObject.SetActive (true);
 				m_imgAreaWanning.transform.position = m_orgin.position;
 				m_imgAreaWanning.transform.localScale = new Vector3 (data.distance * 2f, 100f, 1f);
@@ -154,7 +179,7 @@ public class DungeonManager : MonoSingleton<DungeonManager> {
 			break;
 		case eAttackType.eMissile:
 			{
-				MissileAttackData data = currentData as MissileAttackData;
+				AttackData data = currentData;
 				for (int i = 0; i < m_listMissile.Count; i++) {
 					if (m_listMissile [i].gameObject.activeSelf == false) {
 						missile = m_listMissile [i];
@@ -174,7 +199,7 @@ public class DungeonManager : MonoSingleton<DungeonManager> {
 		{
 		case eAttackType.eAreaEx:
 			{
-				AreaAttackData data = currentData as AreaAttackData;
+				AttackData data = currentData;
 				m_imgAreaWanning.gameObject.SetActive(false);
 
 				GameManager.instance.character.OnRecvAreaAttack (m_orgin.position, data.distance, 100);
