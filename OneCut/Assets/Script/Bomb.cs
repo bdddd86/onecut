@@ -50,7 +50,12 @@ public class Bomb : MonoBehaviour {
 				int nLevel = GameManager.instance.Level;
 				int nAttack = Random.Range (UtillFunc.Instance.GetMinAttack (nLevel), UtillFunc.Instance.GetMaxAttack (nLevel) + 1);
 				nAttack += GameManager.instance.GetItemAddValue (AbilityType.Attack);	// 아이템 추가공격력
-				nAttack = System.Convert.ToInt32(nAttack * (GameManager.instance.GetItemProductValue(AbilityType.Attack)/100f));	// 아이템 추가%
+				float itemProduct = GameManager.instance.GetItemProductValue (AbilityType.Attack) / 100f;
+				if (itemProduct <= 1f) {
+					// 아이템으로 증가되는 능력이 1배이하면 낄필요가없음..
+					itemProduct = 1f;
+				}
+				nAttack = System.Convert.ToInt32(nAttack * itemProduct);	// 아이템 추가%
 				// 폭탄공격은 크리티컬없음
 				MonsterSummons.instance.OnRecvAreaAttack (this.transform.localPosition, 3f, nAttack * 5);
 			}
