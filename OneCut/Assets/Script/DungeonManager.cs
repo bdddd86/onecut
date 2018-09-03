@@ -28,8 +28,10 @@ public class AttackData
 
 	public float distance;		// 영향범위(x축)
 
-	public Vector3 start_pos;
-	public Vector3 end_pos;
+	//public Vector3 start_pos;
+	//public Vector3 end_pos;
+	public int dir_right;	// 0:사용안함, 1:오른쪽, 2:왼쪽
+	public int dir_top;		// 0:사용안함, 1:위쪽, 2:아래쪽
 	public float speed;			// 미사일 속도
 
 	public AttackData()
@@ -49,43 +51,17 @@ public class AttackData
 		this.distance = distance;
 	}
 
-	public AttackData(float delay, Vector3 start, Vector3 end, float speed)
+	public AttackData(float delay, int dir_right, int dir_top, float speed)
 	{
 		type = eAttackType.eMissile;
 		this.delay = delay;
-		this.start_pos = start;
-		this.end_pos = end;
+		//this.start_pos = start;
+		//this.end_pos = end;
+		this.dir_right = dir_right;
+		this.dir_top = dir_top;
 		this.speed = speed;
 	}
 }
-/*
-[Serializable]
-public class AreaAttackData : AttackData
-{
-	public float distance;		// 영향범위(x축)
-	public AreaAttackData(float delay, float distance)
-	{
-		type = eAttackType.eAreaEx;
-		this.delay = delay;
-		this.distance = distance;
-	}
-}
-[Serializable]
-public class MissileAttackData : AttackData
-{
-	public Vector3 start_pos;
-	public Vector3 end_pos;
-	public float speed;			// 미사일 속도
-	public MissileAttackData(float delay, Vector3 start, Vector3 end, float speed)
-	{
-		type = eAttackType.eMissile;
-		this.delay = delay;
-		this.start_pos = start;
-		this.end_pos = end;
-		this.speed = speed;
-	}
-}
-*/
 
 [Serializable]
 public class AttackPattern
@@ -122,12 +98,7 @@ public class DungeonManager : MonoSingleton<DungeonManager> {
 			m_dicPattern.Add (patternData [i].ID, new AttackPattern(patternData[i].ID, patternData[i].listAttackData));
 		}
 
-		Test_CreatePattern ();
-	}
-
-	void Test_CreatePattern()
-	{
-		queueTempo.Enqueue (new AttackData (0.5f, new Vector3(0f, 2f, 0f), new Vector3 (-5f, 3f, 0f), 0.1f));
+		//Test_CreatePattern ();
 	}
 
 	public void CreatePattern(int id)
@@ -186,10 +157,10 @@ public class DungeonManager : MonoSingleton<DungeonManager> {
 						break;
 					}
 				}
-				missile.startPos = data.start_pos;
-				missile.endPos = data.end_pos;
+				missile.dir_right = data.dir_right;
+				missile.dir_top = data.dir_top;
 				missile.speed = data.speed;
-				missile.transform.position = missile.startPos;
+				//missile.transform.position = missile.startPos;
 			}
 			break;
 		}

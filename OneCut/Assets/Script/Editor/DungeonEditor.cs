@@ -14,8 +14,10 @@ public class DungeonEditor : EditorWindow
 	string[] types = new string[]{"시간지연","광역공격","미사일공격"};
 	float delay = 0;
 	float distance = 0;
-	Vector3 start_pos = Vector3.zero;
-	Vector3 end_pos = Vector3.zero;
+	//Vector3 start_pos = Vector3.zero;
+	//Vector3 end_pos = Vector3.zero;
+	int dir_right = 0;
+	int dir_top = 0;
 	float speed = 1;
 
 	AttackPattern currentPattern = new AttackPattern (0, new List<AttackData> ());
@@ -48,8 +50,8 @@ public class DungeonEditor : EditorWindow
 					break;
 				case eAttackType.eMissile:
 					AttackData missile = dicPattern[selectID].listAttackData [i];
-					GUILayout.Label(string.Format("[{0}][미사일]-지연시간:{1}초-시작:{2}-끝:{3}-속도:{4}배",
-						i,missile.delay,missile.start_pos,missile.end_pos,missile.speed), EditorStyles.boldLabel);
+					GUILayout.Label(string.Format("[{0}][미사일]-지연시간:{1}초-오른쪽:{2}-위쪽:{3}-속도:{4}배",
+						i,missile.delay,missile.dir_right,missile.dir_top,missile.speed), EditorStyles.boldLabel);
 					break;
 				}
 				GUILayout.EndHorizontal ();
@@ -72,8 +74,8 @@ public class DungeonEditor : EditorWindow
 					break;
 				case eAttackType.eMissile:
 					AttackData missile = currentPattern.listAttackData [i];
-					GUILayout.Label(string.Format("[{0}][미사일]-지연시간:{1}초-시작:{2}-끝:{3}-속도:{4}배",
-						i,missile.delay,missile.start_pos,missile.end_pos,missile.speed), EditorStyles.boldLabel);
+					GUILayout.Label(string.Format("[{0}][미사일]-지연시간:{1}초-오른쪽:{2}-위쪽:{3}-속도:{4}배",
+						i,missile.delay,missile.dir_right,missile.dir_top,missile.speed), EditorStyles.boldLabel);
 					break;
 				}
 				GUIStyle xButtonStyle = new GUIStyle (GUI.skin.button);
@@ -104,8 +106,8 @@ public class DungeonEditor : EditorWindow
 				distance = EditorGUILayout.Slider ("공격범위", distance, 1, 16);
 			} else if (selectType == 2) {	// 미사일공격
 				delay = EditorGUILayout.Slider ("지연시간(초)", delay, 0, 10);
-				start_pos = EditorGUILayout.Vector2Field ("시작점", start_pos);
-				end_pos = EditorGUILayout.Vector2Field ("도착점", end_pos);
+				dir_right = EditorGUILayout.IntField ("오른쪽", dir_right);
+				dir_top = EditorGUILayout.IntField ("위쪽", dir_top);
 				speed = EditorGUILayout.Slider ("속도(배율)", speed, 0.1f, 10f);
 			} else {
 				GUILayout.Label("오류 상황. 창을 닫았다가 열어주세요.", EditorStyles.boldLabel);
@@ -117,7 +119,7 @@ public class DungeonEditor : EditorWindow
 					} else if (selectType == 1) {
 						currentPattern.listAttackData.Add (new AttackData (delay, distance));
 					} else if (selectType == 2) {
-						currentPattern.listAttackData.Add (new AttackData (delay, start_pos, end_pos, speed));
+						currentPattern.listAttackData.Add (new AttackData (delay, dir_right, dir_top, speed));
 					}
 				}
 			}
