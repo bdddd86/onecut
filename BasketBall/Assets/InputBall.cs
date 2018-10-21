@@ -9,14 +9,41 @@ public class InputBall : MonoBehaviour {
 
 	Vector3 firstTouchPos = Vector3.zero;
 
+	float mfTouchedTime = 0f;
+
 	// Use this for initialization
 	void Start () {
 		mSlider.minValue = 0f;
 		mSlider.maxValue = 30f;
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
+		if (Input.GetKeyDown (KeyCode.Space)) {
+			//Debug.Log ("Space Down");
+			if (mfTouchedTime == 0f) {
+				mfTouchedTime = Time.time;
+			}
+		} else if (Input.GetKeyUp (KeyCode.Space)) {
+			//Debug.Log ("Space Key");
+			if (mfTouchedTime != 0f) {
+				float pushedTime = Time.time - mfTouchedTime;
+
+				float power = pushedTime * 100f;
+				if (power <= 3f){
+					power = 3f;
+				}
+				if (power >= 30f){
+					power = 30f;
+				}
+				GetComponent<Rigidbody>().velocity = Vector3.zero;
+				GetComponent<Rigidbody>().AddForce(0,-power,0,ForceMode.Impulse);
+
+				mSlider.value = power;
+
+				mfTouchedTime = 0f;
+			}
+		}
 
 		#if UNITY_EDITOR
 		if (Input.GetMouseButton (0)) {
