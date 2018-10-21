@@ -7,6 +7,8 @@ public class WallPool : MonoBehaviour {
 	List<GameObject> mListWall = new List<GameObject>();
 	float mfDelay = 0f;
 
+	public bool mbStop = false;
+
 	// Use this for initialization
 	void Start () {
 
@@ -19,6 +21,9 @@ public class WallPool : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+		if (mbStop)
+			return;
+
 		if (mListWall != null && mListWall.Count > 0) {
 			mfDelay += Time.deltaTime;
 
@@ -27,7 +32,7 @@ public class WallPool : MonoBehaviour {
 
 				for (int i = 0; i < mListWall.Count; i++) {
 					if (mListWall [i].activeSelf == false) {
-						mListWall [i].transform.localPosition = new Vector3 (15f, -Random.Range(0,25) * 0.5f, 0f);
+						mListWall [i].transform.localPosition = new Vector3 (12f, -Random.Range(6,24) * 0.5f, 0f);
 						mListWall [i].SetActive (true);
 						break;
 					}
@@ -45,5 +50,22 @@ public class WallPool : MonoBehaviour {
 				}
 			}
 		}
+	}
+
+	public void Stop()
+	{
+		mbStop = true;
+	}
+
+	public void ReStart()
+	{
+		mfDelay = 0f;
+
+		for (int i = 0; i < mListWall.Count; i++) {
+			mListWall [i].transform.localPosition = new Vector3 (12f, -Random.Range(0,25) * 0.5f, 0f);
+			mListWall [i].SetActive (false);
+		}
+
+		mbStop = false;
 	}
 }
