@@ -20,11 +20,12 @@ public class InputBall : MonoBehaviour {
 	[Header("Result")]
 	public GameObject mResultPop;
 	public Text mResultPoint;
-	public Text mBestPoint;
+	public Slider mResultSlider;
 	[Header("Sound")]
 	public AudioSource mAudioBounce;
 	public AudioSource mAudioPoint;
 	public AudioSource mAudioEnding;
+	public ParticleSystem mSmoke;
 	[Header("Class")]
 	public WallPool mWallPool;
 
@@ -35,6 +36,7 @@ public class InputBall : MonoBehaviour {
 	bool mbInput = true;
 
 	int nScore = 0;
+	float fPower = 0f;
 
 	// Use this for initialization
 	void Start () {
@@ -59,17 +61,17 @@ public class InputBall : MonoBehaviour {
 			if (mfTouchedTime != 0f) {
 				float pushedTime = Time.time - mfTouchedTime;
 
-				float power = pushedTime * 100f;
-				if (power <= 3f){
-					power = 3f;
+				fPower = pushedTime * 100f;
+				if (fPower <= 3f){
+					fPower = 3f;
 				}
-				if (power >= 30f){
-					power = 30f;
+				if (fPower >= 30f){
+					fPower = 30f;
 				}
 				GetComponent<Rigidbody>().velocity = Vector3.zero;
-				GetComponent<Rigidbody>().AddForce(0,-power,0,ForceMode.Impulse);
+				GetComponent<Rigidbody>().AddForce(0,-fPower,0,ForceMode.Impulse);
 
-				mSlider.value = power;
+				mSlider.value = fPower;
 
 				mfTouchedTime = 0f;
 			}
@@ -95,17 +97,17 @@ public class InputBall : MonoBehaviour {
 				//Debug.Log("Distance: "+distance.ToString());
 				if (distance > 10f)
 				{
-					float power = distance * 0.1f;
-					if (power <= 3f){
-						power = 3f;
+					fPower = distance * 0.1f;
+					if (fPower <= 3f){
+						fPower = 3f;
 					}
-					if (power >= 30f){
-						power = 30f;
+					if (fPower >= 30f){
+						fPower = 30f;
 					}
 					GetComponent<Rigidbody>().velocity = Vector3.zero;
-					GetComponent<Rigidbody>().AddForce(0,-power,0,ForceMode.Impulse);
+					GetComponent<Rigidbody>().AddForce(0,-fPower,0,ForceMode.Impulse);
 
-					mSlider.value = power;
+					mSlider.value = fPower;
 				}
 				firstTouchPos = Vector3.zero;
 			}
@@ -128,10 +130,19 @@ public class InputBall : MonoBehaviour {
 			GetComponent<Rigidbody> ().AddExplosionForce (100f, col.transform.position, 360f);
 			mWallPool.Stop ();
 
+			mResultPoint.text = string.Format ("<size=70>{0}</size>\nBest <color=#ff0000>{1}</color>",nScore,nScore);
+			mResultSlider.value = nScore >= 10 ? 1f : (nScore/10f) + 0.05f;
+			mPoint.text = string.Empty;
 			mResultPop.SetActive (true);
 		}
 		else if (col.gameObject.CompareTag ("Earth")){
 			mAudioBounce.Play();
+
+			if (fPower >= 25f) {
+				mSmoke.transform.localPosition = transform.localPosition + Vector3.down;
+				mSmoke.Play ();
+			}
+			fPower = 0f;
 		}
 	}
 

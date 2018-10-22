@@ -5,7 +5,7 @@ using UnityEngine;
 public class WallPool : MonoBehaviour {
 
 	List<GameObject> mListWall = new List<GameObject>();
-	float mfDelay = 0f;
+	float mfDelay = 3f;
 
 	public bool mbStop = false;
 
@@ -32,7 +32,7 @@ public class WallPool : MonoBehaviour {
 
 				for (int i = 0; i < mListWall.Count; i++) {
 					if (mListWall [i].activeSelf == false) {
-						mListWall [i].transform.localPosition = new Vector3 (12f, -Random.Range(6,24) * 0.5f, 0f);
+						mListWall [i].transform.localPosition = new Vector3 (8f, -Random.Range(8,22) * 0.5f, 0f);
 						mListWall [i].SetActive (true);
 						break;
 					}
@@ -59,10 +59,10 @@ public class WallPool : MonoBehaviour {
 
 	public void ReStart()
 	{
-		mfDelay = 0f;
+		mfDelay = 3f;
 
 		for (int i = 0; i < mListWall.Count; i++) {
-			mListWall [i].transform.localPosition = new Vector3 (12f, -Random.Range(0,25) * 0.5f, 0f);
+			mListWall [i].transform.localPosition = new Vector3 (8f, -Random.Range(0,25) * 0.5f, 0f);
 			mListWall [i].SetActive (false);
 		}
 
