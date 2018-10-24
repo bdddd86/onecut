@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System;
+#if ADMOB
 using GoogleMobileAds.Api;
-
+#endif
 public class AdMobManager : MonoBehaviour
 {
 	public string android_banner_id;
@@ -11,11 +12,11 @@ public class AdMobManager : MonoBehaviour
 	public string ios_interstitial_id;
 
 	public string android_reward_id;
-
+	#if ADMOB
 	private BannerView bannerView;
 	private InterstitialAd interstitialAd;
 	private RewardBasedVideoAd rewardAd;
-
+	#endif
 	public void Start()
 	{
 		RequestBannerAd();
@@ -26,6 +27,7 @@ public class AdMobManager : MonoBehaviour
 
 	public void RequestBannerAd()
 	{
+		#if ADMOB
 		string adUnitId = string.Empty;
 
 		#if UNITY_ANDROID
@@ -38,10 +40,12 @@ public class AdMobManager : MonoBehaviour
 		AdRequest request = new AdRequest.Builder().Build();
 
 		bannerView.LoadAd(request);
+		#endif
 	}
 
 	private void RequestInterstitialAd()
 	{
+		#if ADMOB
 		string adUnitId = string.Empty;
 
 		#if UNITY_ANDROID
@@ -56,6 +60,7 @@ public class AdMobManager : MonoBehaviour
 		interstitialAd.LoadAd(request);
 
 		interstitialAd.OnAdClosed += HandleOnInterstitialAdClosed;
+		#endif
 	}
 
 	private void RequestRewardAd()
@@ -64,20 +69,25 @@ public class AdMobManager : MonoBehaviour
 
 	public void HandleOnInterstitialAdClosed(object sender, EventArgs args)
 	{
+		#if ADMOB
 		print("HandleOnInterstitialAdClosed event received.");
 
 		interstitialAd.Destroy();
 
 		RequestInterstitialAd();
+		#endif
 	}
 
 	public void ShowBannerAd()
 	{
+		#if ADMOB
 		bannerView.Show();
+		#endif
 	}
 
 	public void ShowInterstitialAd()
 	{
+		#if ADMOB
 		if (!interstitialAd.IsLoaded())
 		{
 			RequestInterstitialAd();
@@ -85,6 +95,7 @@ public class AdMobManager : MonoBehaviour
 		}
 
 		interstitialAd.Show();
+		#endif
 	}
 
 }
