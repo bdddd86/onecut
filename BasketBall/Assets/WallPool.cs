@@ -7,7 +7,7 @@ public class WallPool : MonoBehaviour {
 	List<GameObject> mListWall = new List<GameObject>();
 	float mfDelay = 3f;
 
-	public bool mbStop = false;
+	private bool mbStop = true;
 
 	// Use this for initialization
 	void Start () {
