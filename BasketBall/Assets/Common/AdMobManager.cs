@@ -1,17 +1,26 @@
-﻿using UnityEngine;
+﻿#define ADMOB
+using UnityEngine;
 using System;
 #if ADMOB
 using GoogleMobileAds.Api;
 #endif
+
+//배너 
+//ca-app-pub-1808701058779760/9805259218
+//풀스크린
+//ca-app-pub-1808701058779760/4932206483
+//리워드
+//ca-app-pub-1808701058779760/6721174143
+
 public class AdMobManager : MonoBehaviour
 {
-	public string android_banner_id;
+	public string android_banner_id = "ca-app-pub-1808701058779760/9805259218";
 	public string ios_banner_id;
 
-	public string android_interstitial_id;
+	public string android_interstitial_id = "ca-app-pub-1808701058779760/4932206483";
 	public string ios_interstitial_id;
 
-	public string android_reward_id;
+	public string android_reward_id = "ca-app-pub-1808701058779760/6721174143";
 	#if ADMOB
 	private BannerView bannerView;
 	private InterstitialAd interstitialAd;

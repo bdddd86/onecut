@@ -2168,11 +2168,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 616014e1616ac024c829787f14dd0251, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  android_banner_id: 
+  android_banner_id: ca-app-pub-1808701058779760/9805259218
   ios_banner_id: 
-  android_interstitial_id: 
+  android_interstitial_id: ca-app-pub-1808701058779760/4932206483
   ios_interstitial_id: 
-  android_reward_id: 
+  android_reward_id: ca-app-pub-1808701058779760/6721174143
 --- !u!4 &848031951
 Transform:
   m_ObjectHideFlags: 0

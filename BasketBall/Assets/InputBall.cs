@@ -154,7 +154,9 @@ public class InputBall : MonoBehaviour {
 
 	IEnumerator OnStart()
 	{
+		#if GOOGLE_PLAY
 		mRanking.SignIn ();
+		#endif
 		yield return new WaitForSeconds (0.5f);
 		mStartButton.enabled = true;
 	}

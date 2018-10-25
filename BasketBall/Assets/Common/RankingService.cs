@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#if GOOGLE_PLAY
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
-
+#endif
 public class RankingService : MonoBehaviour {
-
+#if GOOGLE_PLAY
 	void Start()
 	{
 	#if UNITY_ANDROID
@@ -181,4 +182,5 @@ public class RankingService : MonoBehaviour {
 		#endif
 		}
 	}
+#endif
 }
