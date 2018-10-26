@@ -1,3 +1,16 @@
+<<<<<<< .mine
+fileFormatVersion: 2
+guid: 7dd3e26a55d1cb647a1e409e4ec09ced
+folderAsset: yes
+timeCreated: 1540300218
+licenseType: Free
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+||||||| .r0
+=======
 fileFormatVersion: 2
 guid: cbde64d36fd994c458fffca9e931b232
 folderAsset: yes
@@ -7,3 +20,4 @@ DefaultImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+>>>>>>> .r66

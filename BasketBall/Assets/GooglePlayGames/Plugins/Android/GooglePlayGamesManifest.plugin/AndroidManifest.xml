@@ -15,6 +15,9 @@
      	<meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" 
      	android:value="ca-app-pub-1808701058779760~1000824040"/>
 
+     	<meta-data android:name="com.google.android.gms.ads.AD_MANAGER_APP"
+        android:value="true"/>
+
         <!-- The space in these forces it to be interpreted as a string vs. int -->
         <meta-data android:name="com.google.android.gms.games.APP_ID"
             android:value="\ 818426076646" />

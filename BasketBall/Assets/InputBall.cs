@@ -33,6 +33,7 @@ public class InputBall : MonoBehaviour {
 	bool mbInput = false;
 
 	int nScore = 0;
+	int nBestScore = 0;
 	float fPower = 0f;
 	int nDead = 0;
 
@@ -177,10 +178,22 @@ public class InputBall : MonoBehaviour {
 			GetComponent<Rigidbody> ().AddExplosionForce (100f, col.transform.position, 360f);
 			mWallPool.Stop ();
 
-			mResultPoint.text = string.Format ("<size=70>{0}</size>\nBest <color=#ff0000>{1}</color>",nScore,nScore);
+			nBestScore = PlayerPrefs.GetInt ("BestScore", 0);
+			if (nScore > nBestScore) {
+				PlayerPrefs.SetInt ("BestScore", nScore);
+				nBestScore = nScore;
+				mRanking.ReportScore (nBestScore);	// 랭킹등록
+				mRanking.UnlockAchievement(nBestScore);	// 업적등록
+			}
+
+			mResultPoint.text = string.Format ("<size=70>{0}</size>\nBest <color=#ff0000>{1}</color>",nScore,nBestScore);
 			mResultSlider.value = nScore >= 10 ? 1f : (nScore/10f) + 0.05f;
 			mPoint.text = string.Empty;
 			mResultPop.SetActive (true);
+
+			if (nScore >= 10) {
+				// 상자 클릭가능... 엔딩보여주기. 폭죽+트로피
+			}
 
 			nDead += 1;
 			if (nDead >= 3) {
