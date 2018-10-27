@@ -7,12 +7,12 @@ PlayerSettings:
   productGUID: bcccfd12335e73741ac6f76b57c07b50
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
-  defaultScreenOrientation: 2
+  defaultScreenOrientation: 3
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: GrrPudding
-  productName: BounceBall
+  productName: Let'sBounceTheBallOverTheWall
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 1, g: 0.780933, b: 0.20588237, a: 1}
@@ -48,7 +48,7 @@ PlayerSettings:
   m_StereoRenderingPath: 0
   m_ActiveColorSpace: 0
   m_MTRendering: 1
-  m_StackTraceTypes: 010000000100000001000000010000000100000001000000
+  m_StackTraceTypes: 010000000000000000000000000000000100000001000000
   iosShowActivityIndicatorOnLoading: -1
   androidShowActivityIndicatorOnLoading: -1
   tizenShowActivityIndicatorOnLoading: -1
@@ -243,7 +243,7 @@ PlayerSettings:
   AndroidTargetDevice: 0
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: D:/SVN/OneCut/onecut.git/trunk/BasketBall/bounceball.keystore
+  AndroidKeystoreName: C:/SVNOneCut/trunk/BasketBall/user.keystore
   AndroidKeyaliasName: bounceball
   AndroidTVCompatibility: 1
   AndroidIsGame: 1
@@ -558,6 +558,7 @@ PlayerSettings:
   webGLCompressionFormat: 1
   scriptingDefineSymbols:
     4: NO_GPGS
+    7: ADMOB;GOOGLE_PLAY
   platformArchitecture: {}
   scriptingBackend: {}
   incrementalIl2cppBuild: {}
