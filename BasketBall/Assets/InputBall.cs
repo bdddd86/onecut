@@ -16,11 +16,14 @@ public class InputBall : MonoBehaviour {
 	public GameObject mResultPop;
 	public Text mResultPoint;
 	public Slider mResultSlider;
+	public GameObject mEndingPop;
 	[Header("Sound")]
 	public AudioSource mAudioBounce;
 	public AudioSource mAudioPoint;
 	public AudioSource mAudioEnding;
+	public AudioSource mAudioLose;
 	public ParticleSystem mSmoke;
+	public ParticleSystem mSpike;
 	[Header("Class")]
 	public WallPool mWallPool;
 
@@ -172,7 +175,6 @@ public class InputBall : MonoBehaviour {
 		}
 		
 		if (col.gameObject.CompareTag ("Wall")) {
-			mAudioEnding.Play ();
 
 			mbInput = false;
 			GetComponent<Rigidbody> ().AddExplosionForce (100f, col.transform.position, 360f);
@@ -192,7 +194,12 @@ public class InputBall : MonoBehaviour {
 			mResultPop.SetActive (true);
 
 			if (nScore >= 10) {
-				// 상자 클릭가능... 엔딩보여주기. 폭죽+트로피
+				// 상자 클릭가능... 엔딩보여주기.
+				mEndingPop.SetActive (true);
+				mSpike.Play ();
+				mAudioEnding.Play ();
+			} else {
+				mAudioLose.Play ();
 			}
 
 			nDead += 1;
@@ -233,6 +240,7 @@ public class InputBall : MonoBehaviour {
 		mPoint.text = nScore.ToString ();
 		
 		mResultPop.SetActive (false);
+		mEndingPop.SetActive (false);
 
 		GetComponent<Rigidbody>().velocity = Vector3.zero;
 		transform.localPosition = new Vector3(0f, 10f, 0f);
@@ -244,6 +252,7 @@ public class InputBall : MonoBehaviour {
 	{
 		mMainPop.SetActive (false);
 		mResultPop.SetActive (false);
+		mEndingPop.SetActive (false);
 		mTutorialPop.SetActive (true);
 	}
 
@@ -260,5 +269,10 @@ public class InputBall : MonoBehaviour {
 		mfFreeTime = 0f;
 
 		return false;
+	}
+
+	public void OnClickEnding()
+	{
+		mEndingPop.SetActive (false);
 	}
 }

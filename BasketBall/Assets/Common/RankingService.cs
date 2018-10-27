@@ -1,4 +1,4 @@
-﻿#define GOOGLE_PLAY
+﻿//#define GOOGLE_PLAY
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

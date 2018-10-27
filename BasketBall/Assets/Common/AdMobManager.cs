@@ -1,4 +1,4 @@
-﻿#define ADMOB
+﻿//#define ADMOB
 using UnityEngine;
 using System;
 #if ADMOB
