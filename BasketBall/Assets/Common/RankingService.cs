@@ -27,17 +27,20 @@ public class RankingService : MonoBehaviour {
 	
 	public void SignIn()
 	{
-		Social.localUser.Authenticate((bool success) =>
+		//Social.localUser.Authenticate((bool success) =>
+		PlayGamesPlatform.Instance.Authenticate((bool success) =>
 			{
 				if (success)
 				{
 					// to do ...
 					// 로그인 성공 처리
+					Debug.Log("Login Success!");
 				}
 				else
 				{
 					// to do ...
 					// 로그인 실패 처리
+					Debug.Log("Login Success!");
 				}
 			});
 	}
@@ -102,22 +105,29 @@ public class RankingService : MonoBehaviour {
 
 	public void ShowAchievementUI()
 	{
+		Debug.Log ("Clicked Achievement "+PlayGamesPlatform.Instance.IsAuthenticated().ToString());
 		// Sign In 이 되어있지 않은 상태라면
 		// Sign In 후 업적 UI 표시 요청할 것
-		if (Social.localUser.authenticated == false) {
-			Social.localUser.Authenticate ((bool success) => {
+		//if (Social.localUser.authenticated == false) {
+		if (PlayGamesPlatform.Instance.IsAuthenticated() == false) {
+			//Social.localUser.Authenticate ((bool success) => {
+			PlayGamesPlatform.Instance.Authenticate((bool success) => {
 				if (success) {
 					// Sign In 성공
 					// 바로 업적 UI 표시 요청
-					Social.ShowAchievementsUI ();
+					Debug.Log("Show Achievement Success!");
+					PlayGamesPlatform.Instance.ShowAchievementsUI();
+					//Social.ShowAchievementsUI ();
 					return;
 				} else {
 					// Sign In 실패 처리
+					Debug.Log("Show Achievement Filed!");
 					return;
 				}
 			});
 		} else {
-			Social.ShowAchievementsUI ();
+			//Social.ShowAchievementsUI ();
+			PlayGamesPlatform.Instance.ShowAchievementsUI();
 		}
 	}
 
@@ -130,12 +140,12 @@ public class RankingService : MonoBehaviour {
 				if (success)
 				{
 					// Report 성공
-					// 그에 따른 처리
+					Debug.Log("Score Success!");
 				}
 				else
 				{
 					// Report 실패
-					// 그에 따른 처리
+					Debug.Log("Score Failed!");
 				}
 			});
 
@@ -162,12 +172,15 @@ public class RankingService : MonoBehaviour {
 	{
 		// Sign In 이 되어있지 않은 상태라면
 		// Sign In 후 리더보드 UI 표시 요청할 것
-		if (Social.localUser.authenticated == false) {
-			Social.localUser.Authenticate ((bool success) => {
+		//if (Social.localUser.authenticated == false) {
+		if (PlayGamesPlatform.Instance.IsAuthenticated() == false) {
+			PlayGamesPlatform.Instance.Authenticate((bool success) => {
+			//Social.localUser.Authenticate ((bool success) => {
 				if (success) {
 					// Sign In 성공
 					// 바로 리더보드 UI 표시 요청
-					Social.ShowLeaderboardUI ();
+					//Social.ShowLeaderboardUI (GPGSIds.leaderboard_world_ranking);
+					PlayGamesPlatform.Instance.ShowLeaderboardUI (GPGSIds.leaderboard_world_ranking);
 					return;
 				} else {
 					// Sign In 실패 
@@ -177,7 +190,7 @@ public class RankingService : MonoBehaviour {
 			});
 		} else {
 		#if UNITY_ANDROID
-			PlayGamesPlatform.Instance.ShowLeaderboardUI ();
+			PlayGamesPlatform.Instance.ShowLeaderboardUI (GPGSIds.leaderboard_world_ranking);
 		#elif UNITY_IOS
 			GameCenterPlatform.ShowLeaderboardUI("Leaderboard_ID", UnityEngine.SocialPlatforms.TimeScope.AllTime);
 		#endif

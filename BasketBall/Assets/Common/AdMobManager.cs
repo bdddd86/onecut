@@ -14,14 +14,14 @@ using GoogleMobileAds.Api;
 
 public class AdMobManager : MonoBehaviour
 {
-	private string android_banner_test = "ca-app-pub-3940256099942544/6300978111";
-	private string android_banner_id = "ca-app-pub-1808701058779760/9805259218";
-	private string ios_banner_id;
+	string android_banner_test = "ca-app-pub-3940256099942544/6300978111";
+	public string android_banner_id;
+	public string ios_banner_id;
 
-	private string android_interstitial_id = "ca-app-pub-1808701058779760/4932206483";
-	private string ios_interstitial_id;
+	public string android_interstitial_id;
+	public string ios_interstitial_id;
 
-	private string android_reward_id = "ca-app-pub-1808701058779760/6721174143";
+	public string android_reward_id;
 	#if ADMOB
 	private BannerView bannerView;
 	private InterstitialAd interstitialAd;
@@ -61,7 +61,8 @@ public class AdMobManager : MonoBehaviour
 		// Called when the ad click caused the user to leave the application.
 		bannerView.OnAdLeavingApplication += HandleOnAdLeavingApplication;
 
-		AdRequest request = new AdRequest.Builder().AddTestDevice("60AD33567E81B9E5A1E848B1A8553993").Build();
+		//AdRequest request = new AdRequest.Builder().AddTestDevice("60AD33567E81B9E5A1E848B1A8553993").Build();
+		AdRequest request = new AdRequest.Builder().Build();
 
 		bannerView.LoadAd(request);
 		#endif
@@ -79,7 +80,8 @@ public class AdMobManager : MonoBehaviour
 		#endif
 
 		interstitialAd = new InterstitialAd(adUnitId);
-		AdRequest request = new AdRequest.Builder().AddTestDevice("60AD33567E81B9E5A1E848B1A8553993").Build();
+		//AdRequest request = new AdRequest.Builder().AddTestDevice("60AD33567E81B9E5A1E848B1A8553993").Build();
+		AdRequest request = new AdRequest.Builder().Build();
 
 		interstitialAd.LoadAd(request);
 

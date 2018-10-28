@@ -40,6 +40,10 @@ public class InputBall : MonoBehaviour {
 	float fPower = 0f;
 	int nDead = 0;
 
+	void Awake(){
+		Application.targetFrameRate = 30;
+	}
+
 	// Use this for initialization
 	void Start () {
 		mSlider.minValue = 0f;
@@ -68,8 +72,8 @@ public class InputBall : MonoBehaviour {
 				float pushedTime = Time.time - mfTouchedTime;
 
 				fPower = pushedTime * 100f;
-				if (fPower <= 3f){
-					fPower = 3f;
+				if (fPower <= 1f){
+					fPower = 1f;
 				}
 				if (fPower >= 30f){
 					fPower = 30f;
@@ -104,8 +108,8 @@ public class InputBall : MonoBehaviour {
 				if (distance > 10f)
 				{
 					fPower = distance * 0.1f;
-					if (fPower <= 3f){
-						fPower = 3f;
+					if (fPower <= 1f){
+						fPower = 1f;
 					}
 					if (fPower >= 30f){
 						fPower = 30f;
@@ -136,8 +140,8 @@ public class InputBall : MonoBehaviour {
 					if (distance > 10f)
 					{
 						fPower = distance * 0.1f;
-						if (fPower <= 3f){
-							fPower = 3f;
+						if (fPower <= 1f){
+							fPower = 1f;
 						}
 						if (fPower >= 30f){
 							fPower = 30f;
