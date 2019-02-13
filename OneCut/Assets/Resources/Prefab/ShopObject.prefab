@@ -509,6 +509,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: "\uAD6C\uB9E4"
+  lbl: {fileID: 0}
 --- !u!114 &114809881274461318
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -517,7 +518,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1860363096019740}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6320466787d904dfeaa5de53e9414bb7, type: 3}
+  m_Script: {fileID: 11500000, guid: 70754dea2e416ed43bcbc55e2e69afcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   pnlDisabled: {fileID: 224711404945278326}

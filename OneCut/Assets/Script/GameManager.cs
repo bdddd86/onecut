@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameManager : MonoSingleton<GameManager> {
-
+public class GameManager : MonoSingleton<GameManager> 
+{
     public enum eGameMode
     {
         eAdventure,
@@ -12,8 +12,7 @@ public class GameManager : MonoSingleton<GameManager> {
         eBoss,
     }
 
-
-    public ShopManager shopManager;
+    public ShopPopupUIObject shopManager;
     public Transform spawnPoint;
 
     //public GameObject objChacater;
@@ -21,10 +20,10 @@ public class GameManager : MonoSingleton<GameManager> {
     public GameObject blackScreen;
     public Text gameInfoText;
 
-    public List<ItemUIObject> inventoryDisplay; 
+    public List<ItemBuffUIObject> inventoryDisplay; 
 
 	[Header("[몬스터 데미지]")]
-	public List<DamageText> listDamageText;
+	public List<DamageOverlay> listDamageText;
 	private int lastDamageText = 0;
 
     List<ItemData> inventory;
@@ -87,8 +86,8 @@ public class GameManager : MonoSingleton<GameManager> {
 		totalEXP = 0;
 
 		// 몬스터 초기화.
-		MonsterSummons.instance.InitMonsters();
-		MonsterSummons.instance.SummonsMonster ();
+		MonsterSummonManager.instance.InitMonsters();
+		MonsterSummonManager.instance.SummonsMonster ();
 
         if(inventory == null)
             inventory = new List<ItemData>();

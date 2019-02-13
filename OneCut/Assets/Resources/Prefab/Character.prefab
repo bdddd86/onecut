@@ -244,7 +244,7 @@ MonoBehaviour:
   imgLife: {fileID: 4834206442012666}
   imgSkillLife: {fileID: 4448696761641898}
   lazer: {fileID: 0}
-  effect3DManager: {fileID: 0}
+  particleManager: {fileID: 0}
 --- !u!212 &212064932418586212
 SpriteRenderer:
   m_ObjectHideFlags: 1

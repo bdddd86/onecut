@@ -5731,7 +5731,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 45622497}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e375f8c79d990ed4c8c05e6f75fbe28a, type: 3}
+  m_Script: {fileID: 11500000, guid: b946ebf5410e1dd4789a6171f2858f2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &45622500
@@ -6010,7 +6010,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 98501781}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e375f8c79d990ed4c8c05e6f75fbe28a, type: 3}
+  m_Script: {fileID: 11500000, guid: b946ebf5410e1dd4789a6171f2858f2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &98501784
@@ -6284,7 +6284,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 138280238}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38fe7abd7d520424485a36b5213bd7c6, type: 3}
+  m_Script: {fileID: 11500000, guid: 444cc4fe6664ae940bc15fa27c20daf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_listMonsters: []
@@ -6333,7 +6333,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 138480734}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12d69e79be3c14a55a868f7789f77c46, type: 3}
+  m_Script: {fileID: 11500000, guid: 884334d8804764a429c88cd065bc561b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   img: {fileID: 1030815994}
@@ -7445,7 +7445,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 229084394}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e03be3a37482146b6a03c5dc55770352, type: 3}
+  m_Script: {fileID: 11500000, guid: fe2dfba4bfd5e154aaa41c447648a3f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   abilityTypeData:
@@ -12353,8 +12353,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: feab3179ee1b1ad40845d15e44c8462a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPos: {x: 0, y: 0, z: 0}
   endPos: {x: 0, y: 0, z: 0}
+  dir_right: 0
+  dir_top: 0
   speed: 0
 --- !u!50 &421580341
 Rigidbody2D:
@@ -13448,7 +13449,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 531911015}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e375f8c79d990ed4c8c05e6f75fbe28a, type: 3}
+  m_Script: {fileID: 11500000, guid: b946ebf5410e1dd4789a6171f2858f2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &531911020
@@ -14056,8 +14057,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: feab3179ee1b1ad40845d15e44c8462a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPos: {x: 0, y: 0, z: 0}
   endPos: {x: 0, y: 0, z: 0}
+  dir_right: 0
+  dir_top: 0
   speed: 0
 --- !u!50 &598477398
 Rigidbody2D:
@@ -14334,7 +14336,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 622117763}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12d69e79be3c14a55a868f7789f77c46, type: 3}
+  m_Script: {fileID: 11500000, guid: 884334d8804764a429c88cd065bc561b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   img: {fileID: 1262009469}
@@ -14416,8 +14418,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: feab3179ee1b1ad40845d15e44c8462a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPos: {x: 0, y: 0, z: 0}
   endPos: {x: 0, y: 0, z: 0}
+  dir_right: 0
+  dir_top: 0
   speed: 0
 --- !u!50 &625495498
 Rigidbody2D:
@@ -15846,7 +15849,7 @@ Prefab:
       objectReference: {fileID: 676394000}
     - target: {fileID: 114620362199531438, guid: 857fa9e8e4bd740ff96b39a4f2724ffa,
         type: 2}
-      propertyPath: effect3DManager
+      propertyPath: particleManager
       value: 
       objectReference: {fileID: 860870074}
     m_RemovedComponents: []
@@ -16078,7 +16081,7 @@ GameObject:
   - component: {fileID: 860870073}
   - component: {fileID: 860870074}
   m_Layer: 0
-  m_Name: Character3DEffect
+  m_Name: CharacterParticleManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16106,7 +16109,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 860870072}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27747add0eaccde4a992c4291b12d3a5, type: 3}
+  m_Script: {fileID: 11500000, guid: 8bef9c2883ec4d2458ab5cde0f049456, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_tfCharacter: {fileID: 1258293130}
@@ -20990,7 +20993,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 978067874}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e375f8c79d990ed4c8c05e6f75fbe28a, type: 3}
+  m_Script: {fileID: 11500000, guid: b946ebf5410e1dd4789a6171f2858f2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &978067877
@@ -21119,8 +21122,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: feab3179ee1b1ad40845d15e44c8462a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPos: {x: 0, y: 0, z: 0}
   endPos: {x: 0, y: 0, z: 0}
+  dir_right: 0
+  dir_top: 0
   speed: 0
 --- !u!50 &992504136
 Rigidbody2D:
@@ -23039,8 +23043,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: feab3179ee1b1ad40845d15e44c8462a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPos: {x: 0, y: 0, z: 0}
   endPos: {x: 0, y: 0, z: 0}
+  dir_right: 0
+  dir_top: 0
   speed: 0
 --- !u!50 &1021444774
 Rigidbody2D:
@@ -23393,7 +23398,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1040467847}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e375f8c79d990ed4c8c05e6f75fbe28a, type: 3}
+  m_Script: {fileID: 11500000, guid: b946ebf5410e1dd4789a6171f2858f2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1040467850
@@ -23493,7 +23498,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1041329388}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0dc016de01a5145ba90a8c1793cba99f, type: 3}
+  m_Script: {fileID: 11500000, guid: ae4425c590b62a1498c74af15d174a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   btnClose: {fileID: 948645841}
@@ -23621,8 +23626,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: feab3179ee1b1ad40845d15e44c8462a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPos: {x: 0, y: 0, z: 0}
   endPos: {x: 0, y: 0, z: 0}
+  dir_right: 0
+  dir_top: 0
   speed: 0
 --- !u!50 &1060142216
 Rigidbody2D:
@@ -24724,8 +24730,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: feab3179ee1b1ad40845d15e44c8462a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPos: {x: 0, y: 0, z: 0}
   endPos: {x: 0, y: 0, z: 0}
+  dir_right: 0
+  dir_top: 0
   speed: 0
 --- !u!61 &1137492371
 BoxCollider2D:
@@ -24848,8 +24855,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: feab3179ee1b1ad40845d15e44c8462a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPos: {x: 0, y: 0, z: 0}
   endPos: {x: 0, y: 0, z: 0}
+  dir_right: 0
+  dir_top: 0
   speed: 0
 --- !u!50 &1148018071
 Rigidbody2D:
@@ -25063,7 +25071,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1177989990}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12d69e79be3c14a55a868f7789f77c46, type: 3}
+  m_Script: {fileID: 11500000, guid: 884334d8804764a429c88cd065bc561b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   img: {fileID: 320278257}
@@ -25687,7 +25695,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1217636641}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12d69e79be3c14a55a868f7789f77c46, type: 3}
+  m_Script: {fileID: 11500000, guid: 884334d8804764a429c88cd065bc561b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   img: {fileID: 1754252201}
@@ -28273,8 +28281,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: feab3179ee1b1ad40845d15e44c8462a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPos: {x: 0, y: 0, z: 0}
   endPos: {x: 0, y: 0, z: 0}
+  dir_right: 0
+  dir_top: 0
   speed: 0
 --- !u!50 &1574074989
 Rigidbody2D:
@@ -29868,7 +29877,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1753118327}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12d69e79be3c14a55a868f7789f77c46, type: 3}
+  m_Script: {fileID: 11500000, guid: 884334d8804764a429c88cd065bc561b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   img: {fileID: 1259893613}
@@ -31912,8 +31921,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: feab3179ee1b1ad40845d15e44c8462a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPos: {x: 0, y: 0, z: 0}
   endPos: {x: 0, y: 0, z: 0}
+  dir_right: 0
+  dir_top: 0
   speed: 0
 --- !u!50 &2080614996
 Rigidbody2D:
