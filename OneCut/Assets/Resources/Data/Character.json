@@ -1,0 +1,12 @@
+{
+	"character":
+	{
+		"default_agility":26,
+		"level_per_agility":1.75,
+		"max_damage_add":22,
+		"default_hp":500,
+		"level_per_hp":50,
+		"armor_per_hppercent":6,
+		"level_per_exp":100
+	}
+}

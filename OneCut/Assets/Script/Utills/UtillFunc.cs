@@ -1,72 +1,91 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using SimpleJSON;
 
-public class UtillFunc : Singleton<UtillFunc> {
+public class UtillFunc : Singleton<UtillFunc> 
+{
+	// Character.json
+	class CharacterJSON
+	{
+		public float default_agility;		// 기본 민첩성
+		public float level_per_agility; 	// 레벨 당 민첩 증가량
+		public float max_damage_add; 		// 최소 최대 데미지 차이
+		public float default_hp; 			// 기본 체력
+		public float level_per_hp; 			// 레벨 당 체력 증가량
+		public float armor_per_hppercent; 	// 1 방어력 = 체력 N%
+		public float level_per_exp;			// 레벨 당 경험치 필요량
+
+		public CharacterJSON(JSONNode data)
+		{
+			default_agility = data["default_agility"].AsFloat;
+			level_per_agility = data["level_per_agility"].AsFloat;
+			max_damage_add = data["max_damage_add"].AsFloat;
+			default_hp = data["default_hp"].AsFloat;
+			level_per_hp = data["level_per_hp"].AsFloat;
+			armor_per_hppercent = data["armor_per_hppercent"].AsFloat;
+			level_per_exp = data["level_per_exp"].AsFloat;
+		}
+	}
+	private CharacterJSON m_jsonChar; 
 
 	// 아이템으로 증가되는 능력치 정리. 20180717 준범.
 	public int m_itemArmor = 0;		// 방어력
 	public int m_itemAttack = 0;	// 공격력
 	public int m_itemHitpoint = 0;	// 체력
 
-	public int fact2(int n){
-		int res, i;
-
-		if (n <= 1)
-			return n;
-		else{
-			res = n;
-			for (i = n - 1; i > 0; i--)
-				res *= i;
-			return res;
-		}
+	// 초기화 함수.
+	public void init()
+	{
+		// Character.json
+		string jsonString = GetJsonString ("Data/Character");
+		JSONNode root = JSON.Parse (jsonString);
+		m_jsonChar = new CharacterJSON(root["character"]);
 	}
 
-	// 주인공 레벨별 정보.
-	/*
-	1	26-48 [37 avg]/None	5	18	24	16	550	240
-	2	27-49 [38 avg]/None	6	20	25	18	600	270
-	3	29-51 [40 avg]/None	6	22	27	20	650	300
-	4	31-53 [42 avg]/None	7	24	29	22	700	330
-	5	33-55 [44 avg]/None	7	26	31	25	750	375
-	6	34-56 [45 avg]/None	8	28	32	27	800	405
-	7	36-58 [47 avg]/None	8	30	34	29	850	435
-	8	38-60 [49 avg]/None	9	32	36	31	900	465
-	9	40-62 [51 avg]/None	9	34	38	34	950	510
-	10	41-63 [52 avg]/None	10	36	39	36	1000	540
+	public string GetJsonString(string fullPath)
+	{
+		if (string.IsNullOrEmpty (fullPath)) {
+			return string.Empty;
+		}
 
-	Agility Bonus per Level:	1.75
-	*/
+		//Load texture from disk
+		TextAsset bindata = Resources.Load(fullPath) as TextAsset;
+		Debug.Log(bindata.text);
+		return bindata.text;
+	}
+
+	// 민뎀
 	public int GetMinAttack(int lv)
 	{
-		float agility = 24f + ((lv-1) * 1.75f);
-		return System.Convert.ToInt32 (agility) + 2;
+		float agility = m_jsonChar.default_agility + ((lv-1) * m_jsonChar.level_per_agility);
+		return System.Convert.ToInt32 (agility);
 	}
+	// 멕뎀
 	public int GetMaxAttack(int lv)
 	{
-		return GetMinAttack (lv) + 22;
+		return GetMinAttack (lv) + System.Convert.ToInt32(m_jsonChar.max_damage_add);
 	}
-
+	// 체력
 	public int GetHitPoints(int lv)
 	{
-		return (lv * 50) + 500;
+		return System.Convert.ToInt32((lv * m_jsonChar.level_per_hp) + m_jsonChar.default_hp);
 	}
-
-	// 방어력 1은 최대체력의 6%증가와 같음.
+	// 방어력
 	public int GetArmor(int lv)
 	{
 		return GetHitPoints (lv) / 100;
 	}
+	// 방어력 1은 최대체력의 6%증가와 같음.
 	// 아머로 인한 데미지 감소가 적용된 후 데미지.
 	// For positive Armor, damage reduction =((armor)*0.06)/(1+0.06*(armor))
 	public int GetDamageReduction(int lv, int damage)
 	{
 		int armor = GetArmor (lv);
-		float damageReduction = 1f - (((armor) * 0.06f) / (1f + 0.06f * (armor)));
+		float damageReduction = 1f - (((armor) * m_jsonChar.armor_per_hppercent * 0.01f) / (1f + m_jsonChar.armor_per_hppercent * 0.01f * (armor)));
 		float realDamage = damage * damageReduction;
 		return System.Convert.ToInt32 (realDamage);
 	}
-
 	// 경험치로 레벨 구하기.
 	// 1->2: 100+1*100 = 200
 	// 2->3: 100+2*100 = 300 -> 500
@@ -76,17 +95,19 @@ public class UtillFunc : Singleton<UtillFunc> {
 		int totalExp = 0;
 		for(int i=1; i<lv; i++)
 		{
-			totalExp += 100 + (100*i);
+			totalExp += System.Convert.ToInt32(m_jsonChar.level_per_exp + (m_jsonChar.level_per_exp * i));
 		}
 		return totalExp;
 	}
+	// 다음레벨에 필요한 경험치.
 	public int GetNeedExpToNextLv(int lv)
 	{
-		return 100 + (100*lv);
+		return System.Convert.ToInt32(m_jsonChar.level_per_exp + (m_jsonChar.level_per_exp * lv));
 	}
 
 
-	// 몬스터 계산기(레벨 1부터 35까지)
+
+	// 몬스터가 주는 경험치.
 	public int GetMonsterExp(int level)
 	{
 		if (level <= 1) {
@@ -115,6 +136,7 @@ public class UtillFunc : Singleton<UtillFunc> {
 			return 120;
 		}
 	}
+	// 몬스터의 체력
 	public int GetMonsterLife(int level)
 	{
 		if (level <= 1) {
@@ -143,6 +165,7 @@ public class UtillFunc : Singleton<UtillFunc> {
 			return 1200;
 		}
 	}
+	// 몬스터의 방어력
 	public int GetMonsterArmor(int level)
 	{
 		if (level <= 1) {
@@ -171,6 +194,7 @@ public class UtillFunc : Singleton<UtillFunc> {
 			return 12;
 		}
 	}
+	// 몬스터 방어력 감소 공식.(캐릭터와 같음. 1아머 = 6%체력)
 	public int GetMonsterDamageReduction(int lv, int damage)
 	{
 		int armor = GetMonsterArmor (lv);
@@ -178,7 +202,19 @@ public class UtillFunc : Singleton<UtillFunc> {
 		float realDamage = damage * damageReduction;
 		return System.Convert.ToInt32 (realDamage);
 	}
-     
+
+
+
+	// 대상의 월드포지션 구하기.
+	public Vector3 ConvertToUIPosition(Vector3 position)
+	{
+		Vector2 resultPos = RectTransformUtility.WorldToScreenPoint(Camera.main, position);
+		return resultPos;
+	}
+
+    
+
+
     public string GetLocalizedText(string text, object obj = null)
     {
         if (obj != null)
@@ -186,19 +222,11 @@ public class UtillFunc : Singleton<UtillFunc> {
         
         return text; 
     }
-
     public string GetPriceText(int price)
     {
         // 단위 ,을 찍는다던가 화폐 단위를 추가한다. 
         return price.ToString();
     }
-
-    public Vector3 ConvertToUIPosition(Vector3 position)
-    {
-        Vector2 resultPos = RectTransformUtility.WorldToScreenPoint(Camera.main, position);
-        return resultPos;
-    }
-
     public Color ConvertShortageValueColor(int origin, int compare, bool bEnoughColor = false)
     {
         Color color = Color.white;
@@ -213,7 +241,6 @@ public class UtillFunc : Singleton<UtillFunc> {
         }
         return color; 
     }
-
     public Color ConvertShortageValueColor(bool bEnough, bool bEnoughColor = false)
     {
         Color color = Color.white;
