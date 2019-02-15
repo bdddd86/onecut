@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour 
 {
+	[HideInInspector]
 	public Vector3 direction;
 	public float speed;
 	public float lifeTime;
-	public float startTime;
 	public Animator sparkle;
+
+	private float startTime;
 
 	void OnTriggerEnter2D(Collider2D coll)
 	{

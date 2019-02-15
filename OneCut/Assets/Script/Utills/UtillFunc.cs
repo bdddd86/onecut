@@ -79,9 +79,9 @@ public class UtillFunc : Singleton<UtillFunc>
 	// 방어력 1은 최대체력의 6%증가와 같음.
 	// 아머로 인한 데미지 감소가 적용된 후 데미지.
 	// For positive Armor, damage reduction =((armor)*0.06)/(1+0.06*(armor))
-	public int GetDamageReduction(int lv, int damage)
+	public int GetDamageReduction(int lv, int damage, int addArmor)
 	{
-		int armor = GetArmor (lv);
+		int armor = GetArmor (lv) + addArmor;
 		float damageReduction = 1f - (((armor) * m_jsonChar.armor_per_hppercent * 0.01f) / (1f + m_jsonChar.armor_per_hppercent * 0.01f * (armor)));
 		float realDamage = damage * damageReduction;
 		return System.Convert.ToInt32 (realDamage);
@@ -204,6 +204,39 @@ public class UtillFunc : Singleton<UtillFunc>
 	}
 
 
+	// 던젼 불 공격시 갯수.
+	public int GetDungeonFireCount(int dungeonLv)
+	{
+		if (dungeonLv <= 0) {
+			return Random.Range (1, 3);
+		} else if (dungeonLv == 1) {
+			return Random.Range (2, 4);
+		} else if (dungeonLv == 2) {
+			return Random.Range (4, 6);
+		} else if (dungeonLv == 3) {
+			return Random.Range (5, 7);
+		} else if (dungeonLv == 4) {
+			return Random.Range (7, 9);
+		} else if (dungeonLv == 5) {
+			return Random.Range (8, 10);
+		} else if (dungeonLv == 6) {
+			return Random.Range (10, 12);
+		} else if (dungeonLv == 7) {
+			return Random.Range (11, 13);
+		} else if (dungeonLv == 8) {
+			return Random.Range (13, 15);
+		} else if (dungeonLv == 9) {
+			return Random.Range (14, 16);
+		} else {
+			return Random.Range (15, 18);
+		}
+	}
+	// 던젼 공격 맞을경우 피해량.
+	public int GetDungeonDamage(int dungeonLv)
+	{
+		return 200 + (dungeonLv * 200);
+	}
+
 
 	// 대상의 월드포지션 구하기.
 	public Vector3 ConvertToUIPosition(Vector3 position)
@@ -255,4 +288,21 @@ public class UtillFunc : Singleton<UtillFunc>
         }
         return color; 
     }
+
+	public void ShuffleList<T>(ref List<T> list)
+	{
+		int random1;
+		int random2;
+
+		T tmp;
+
+		for (int i = 0; i < list.Count; ++i) {
+			random1 = Random.Range (0, list.Count);
+			random2 = Random.Range (0, list.Count);
+
+			tmp = list [random1];
+			list [random1] = list [random2];
+			list [random2] = tmp;
+		}
+	}
 }

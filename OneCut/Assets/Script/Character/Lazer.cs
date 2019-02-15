@@ -33,21 +33,4 @@ public class Lazer : MonoBehaviour
 	{
 		MonsterSummonManager.instance.OnRecvGlobalAttack (200);
 	}
-
-	// 테스트용
-	#if UNITY_EDITOR
-	void OnGUI()
-	{
-		if (GUI.Button (new Rect (10, 10, 50, 50), "Lazer")) {
-			//PlayShot (GameManager.instance.character.IsRight());
-			GameManager.instance.character.LazerAttack();
-		}
-		if (GUI.Button (new Rect (10, 60, 50, 50), "Damage")) {
-			GameManager.instance.character.Damage(30);
-		}
-		if (GUI.Button (new Rect (10, 110, 50, 50), "Dungeon Attack")) {
-			DungeonManager.instance.Attack ();
-		}
-	}
-	#endif
 }

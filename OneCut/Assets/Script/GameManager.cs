@@ -319,4 +319,21 @@ public class GameManager : MonoSingleton<GameManager>
         btnAttack.SetActive(true);
         btnEvasion.SetActive(true);
     }
+
+	// 테스트용
+	#if UNITY_EDITOR
+	void OnGUI()
+	{
+		if (GUI.Button (new Rect (10, 10, 200, 50), "Lazer")) {
+			//PlayShot (GameManager.instance.character.IsRight());
+			GameManager.instance.character.LazerAttack();
+		}
+		if (GUI.Button (new Rect (210, 10, 200, 50), "Damage")) {
+			GameManager.instance.character.Damage(30);
+		}
+		if (GUI.Button (new Rect (10, 60, 200, 50), "Fire")) {
+			DungeonManager.instance.onFire();
+		}
+	}
+	#endif
 }

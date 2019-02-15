@@ -135,6 +135,19 @@ public class Character : MonoBehaviour
 		}
     }
 
+	void OnTriggerEnter2D(Collider2D coll) 
+	{
+		Debug.Log ("### "+coll.gameObject.tag);
+		if (coll.gameObject.tag == "monster_missile") 
+		{
+			int nLevel = GameManager.instance.Level;
+			int nArmor = GameManager.instance.GetItemAddValue (AbilityType.Defense);
+			int nDamage = UtillFunc.Instance.GetDungeonDamage (DungeonManager.instance.DungeonLevel);
+			int nResult = UtillFunc.Instance.GetDamageReduction (nLevel, nDamage, nArmor);
+			Damage (nDamage);
+		}
+	}
+
     void Jump()
     {
         Debug.Log("Jump");
@@ -204,15 +217,6 @@ public class Character : MonoBehaviour
 		} 
 		else {
 			animator.SetTrigger ("damage");
-		}
-	}
-
-	// 광역피해 전달. (원점, 범위, 데미지)
-	public void OnRecvAreaAttack(Vector3 org, float distance, int damage)
-	{
-		if (distance >= Vector3.Distance (this.transform.position, org)) {
-			Debug.Log (string.Format("Damage Area: {0} - {1}",this.transform.position.ToString(), org.ToString()));
-			Damage (damage);
 		}
 	}
 
