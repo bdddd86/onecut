@@ -22,9 +22,12 @@ public class GameManager : MonoSingleton<GameManager>
 
     public List<ItemBuffUIObject> inventoryDisplay; 
 
-	[Header("[몬스터 데미지]")]
+	[Header("[monster damage text]")]
 	public List<DamageOverlay> listDamageText;
 	private int lastDamageText = 0;
+	[Header("[exp text]")]
+	public List<DamageOverlay> listExpText;
+	private int lastExpText = 0;
 
     List<ItemData> inventory;
 
@@ -88,7 +91,7 @@ public class GameManager : MonoSingleton<GameManager>
 
 		// 몬스터 초기화.
 		MonsterSummonManager.instance.InitMonsters();
-		MonsterSummonManager.instance.SummonsMonster ();
+		MonsterSummonManager.instance.SummonsMonster (10);
 
         if(inventory == null)
             inventory = new List<ItemData>();
@@ -266,7 +269,7 @@ public class GameManager : MonoSingleton<GameManager>
 		bool isSet = false;
 		for (int i = 0; i < listDamageText.Count; i++) {
 			if (listDamageText [i].gameObject.activeSelf == false) {
-				listDamageText [i].SetText (pos, text, color);
+				listDamageText [i].SetText (pos, text, color, 100f);
 				lastDamageText = i;
 				isSet = true;
 				break;
@@ -277,7 +280,27 @@ public class GameManager : MonoSingleton<GameManager>
 			if (listDamageText.Count <= lastDamageText) {
 				lastDamageText = 0;
 			}
-			listDamageText [lastDamageText].SetText (pos, text, color);
+			listDamageText [lastDamageText].SetText (pos, text, color, 100f);
+		}
+	}
+
+	public void SetExpText(Vector3 pos, string text, Color color)
+	{
+		bool isSet = false;
+		for (int i = 0; i < listExpText.Count; i++) {
+			if (listExpText [i].gameObject.activeSelf == false) {
+				listExpText [i].SetText (pos, text, color, 150f);
+				lastExpText = i;
+				isSet = true;
+				break;
+			}
+		}
+		if (!isSet) {
+			lastExpText += 1;
+			if (listExpText.Count <= lastExpText) {
+				lastExpText = 0;
+			}
+			listExpText [lastExpText].SetText (pos, text, color, 150f);
 		}
 	}
 

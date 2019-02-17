@@ -6,6 +6,7 @@ using UnityEngine;
 public class MonsterSummonManager : MonoSingleton<MonsterSummonManager>
 {
 	[HideInInspector] public List<Monster> m_listMonsters = new List<Monster> ();
+	private int totalSummon = 0;
 
 	void Awake()
 	{
@@ -23,7 +24,7 @@ public class MonsterSummonManager : MonoSingleton<MonsterSummonManager>
 		}
 	}
 
-	public void SummonsMonster()
+	public bool SummonsMonster(int summonCnt)
 	{
 		int activeCnt = 0;
 		for (int i = 0; i < m_listMonsters.Count; i++) {
@@ -32,13 +33,22 @@ public class MonsterSummonManager : MonoSingleton<MonsterSummonManager>
 				m_listMonsters [i].gameObject.SetActive (true);
 				activeCnt += 1;
 			}
-			if (activeCnt == 10) {
+			if (activeCnt >= summonCnt) {
 				break;
 			}
 		}
-		if (activeCnt < 10) {
-			Debug.Log ("max monster.");
+
+		totalSummon = 0;
+		for (int i = 0; i < m_listMonsters.Count; i++) {
+			if (m_listMonsters [i].gameObject.activeInHierarchy == true) {
+				totalSummon += 1;
+			}
 		}
+
+		if (m_listMonsters.Count <= totalSummon) {
+			return false;
+		}
+		return true;
 	}
 
 	// 광역피해 전달. (원점, 범위, 데미지)

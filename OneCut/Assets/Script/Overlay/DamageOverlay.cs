@@ -20,11 +20,12 @@ public class DamageOverlay : OverlayObject
 		}
 	}
 
-	public void SetText(Vector3 pos, string text, Color color)
+	public void SetText(Vector3 pos, string text, Color color, float speed = 50f)
 	{
 		this.GetComponent<Text> ().text = text;
 		this.GetComponent<Text> ().color = color;
         this.transform.position = UtillFunc.Instance.ConvertToUIPosition(pos);
+		m_fSpeed = speed;
 		m_fTime = 0f;
 		this.gameObject.SetActive (true);
 	}

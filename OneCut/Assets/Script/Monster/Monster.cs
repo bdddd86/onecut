@@ -169,11 +169,9 @@ public class Monster : MonoBehaviour
 		}
 
 		int minDamage = UtillFunc.Instance.GetMinAttack (GameManager.instance.Level);
-		Color color = Color.white;
+		Color color = new Color (1f, 1f, 1f, 0.7f);
 		if (minDamage * 2 <= nDamage) {
-			color = Color.yellow;
-		} else if (minDamage * 5 <= nDamage) {
-			color = Color.red;
+			color = new Color (1f, 0f, 0f, 0.9f);
 		}
 
 		GameManager.instance.SetDamageText(headUpPosition, nDamage.ToString(), color);
@@ -198,6 +196,10 @@ public class Monster : MonoBehaviour
 		this.GetComponent<BoxCollider2D>().enabled = false;
 		this.GetComponent<Animator>().ResetTrigger("die");
 		this.GetComponent<Animator>().SetTrigger("die");
+
+		// 경험치 획득 텍스트
+		int getExp = UtillFunc.Instance.GetMonsterExp (m_nLevel);
+		GameManager.instance.SetExpText(headUpPosition, string.Format("exp\n{0}",getExp), new Color(0.5f,0.5f,0.5f,0.5f));
 	}
 
 	public void Hide()

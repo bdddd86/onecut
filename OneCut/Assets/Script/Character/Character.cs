@@ -70,7 +70,7 @@ public class Character : MonoBehaviour
         if (CrossPlatformInputManager.GetButtonDown("Summons"))
         {
             Debug.Log("Summons");
-            MonsterSummonManager.instance.SummonsMonster();
+            MonsterSummonManager.instance.SummonsMonster(5);
         }
 
         if (CrossPlatformInputManager.GetButtonDown("Evasion"))

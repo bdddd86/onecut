@@ -21,7 +21,12 @@ public class Summon : MonoBehaviour {
 		anim.Rebind ();
 		anim.Play ("Summon");
 
-		MonsterSummonManager.instance.SummonsMonster();
+		bool bSummon = MonsterSummonManager.instance.SummonsMonster(5);
+		if (bSummon) {
+			GameManager.instance.SetDamageText (this.transform.position, string.Format ("summon\n+5"), Color.green);
+		} else {
+			GameManager.instance.SetDamageText(this.transform.position, string.Format("summon\nmaximum"), Color.red);
+		}
 	}
 
 	void OnTriggerExit2D(Collider2D coll)
