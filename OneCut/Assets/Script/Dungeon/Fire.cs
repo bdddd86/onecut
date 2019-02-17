@@ -5,7 +5,7 @@ using UnityEngine;
 public class Fire : MonoBehaviour {
 	
 	public float speed = 5f;
-	public float lifeTime = 3000f;
+	public float lifeTime = 5f;
 	private float startTime;
 
 	void OnTriggerEnter2D(Collider2D coll)

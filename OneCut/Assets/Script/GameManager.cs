@@ -324,15 +324,22 @@ public class GameManager : MonoSingleton<GameManager>
 	#if UNITY_EDITOR
 	void OnGUI()
 	{
-		if (GUI.Button (new Rect (10, 10, 200, 50), "Lazer")) {
+		int nX = 500;
+		if (GUI.Button (new Rect (nX+10, 10, 200, 50), "Lazer")) {
 			//PlayShot (GameManager.instance.character.IsRight());
 			GameManager.instance.character.LazerAttack();
 		}
-		if (GUI.Button (new Rect (210, 10, 200, 50), "Damage")) {
+		if (GUI.Button (new Rect (nX+210, 10, 200, 50), "Damage")) {
 			GameManager.instance.character.Damage(30);
 		}
-		if (GUI.Button (new Rect (10, 60, 200, 50), "Fire")) {
+		if (GUI.Button (new Rect (nX+410, 10, 200, 50), "Dungeon Level")) {
+			DungeonManager.instance.DungeonLevel = 6;
+		}
+		if (GUI.Button (new Rect (nX+10, 60, 200, 50), "Fire")) {
 			DungeonManager.instance.onFire();
+		}
+		if (GUI.Button (new Rect (nX+210, 60, 200, 50), "Dart")) {
+			DungeonManager.instance.onDart ();
 		}
 	}
 	#endif

@@ -203,7 +203,23 @@ public class UtillFunc : Singleton<UtillFunc>
 		return System.Convert.ToInt32 (realDamage);
 	}
 
-
+	// 던젼 불 공격시 갯수.
+	public int GetDungeonDartCount(int dungeonLv)
+	{
+		if (dungeonLv <= 1) {
+			return 0;
+		} else if (dungeonLv <= 3) {
+			return 1;
+		} else if (dungeonLv <= 5) {
+			return Random.Range (2, 4);
+		} else if (dungeonLv <= 7) {
+			return Random.Range (3, 5);
+		} else if (dungeonLv <= 9) {
+			return Random.Range (4, 6);
+		} else {
+			return 5;
+		}
+	}
 	// 던젼 불 공격시 갯수.
 	public int GetDungeonFireCount(int dungeonLv)
 	{
