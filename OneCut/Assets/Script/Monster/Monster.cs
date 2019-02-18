@@ -9,6 +9,7 @@ public class Monster : MonoBehaviour
 		eNormal,
 		eTracking,
 		eEscape,
+		eDie,
 	}
 
 	[HideInInspector] public int m_nLevel = 0;
@@ -44,6 +45,8 @@ public class Monster : MonoBehaviour
 		this.GetComponent<Animator> ().SetTrigger ("idle");
 
 		this.GetComponent<BoxCollider2D>().enabled = true;
+
+		m_eMove = eMoveState.eNormal;
 	}
 
 	void OnDisable()
@@ -127,9 +130,13 @@ public class Monster : MonoBehaviour
 				m_bDirection = Random.Range (0, 100) % 2 == 0;
 			}
 			break;
+		case eMoveState.eDie:
+			break;
 		}
 
-		transform.Translate ((m_bDirection?m_fSpeed:-m_fSpeed) * Time.deltaTime, 0, 0);
+		if (m_eMove != eMoveState.eDie) {
+			transform.Translate ((m_bDirection ? m_fSpeed : -m_fSpeed) * Time.deltaTime, 0, 0);
+		}
 
 		// 밖으로 못나가게 하기.
 		if (transform.localPosition.x <= 10f) {
@@ -142,19 +149,21 @@ public class Monster : MonoBehaviour
 
 	private void UpdateMoveState(float rateHitpoint)
 	{
-		m_vecCharacter = GameManager.instance.character.transform.position;
-		float fDistance = Mathf.Abs (transform.position.x - m_vecCharacter.x);
-		if (fDistance <= 3f) {
-			if (rateHitpoint >= 0.3f) {
-				// 체력이 30%이상이면 공격.
-				m_eMove = eMoveState.eTracking;
+		if (m_eMove != eMoveState.eDie) {
+			m_vecCharacter = GameManager.instance.character.transform.position;
+			float fDistance = Mathf.Abs (transform.position.x - m_vecCharacter.x);
+			if (fDistance <= 3f) {
+				if (rateHitpoint >= 0.3f) {
+					// 체력이 30%이상이면 공격.
+					m_eMove = eMoveState.eTracking;
+				} else {
+					// 아니면 도망
+					m_eMove = eMoveState.eEscape;
+				}
 			} else {
-				// 아니면 도망
-				m_eMove = eMoveState.eEscape;
+				// 사거리 밖이면 걍 노멀
+				m_eMove = eMoveState.eNormal;
 			}
-		} else {
-			// 사거리 밖이면 걍 노멀
-			m_eMove = eMoveState.eNormal;
 		}
 	}
 
@@ -189,6 +198,8 @@ public class Monster : MonoBehaviour
 
 	public void Die()
 	{
+		m_eMove = eMoveState.eDie;
+
 		GameManager.instance.character.SendMessage ("Exp", m_nLevel);
 		//this.gameObject.SetActive (false);
 

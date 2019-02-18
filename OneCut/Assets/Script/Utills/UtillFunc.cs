@@ -106,7 +106,11 @@ public class UtillFunc : Singleton<UtillFunc>
 	}
 
 
-
+	// 몬스터가 주는 골드.
+	public int GetMonsterGold(int level)
+	{
+		return (GetMonsterLife(level)/10) + (level * 10);
+	}
 	// 몬스터가 주는 경험치.
 	public int GetMonsterExp(int level)
 	{

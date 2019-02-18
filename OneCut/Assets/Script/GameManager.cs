@@ -7,8 +7,9 @@ public class GameManager : MonoSingleton<GameManager>
 {
     public enum eGameMode
     {
-        eAdventure,
-        eLevelup, 
+        eHome,
+		eEvent,
+        eDungeon, 
         eBoss,
     }
 
@@ -18,9 +19,15 @@ public class GameManager : MonoSingleton<GameManager>
     //public GameObject objChacater;
 	public Character character;
     public GameObject blackScreen;
-    public Text gameInfoText;
 
     public List<ItemBuffUIObject> inventoryDisplay; 
+
+	[Header("[game infos]")]
+	public Text charLvText;
+	public Text charHPText;
+	public Text charGoldText;
+	public Text charAttackText;
+	public Text charArmorText;
 
 	[Header("[monster damage text]")]
 	public List<DamageOverlay> listDamageText;
@@ -45,8 +52,11 @@ public class GameManager : MonoSingleton<GameManager>
         }
         set
         {
-            // 아이템값 때문에 Max가 저게 아님 변경필요
-            hitPoints = Mathf.Clamp(value, 0, UtillFunc.Instance.GetHitPoints(Level));
+			if (hitPoints != value) {
+				// 아이템값 때문에 Max가 저게 아님 변경필요
+				hitPoints = Mathf.Clamp (value, 0, UtillFunc.Instance.GetHitPoints (Level));
+				SettingGameInfoText ();
+			}
         }
     }
     private int hitPoints;
@@ -71,6 +81,16 @@ public class GameManager : MonoSingleton<GameManager>
     // testCode
     public TestNPC testNPC; 
 
+	// Dungeon
+	private float dungeonDartTime = 0f;	// 다트 공격 시간
+	private float dungeonFireTime = 0f;	// 불 공격 시간
+
+	// 코루틴 관리
+	Dictionary<string, Coroutine> coroutines = new Dictionary<string, Coroutine>();
+
+	// 게임 시작 시간
+	private float gameStartTime = 0f;
+
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
@@ -80,10 +100,10 @@ public class GameManager : MonoSingleton<GameManager>
 
     void InitGame()
     {
-        ChangeGameMode(eGameMode.eAdventure);
-        // 캐릭터 초기화.
-        //if (character == null)
-        //	character = Instantiate(objChacater, spawnPoint.position, Quaternion.identity).GetComponent<Character>();
+		gameStartTime = 1;
+
+        ChangeGameMode(eGameMode.eHome);
+
         InitializeAbilityInfo();
 
 		SettingGameInfoText ();
@@ -126,8 +146,23 @@ public class GameManager : MonoSingleton<GameManager>
 
 	public void SettingGameInfoText()
 	{
-		gameInfoText.text = string.Format ("레벨:{0}\n공격력:{1}-{2}+{3}\n방어력:{4}\n총경험치:{5}", 
-			Level, UtillFunc.Instance.GetMinAttack(Level), UtillFunc.Instance.GetMaxAttack(Level), GetItemAddValue(AbilityType.Attack), UtillFunc.Instance.GetArmor(Level), totalEXP);
+		int nNextNeed = UtillFunc.Instance.GetNeedExpToNextLv(Level);
+		int nCurrent = UtillFunc.Instance.GetTotalExpFromLv (Level + 1) - totalEXP;
+		float fRate = System.Convert.ToSingle(nCurrent) / System.Convert.ToSingle(nNextNeed);
+
+		charLvText.text = string.Format ("LV.{0}<size=10>({1:F1}%)</size>",Level,(1f-fRate)*100f);
+		charHPText.text = string.Format ("{0}/{1}",HitPoints,UtillFunc.Instance.GetHitPoints(Level));
+		charGoldText.text = string.Format ("{0}",hasGold);
+		if (GetItemAddValue (AbilityType.Attack) <= 0) {
+			charAttackText.text = string.Format ("{0}",UtillFunc.Instance.GetMinAttack(Level));
+		} else {
+			charAttackText.text = string.Format ("{0}<color=green><size=10>(+{1})</size></color>",UtillFunc.Instance.GetMinAttack(Level),GetItemAddValue(AbilityType.Attack));
+		}
+		if (GetItemAddValue (AbilityType.Defense) <= 0) {
+			charArmorText.text = string.Format ("{0}",UtillFunc.Instance.GetArmor(Level));
+		} else {
+			charArmorText.text = string.Format ("{0}<color=green><size=10>(+{1})</size></color>",UtillFunc.Instance.GetArmor(Level),GetItemAddValue(AbilityType.Defense));
+		}
 	}
 
     // Use this for initialization
@@ -136,11 +171,31 @@ public class GameManager : MonoSingleton<GameManager>
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update () 
+	{
         if(Input.GetKeyDown(KeyCode.U))
         {
             HitPoints -= 100;
         }
+
+		// 게임모드는 캐릭터위치 기반이다.
+		// x >= 8.5 던전, x <= -8.5 이벤트
+		if (character != null) {
+			if (character.transform.localPosition.x >= 8.5f) {
+				ChangeGameMode (eGameMode.eDungeon);
+			} else if (character.transform.localPosition.x <= -8.5f) {
+				ChangeGameMode (eGameMode.eEvent);
+			} else {
+				ChangeGameMode (eGameMode.eHome);
+			}
+		}
+
+		// 게임던전은 게임시작 기반으로 자동 성장한다.
+		if (gameStartTime != 0f) {
+			DungeonManager.instance.ChangeLevel (Time.time - gameStartTime);
+		}
+
+		UpdateDungeon ();
 	}
 
 	public int GetItemAddValue(AbilityType type)
@@ -306,14 +361,18 @@ public class GameManager : MonoSingleton<GameManager>
 
     public void ChangeGameMode(eGameMode gameMode)
     {
+		if (currentGameMode == gameMode) {
+			return;
+		}
         currentGameMode = gameMode; 
         switch(gameMode)
         {
-            case eGameMode.eLevelup:
-                SetLevelupMode();
+            case eGameMode.eDungeon:
+                SetDungeonMode();
                 break; 
-            case eGameMode.eAdventure:
-                SetAdventureMode();
+            case eGameMode.eHome:
+			case eGameMode.eEvent:
+                SetHomeMode();
                 break;
             case eGameMode.eBoss:
                 SetBossMode();
@@ -322,14 +381,14 @@ public class GameManager : MonoSingleton<GameManager>
         testNPC.SetNPCName();
     }
 
-    void SetLevelupMode()
+    void SetDungeonMode()
     {
         btnJump.SetActive(false);
         btnAttack.SetActive(true);
         btnEvasion.SetActive(true);
     }
 
-    void SetAdventureMode()
+    void SetHomeMode()
     {
         btnJump.SetActive(true);
         btnAttack.SetActive(false);
@@ -343,8 +402,26 @@ public class GameManager : MonoSingleton<GameManager>
         btnEvasion.SetActive(true);
     }
 
+	// 던전 업데이트
+	void UpdateDungeon()
+	{
+		if (currentGameMode == eGameMode.eDungeon) {
+			dungeonDartTime += Time.deltaTime;
+			dungeonFireTime += Time.deltaTime;
+
+			if (dungeonDartTime >= 5f) {
+				dungeonDartTime = 0f;
+				DungeonManager.instance.onDart ();
+			}
+			if (dungeonFireTime >= 3f) {
+				dungeonFireTime = 0f;
+				DungeonManager.instance.onFire ();
+			}
+		}
+	}
+
 	// 테스트용
-	#if UNITY_EDITOR
+	#if false//UNITY_EDITOR
 	void OnGUI()
 	{
 		int nX = 500;

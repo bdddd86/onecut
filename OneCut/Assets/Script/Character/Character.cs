@@ -270,9 +270,11 @@ public class Character : MonoBehaviour
 
 	public void Exp(object level)
 	{
-		int getExp = UtillFunc.Instance.GetMonsterExp ((int)level);
+		int getExp = UtillFunc.Instance.GetMonsterExp((int)level);
 		GameManager.instance.totalEXP += getExp;
-		Debug.Log (string.Format("#획득 경험치:{0} 총경험치:{1}",getExp,GameManager.instance.totalEXP));
+		//Debug.Log (string.Format("#획득 경험치:{0} 총경험치:{1}",getExp,GameManager.instance.totalEXP));
+		int getGold = UtillFunc.Instance.GetMonsterGold((int)level);
+		GameManager.instance.hasGold += getGold;
 
 		// 경험치로 레벨업 계산하기.
 		int nNextLevelExp = UtillFunc.Instance.GetTotalExpFromLv(GameManager.instance.Level + 1);

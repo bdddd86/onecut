@@ -9,7 +9,6 @@ public class DungeonManager : MonoSingleton<DungeonManager> {
 		set{
 			if (m_nLevel != value) {
 				m_nLevel = value;
-				onChangeLevel ();
 			}
 		}
 		get{
@@ -43,9 +42,31 @@ public class DungeonManager : MonoSingleton<DungeonManager> {
 		}
 	}
 
-	private void onChangeLevel()
+	public void ChangeLevel(float gameTime)
 	{
-		
+		if (gameTime <= 20f) {
+			DungeonLevel = 0;
+		} else if (gameTime <= 40f) {
+			DungeonLevel = 1;
+		} else if (gameTime <= 60f) {
+			DungeonLevel = 2;
+		} else if (gameTime <= 80f) {
+			DungeonLevel = 3;
+		} else if (gameTime <= 100f) {
+			DungeonLevel = 4;
+		} else if (gameTime <= 130f) {
+			DungeonLevel = 5;
+		} else if (gameTime <= 160f) {
+			DungeonLevel = 6;
+		} else if (gameTime <= 190f) {
+			DungeonLevel = 7;
+		} else if (gameTime <= 220f) {
+			DungeonLevel = 8;
+		} else if (gameTime <= 250f) {
+			DungeonLevel = 9;
+		} else {
+			DungeonLevel = 10;
+		}
 	}
 
 	// 불 공격 시작.
