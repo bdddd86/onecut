@@ -38,6 +38,8 @@ public class ShopPopupUIObject : UIObject
         {
             ItemShopElementUIObject obj = Instantiate(shopObjPrefab, Vector3.zero, Quaternion.identity).GetComponent<ItemShopElementUIObject>();
             obj.transform.parent = shopScroll.content;
+			obj.transform.localScale = Vector3.one;
+			obj.transform.localPosition = Vector3.zero;
             obj.Set(ItemManager.instance.itemDatas[i]);
             shopObjectList.Add(obj);
         }
