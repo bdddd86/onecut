@@ -10,7 +10,7 @@ public class NpcObject : MonoBehaviour
 
     private void Start()
     {
-        if (lblName)
+        if (lblName != null)
         {
             lblName.text = npcName;
         }
@@ -18,10 +18,10 @@ public class NpcObject : MonoBehaviour
 
     private void Update()
     {
-        if (lblName)
+        if (lblName != null)
         {
             // out 처리 필요
-            lblName.transform.position = RectTransformUtility.WorldToScreenPoint(Camera.main, this.gameObject.transform.position);
+			lblName.transform.position = this.transform.position + (Vector3.up * 0.5f);//RectTransformUtility.WorldToScreenPoint(Camera.main, this.gameObject.transform.position);
         }
     }
 }

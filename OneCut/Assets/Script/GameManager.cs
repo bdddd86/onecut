@@ -324,7 +324,7 @@ public class GameManager : MonoSingleton<GameManager>
 		bool isSet = false;
 		for (int i = 0; i < listDamageText.Count; i++) {
 			if (listDamageText [i].gameObject.activeSelf == false) {
-				listDamageText [i].SetText (pos, text, color, 100f);
+				listDamageText [i].SetText (pos, text, color, 2f);
 				lastDamageText = i;
 				isSet = true;
 				break;
@@ -335,7 +335,7 @@ public class GameManager : MonoSingleton<GameManager>
 			if (listDamageText.Count <= lastDamageText) {
 				lastDamageText = 0;
 			}
-			listDamageText [lastDamageText].SetText (pos, text, color, 100f);
+			listDamageText [lastDamageText].SetText (pos, text, color, 2f);
 		}
 	}
 
@@ -344,7 +344,7 @@ public class GameManager : MonoSingleton<GameManager>
 		bool isSet = false;
 		for (int i = 0; i < listExpText.Count; i++) {
 			if (listExpText [i].gameObject.activeSelf == false) {
-				listExpText [i].SetText (pos, text, color, 150f);
+				listExpText [i].SetText (pos, text, color, 3.5f);
 				lastExpText = i;
 				isSet = true;
 				break;
@@ -355,7 +355,7 @@ public class GameManager : MonoSingleton<GameManager>
 			if (listExpText.Count <= lastExpText) {
 				lastExpText = 0;
 			}
-			listExpText [lastExpText].SetText (pos, text, color, 150f);
+			listExpText [lastExpText].SetText (pos, text, color, 3.5f);
 		}
 	}
 

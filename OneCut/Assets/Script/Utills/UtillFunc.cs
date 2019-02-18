@@ -265,8 +265,6 @@ public class UtillFunc : Singleton<UtillFunc>
 		return resultPos;
 	}
 
-    
-
 
     public string GetLocalizedText(string text, object obj = null)
     {

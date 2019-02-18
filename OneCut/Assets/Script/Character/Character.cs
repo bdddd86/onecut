@@ -22,6 +22,8 @@ public class Character : MonoBehaviour
 
 	private int m_nFrameCnt = 0;
 	private bool m_bEvasion = false;
+	private bool m_bInvincible = false;	// 무적 상태.
+	private bool m_bDied = false;	// 죽음 상태.
 
     void Start()
     {
@@ -34,88 +36,86 @@ public class Character : MonoBehaviour
         float fHorizontal = CrossPlatformInputManager.GetAxis("Horizontal");
         float fVertical = CrossPlatformInputManager.GetAxis("Vertical");
 
+		bool isInput = true;
+		if (m_bInvincible == true || m_bDied == true) {
+			isInput = false;
+		}
 #if UNITY_EDITOR
-		if (Input.GetKeyDown(KeyCode.W))
+		if (isInput)
 		{
-			Jump();
-		}
-		if (Input.GetKeyDown(KeyCode.Space))
-		{
-			Attack();
-		}
-		if (Input.GetKeyDown(KeyCode.F))
-		{
-			Evasion();
-		}
-		if (Input.GetKey(KeyCode.A))
-		{
-			fHorizontal = -1;
-		}
-		if (Input.GetKey(KeyCode.D))
-		{
-			fHorizontal = 1;
+			if (Input.GetKeyDown(KeyCode.W))
+			{
+				Jump();
+			}
+			if (Input.GetKeyDown(KeyCode.Space))
+			{
+				Attack();
+			}
+			if (Input.GetKeyDown(KeyCode.F))
+			{
+				Evasion();
+			}
+			if (Input.GetKey(KeyCode.A))
+			{
+				fHorizontal = -1;
+			}
+			if (Input.GetKey(KeyCode.D))
+			{
+				fHorizontal = 1;
+			}
 		}
 #endif
+		if (isInput) {
+			if (CrossPlatformInputManager.GetButtonDown ("Jump")) {
+				Jump ();
+			}
+			if (CrossPlatformInputManager.GetButtonDown ("Attack")) {
+				Attack ();
+			}
+			if (CrossPlatformInputManager.GetButtonDown ("Summons")) {
+				MonsterSummonManager.instance.SummonsMonster (5);
+			}
+			if (CrossPlatformInputManager.GetButtonDown ("Evasion")) {
+				Evasion ();    
+			}
 
-        if (CrossPlatformInputManager.GetButtonDown("Jump"))
-        {
-            Jump();
-        }
+			if (fHorizontal != 0) {
+				//Debug.Log(string.Format("H:{0} V:{1}", fHorizontal, fVertical));
+				rigidBody.AddForce (new Vector2 (fHorizontal * 50, 0f));
+				if (Mathf.Abs (rigidBody.velocity.x) > 10f) {
+					rigidBody.velocity = new Vector2 (rigidBody.velocity.x < 0 ? -10f : 10f, rigidBody.velocity.y);
+				}
+			} else {
+				if (Mathf.Abs (rigidBody.velocity.x) != 0) {
+					rigidBody.velocity = new Vector2 (rigidBody.velocity.x / 2, rigidBody.velocity.y);
+					//Debug.Log(string.Format("V: {0}", rigidBody.velocity));
+					if (Mathf.Abs (rigidBody.velocity.x) <= 0.1f) {
+						rigidBody.velocity = new Vector2 (0, rigidBody.velocity.y);
+					}
+				}
+			}
 
-        if (CrossPlatformInputManager.GetButtonDown("Attack"))
-        {
-			Attack();
-        }
+			// 속도 체크
+			animator.SetFloat ("velocity", Mathf.Abs (rigidBody.velocity.x));
 
-        if (CrossPlatformInputManager.GetButtonDown("Summons"))
-        {
-            Debug.Log("Summons");
-            MonsterSummonManager.instance.SummonsMonster(5);
-        }
-
-        if (CrossPlatformInputManager.GetButtonDown("Evasion"))
-        {
-            Evasion();    
-        }
-
-        if (fHorizontal != 0)
-        {
-            //Debug.Log(string.Format("H:{0} V:{1}", fHorizontal, fVertical));
-            rigidBody.AddForce(new Vector2(fHorizontal * 50, 0f));
-            if (Mathf.Abs(rigidBody.velocity.x) > 10f)
-            {
-                rigidBody.velocity = new Vector2(rigidBody.velocity.x < 0 ? -10f : 10f, rigidBody.velocity.y);
-            }
-        }
-        else
-        {
-            if (Mathf.Abs(rigidBody.velocity.x) != 0)
-            {
-                rigidBody.velocity = new Vector2(rigidBody.velocity.x / 2, rigidBody.velocity.y);
-                //Debug.Log(string.Format("V: {0}", rigidBody.velocity));
-                if (Mathf.Abs(rigidBody.velocity.x) <= 0.1f)
-                {
-                    rigidBody.velocity = new Vector2(0, rigidBody.velocity.y);
-                }
-            }
-        }
-
-		// 속도 체크
-		animator.SetFloat ("velocity", Mathf.Abs (rigidBody.velocity.x));
-
-		// 방향 체크
-		if (rigidBody.velocity.x < 0 && spriteRenderer.flipX == false) {
-			spriteRenderer.flipX = true;
-			// 먼지 이팩트
-			fxDust.transform.localPosition = new Vector3 (0.7f, 0.2f, 0);
-			fxDust.GetComponent<SpriteRenderer> ().flipX = true;
-			fxDust.SetTrigger ("dust");
-		} else if (rigidBody.velocity.x > 0 && spriteRenderer.flipX == true) {
-			spriteRenderer.flipX = false;
-			// 먼지 이팩트
-			fxDust.transform.localPosition = new Vector3 (-0.7f, 0.2f, 0);
-			fxDust.GetComponent<SpriteRenderer> ().flipX = false;
-			fxDust.SetTrigger ("dust");
+			// 방향 체크
+			if (rigidBody.velocity.x < 0 && spriteRenderer.flipX == false) {
+				spriteRenderer.flipX = true;
+				// 먼지 이팩트
+				fxDust.transform.localPosition = new Vector3 (0.7f, 0.2f, 0);
+				fxDust.GetComponent<SpriteRenderer> ().flipX = true;
+				fxDust.SetTrigger ("dust");
+			} else if (rigidBody.velocity.x > 0 && spriteRenderer.flipX == true) {
+				spriteRenderer.flipX = false;
+				// 먼지 이팩트
+				fxDust.transform.localPosition = new Vector3 (-0.7f, 0.2f, 0);
+				fxDust.GetComponent<SpriteRenderer> ().flipX = false;
+				fxDust.SetTrigger ("dust");
+			}
+		} 
+		else {
+			rigidBody.velocity = Vector2.zero;
+			animator.SetFloat ("velocity", Mathf.Abs (rigidBody.velocity.x));
 		}
 
         // 카메라 따라가기.
@@ -137,14 +137,19 @@ public class Character : MonoBehaviour
 
 	void OnTriggerEnter2D(Collider2D coll) 
 	{
+		if (m_bDied == true)
+			return;
+		
 		Debug.Log ("### "+coll.gameObject.tag);
 		if (coll.gameObject.tag == "monster_missile") 
 		{
-			int nLevel = GameManager.instance.Level;
-			int nArmor = GameManager.instance.GetItemAddValue (AbilityType.Defense);
-			int nDamage = UtillFunc.Instance.GetDungeonDamage (DungeonManager.instance.DungeonLevel);
-			int nResult = UtillFunc.Instance.GetDamageReduction (nLevel, nDamage, nArmor);
-			Damage (nDamage);
+			if (m_bEvasion == false && m_bInvincible == false) {
+				int nLevel = GameManager.instance.Level;
+				int nArmor = GameManager.instance.GetItemAddValue (AbilityType.Defense);
+				int nDamage = UtillFunc.Instance.GetDungeonDamage (DungeonManager.instance.DungeonLevel);
+				int nResult = UtillFunc.Instance.GetDamageReduction (nLevel, nDamage, nArmor);
+				Damage (nDamage);
+			}
 		}
 	}
 
@@ -208,6 +213,13 @@ public class Character : MonoBehaviour
 		fxDust.GetComponent<SpriteRenderer> ().color = new Color (1f, 1f, 1f, 1f);
 	}
 
+	IEnumerator coInvincible()
+	{
+		m_bInvincible = true;
+		yield return new WaitForSeconds (0.9f);
+		m_bInvincible = false;
+	}
+
 	// 피해
 	public void Damage(int damage)
 	{
@@ -216,6 +228,7 @@ public class Character : MonoBehaviour
 			Die ();
 		} 
 		else {
+			this.StartCoroutine (coInvincible());
 			animator.SetTrigger ("damage");
 		}
 	}
@@ -223,6 +236,8 @@ public class Character : MonoBehaviour
 	// 죽음
 	public void Die()
 	{
+		m_bDied = true;
+		animator.SetTrigger ("die");
 	}
 
 	public bool IsRight()

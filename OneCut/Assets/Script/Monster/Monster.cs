@@ -19,7 +19,7 @@ public class Monster : MonoBehaviour
     public Vector3 headUpPosition
     {
         get{
-            return this.transform.position + new Vector3(0, 1.0f, 0);
+			return this.transform.position + new Vector3(0, 1.0f, 0);
         }
     }
 
