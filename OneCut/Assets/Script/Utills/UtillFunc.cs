@@ -69,7 +69,10 @@ public class UtillFunc : Singleton<UtillFunc>
 	// 체력
 	public int GetHitPoints(int lv)
 	{
-		return System.Convert.ToInt32((lv * m_jsonChar.level_per_hp) + m_jsonChar.default_hp);
+		if (m_jsonChar != null) {
+			return System.Convert.ToInt32 ((lv * m_jsonChar.level_per_hp) + m_jsonChar.default_hp);
+		}
+		return 0;
 	}
 	// 방어력
 	public int GetArmor(int lv)
