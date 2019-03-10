@@ -139,11 +139,11 @@ public class Monster : MonoBehaviour
 		}
 
 		// 밖으로 못나가게 하기.
-		if (transform.localPosition.x <= 10f) {
-			transform.localPosition = new Vector3 (10f, transform.localPosition.y, 0f);
+		if (transform.localPosition.x <= -10f) {
+			transform.localPosition = new Vector3 (-9.9f, transform.localPosition.y, 0f);
 		}
-		else if (transform.localPosition.x >= 25f) {
-			transform.localPosition = new Vector3 (25f, transform.localPosition.y, 0f);
+		else if (transform.localPosition.x >= 10f) {
+			transform.localPosition = new Vector3 (9.9f, transform.localPosition.y, 0f);
 		}
 	}
 
