@@ -18645,6 +18645,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boxCollider2D: {fileID: 789344803}
   iTweenPosition: {fileID: 789344806}
+  startPosition: {x: 0, y: 0, z: 0}
+  endPosition: {x: 0, y: 0, z: 0}
 --- !u!1001 &792305687
 Prefab:
   m_ObjectHideFlags: 0
@@ -20658,7 +20660,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53e8e103f0eefb349917fe59ed7e98a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rotTarget: {x: 0, y: 0, z: 0, w: 0}
   rotateEverySecond: 1
+  lerpCounter: 0
 --- !u!199 &918711461
 ParticleSystemRenderer:
   serializedVersion: 4
@@ -26054,23 +26058,18 @@ MonoBehaviour:
   - {fileID: 1753118329}
   - {fileID: 1217636643}
   - {fileID: 622117765}
-  charLvText: {fileID: 1976356836}
-  charHPText: {fileID: 2068454921}
-  charGoldText: {fileID: 730750631}
-  charAttackText: {fileID: 1239452179}
-  charArmorText: {fileID: 378695628}
+  charLvText: {fileID: 0}
+  charHPText: {fileID: 0}
+  charGoldText: {fileID: 0}
+  charAttackText: {fileID: 0}
+  charArmorText: {fileID: 0}
   listDamageText:
   - {fileID: 531911019}
   - {fileID: 45622499}
   - {fileID: 98501783}
   - {fileID: 1040467849}
   - {fileID: 978067876}
-  listExpText:
-  - {fileID: 1214643324}
-  - {fileID: 554244003}
-  - {fileID: 317887278}
-  - {fileID: 1838782683}
-  - {fileID: 1716648597}
+  listExpText: []
   Level: 0
   hasGold: 0
   totalEXP: 0
@@ -26232,7 +26231,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   btnClose: {fileID: 948645841}
   shopScroll: {fileID: 47067569}
-  shopObjPrefab: {fileID: 1860363096019740, guid: 6f99447c2eede45b183d735823765168,
+  shopObjPrefab: {fileID: 1860363096019740, guid: 7d735e6c7c77b481bab63bd2f95e6c31,
     type: 2}
 --- !u!1 &1045407010
 GameObject:
@@ -38056,6 +38055,7 @@ MonoBehaviour:
   spriteRenderer: {fileID: 2049804085}
   notExistSprite: {fileID: 21300000, guid: 3ad9513579014e54f9bdc4fa35285397, type: 3}
   itemName: key
+  notExist: 0
 --- !u!1 &2052951593
 GameObject:
   m_ObjectHideFlags: 0
