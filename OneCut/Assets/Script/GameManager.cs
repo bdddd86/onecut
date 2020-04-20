@@ -355,7 +355,11 @@ public class GameManager : MonoSingleton<GameManager>
 			if (listExpText.Count <= lastExpText) {
 				lastExpText = 0;
 			}
-			listExpText [lastExpText].SetText (pos, text, color, 3.5f);
+
+            if (listExpText.Count > lastExpText)
+            {
+                listExpText[lastExpText].SetText(pos, text, color, 3.5f);
+            }
 		}
 	}
 
@@ -421,7 +425,7 @@ public class GameManager : MonoSingleton<GameManager>
 	}
 
 	// 테스트용
-	#if false//UNITY_EDITOR
+	#if UNITY_EDITOR
 	void OnGUI()
 	{
 		int nX = 500;
